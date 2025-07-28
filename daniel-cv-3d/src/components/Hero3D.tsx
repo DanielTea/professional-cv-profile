@@ -183,10 +183,10 @@ export default function Hero3D() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              Your Name
+              Daniel
               <br />
               <span className="text-gray-300 font-light">
-                Here
+                Tremer
               </span>
             </motion.h1>
             
@@ -237,7 +237,7 @@ export default function Hero3D() {
                 className="px-6 py-2.5 sm:px-8 sm:py-3 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => window.open('mailto:your.email@example.com')}
+                onClick={() => window.open('mailto:info@danieltremer.com')}
               >
                 Get In Touch
               </motion.button>
@@ -277,7 +277,7 @@ export default function Hero3D() {
               >
                 <Image
                   src="/profile.svg"
-                  alt="Profile Picture"
+                  alt="Daniel Tremer - Profile Picture"
                   width={400}
                   height={400}
                   className="w-full h-full object-cover transition-all duration-500 hover:brightness-110 relative z-10 rounded-full"

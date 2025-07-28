@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-      title: "Your Name - AI & Software Engineer",
+      title: "Daniel Tremer - AI & Software Engineer",
   description: "Professional portfolio showcasing AI, data science, and software engineering expertise. Managing Director at control-f GmbH, former Porsche AG Data Science Specialist.",
 };
 

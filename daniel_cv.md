@@ -14,7 +14,7 @@ Flask
 React.js
 Docker
 
-# Your Name
+# Daniel Tremer
 
 #### Managing Director @ control-f GmbH // Software Developer &
 

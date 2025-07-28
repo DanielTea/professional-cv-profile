@@ -1,4 +1,4 @@
-# Professional CV Profile - Your Name
+# Professional CV Profile - Daniel Tremer
 
 A beautifully designed, interactive HTML resume showcasing professional experience, skills, and recommendations.
 
