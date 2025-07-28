@@ -270,7 +270,241 @@ const skillCategories = [
 
 
 
-// Simple Skills Display - No Complex Animations
+// Function to get unique 3D geometries that abstractly represent each skill
+function getSkillGeometry(skillName: string, size: number) {
+  switch (skillName) {
+    // Programming Languages
+    case 'Python':
+      // Snake-like coiled shape using torus
+      return <torusGeometry args={[size * 0.5, size * 0.15, 8, 16]} />
+    case 'JavaScript':
+      // Dynamic, flexible shape - twisted torus
+      return <torusKnotGeometry args={[size * 0.4, size * 0.1, 64, 8, 2, 3]} />
+    case 'TypeScript':
+      // More structured, angular - octahedron (typed structure)
+      return <octahedronGeometry args={[size * 0.7]} />
+    case 'R':
+      // Statistical bars - box but elongated vertically
+      return <boxGeometry args={[size * 0.4, size * 1.2, size * 0.4]} />
+    case 'SQL':
+      // Database table structure - flat, wide box
+      return <boxGeometry args={[size * 1.2, size * 0.3, size * 0.8]} />
+    case 'Java':
+      // Coffee cup shape - cylinder with wider top
+      return <cylinderGeometry args={[size * 0.6, size * 0.4, size * 0.8, 8]} />
+
+    // AI & Machine Learning
+    case 'TensorFlow':
+      // Neural network nodes - sphere with connections
+      return <icosahedronGeometry args={[size * 0.6]} />
+    case 'Keras':
+      // Layered structure - multiple thin cylinders
+      return <cylinderGeometry args={[size * 0.7, size * 0.7, size * 0.4, 16]} />
+    case 'scikit-learn':
+      // Decision tree structure - cone (tree shape)
+      return <coneGeometry args={[size * 0.7, size * 1.1, 8]} />
+    case 'PySpark':
+      // Spark/lightning - sharp, pointed shape
+      return <coneGeometry args={[size * 0.3, size * 1.4, 4]} />
+    case 'Deep Learning':
+      // Deep layered structure - stacked rings
+      return <cylinderGeometry args={[size * 0.6, size * 0.6, size * 1.2, 6]} />
+    case 'Computer Vision':
+      // Eye/camera lens - sphere (eye shape)
+      return <sphereGeometry args={[size * 0.7, 16, 12]} />
+
+    // Cloud & Infrastructure
+    case 'Azure':
+      // Cloud shape - puffy, organic
+      return <dodecahedronGeometry args={[size * 0.6]} />
+    case 'AWS':
+      // More geometric cloud - icosahedron
+      return <icosahedronGeometry args={[size * 0.7]} />
+    case 'Docker':
+      // Container shape - box (shipping container)
+      return <boxGeometry args={[size * 1.2, size * 0.6, size * 0.8]} />
+    case 'Kubernetes':
+      // Interconnected pods - multiple spheres concept, using compound shape
+      return <octahedronGeometry args={[size * 0.6]} />
+    case 'Jenkins':
+      // Pipeline - long cylinder
+      return <cylinderGeometry args={[size * 0.3, size * 0.3, size * 1.4, 8]} />
+    case 'Microservices':
+      // Small connected services - cluster of small shapes
+      return <tetrahedronGeometry args={[size * 0.8]} />
+
+    // Data & Analytics
+    case 'PostgreSQL':
+      // Elephant shape abstraction - rounded, robust
+      return <sphereGeometry args={[size * 0.8, 12, 8]} />
+    case 'Hadoop':
+      // Another elephant - but more angular
+      return <dodecahedronGeometry args={[size * 0.7]} />
+    case 'Dataiku':
+      // Data flow - twisted shape
+      return <torusKnotGeometry args={[size * 0.4, size * 0.1, 32, 8, 3, 2]} />
+    case 'Power BI':
+      // Chart/graph bars - elongated box
+      return <boxGeometry args={[size * 0.3, size * 1.3, size * 0.3]} />
+    case 'Data Warehousing':
+      // Warehouse building - wide, stable box
+      return <boxGeometry args={[size * 1.4, size * 0.8, size * 1.0]} />
+    case 'ETL':
+      // Transformation funnel - cone
+      return <coneGeometry args={[size * 0.8, size * 1.0, 6]} />
+
+    // Web Development
+    case 'React.js':
+      // Atomic/component structure - icosahedron (many faces like components)
+      return <icosahedronGeometry args={[size * 0.6]} />
+    case 'Next.js':
+      // Forward arrow - pointed shape
+      return <coneGeometry args={[size * 0.5, size * 1.2, 3]} />
+    case 'Flask':
+      // Flask/bottle shape - cylinder with narrow neck
+      return <cylinderGeometry args={[size * 0.3, size * 0.6, size * 1.0, 8]} />
+    case 'Node.js':
+      // Hexagonal node - hexagon-like
+      return <cylinderGeometry args={[size * 0.6, size * 0.6, size * 0.4, 6]} />
+    case 'REST APIs':
+      // Bridge/connection - torus (connecting ring)
+      return <torusGeometry args={[size * 0.6, size * 0.2, 12, 16]} />
+    case 'GraphQL':
+      // Graph network - complex connected shape
+      return <torusKnotGeometry args={[size * 0.4, size * 0.1, 48, 8, 4, 3]} />
+
+    // Project Management
+    case 'Agile':
+      // Iterative spiral - torus knot
+      return <torusKnotGeometry args={[size * 0.4, size * 0.1, 32, 8, 2, 3]} />
+    case 'Scrum':
+      // Rugby ball - stretched sphere
+      return <sphereGeometry args={[size * 0.6, 8, 16]} />
+    case 'Kanban':
+      // Board with cards - flat rectangular
+      return <boxGeometry args={[size * 1.3, size * 0.2, size * 0.9]} />
+    case 'Jira':
+      // Ticket/card - thin box
+      return <boxGeometry args={[size * 1.0, size * 0.1, size * 0.7]} />
+    case 'Leadership':
+      // Arrow pointing up - cone
+      return <coneGeometry args={[size * 0.6, size * 1.3, 4]} />
+    case 'Team Building':
+      // Puzzle piece abstraction - complex shape
+      return <dodecahedronGeometry args={[size * 0.6]} />
+
+    default:
+      return <boxGeometry args={[size, size, size]} />
+  }
+}
+
+// Function to get unique glass material properties for each skill
+function getSkillMaterial(skillName: string, isActive: boolean, size: number) {
+  const baseProps = {
+    transparent: true,
+    opacity: isActive ? 0.85 : 0.7,
+    transmission: isActive ? 0.95 : 0.8, // Glass-like transmission
+    thickness: size * 0.1, // Glass thickness
+    roughness: 0.0, // Very smooth for glass
+    metalness: 0.0, // Glass is not metallic
+    clearcoat: 1.0, // Clear coating
+    clearcoatRoughness: 0.0,
+    ior: 1.5, // Index of refraction for glass
+    reflectivity: 0.9,
+  }
+
+  // Different glass tints and properties for each skill category
+  switch (skillName) {
+    // Programming Languages - Clear glass with subtle blue tint
+    case 'Python':
+      return { ...baseProps, color: isActive ? "#e6f3ff" : "#b3d9ff", envMapIntensity: 1.5 }
+    case 'JavaScript':
+      return { ...baseProps, color: isActive ? "#fff5e6" : "#ffeaa3", envMapIntensity: 1.3 }
+    case 'TypeScript':
+      return { ...baseProps, color: isActive ? "#e6e6ff" : "#b3b3ff", envMapIntensity: 1.4 }
+    case 'R':
+      return { ...baseProps, color: isActive ? "#ffe6f0" : "#ffb3d6", envMapIntensity: 1.2 }
+    case 'SQL':
+      return { ...baseProps, color: isActive ? "#f0ffe6" : "#d6ffb3", envMapIntensity: 1.3 }
+    case 'Java':
+      return { ...baseProps, color: isActive ? "#ffe6e6" : "#ffb3b3", envMapIntensity: 1.4 }
+
+    // AI & Machine Learning - Neural network purple/magenta glass
+    case 'TensorFlow':
+      return { ...baseProps, color: isActive ? "#f0e6ff" : "#d6b3ff", envMapIntensity: 2.0, transmission: 0.9 }
+    case 'Keras':
+      return { ...baseProps, color: isActive ? "#ffe6ff" : "#ffb3ff", envMapIntensity: 1.8 }
+    case 'scikit-learn':
+      return { ...baseProps, color: isActive ? "#f3e6ff" : "#e6b3ff", envMapIntensity: 1.7 }
+    case 'PySpark':
+      return { ...baseProps, color: isActive ? "#ede6ff" : "#dbb3ff", envMapIntensity: 1.9 }
+    case 'Deep Learning':
+      return { ...baseProps, color: isActive ? "#f7e6ff" : "#efb3ff", envMapIntensity: 2.1 }
+    case 'Computer Vision':
+      return { ...baseProps, color: isActive ? "#fae6ff" : "#f5b3ff", envMapIntensity: 1.6 }
+
+    // Cloud & Infrastructure - Sky blue/cyan glass
+    case 'Azure':
+      return { ...baseProps, color: isActive ? "#e6f7ff" : "#b3efff", envMapIntensity: 1.8, transmission: 0.95 }
+    case 'AWS':
+      return { ...baseProps, color: isActive ? "#e6faff" : "#b3f0ff", envMapIntensity: 1.7 }
+    case 'Docker':
+      return { ...baseProps, color: isActive ? "#e6fcff" : "#b3f7ff", envMapIntensity: 1.5 }
+    case 'Kubernetes':
+      return { ...baseProps, color: isActive ? "#e6ffff" : "#b3ffff", envMapIntensity: 1.6 }
+    case 'Jenkins':
+      return { ...baseProps, color: isActive ? "#e6fffc" : "#b3fff7", envMapIntensity: 1.4 }
+    case 'Microservices':
+      return { ...baseProps, color: isActive ? "#e6fff0" : "#b3ffe6", envMapIntensity: 1.5 }
+
+    // Data & Analytics - Emerald/green glass
+    case 'PostgreSQL':
+      return { ...baseProps, color: isActive ? "#e6ffe6" : "#b3ffb3", envMapIntensity: 1.6, transmission: 0.88 }
+    case 'Hadoop':
+      return { ...baseProps, color: isActive ? "#f0ffe6" : "#d6ffb3", envMapIntensity: 1.5 }
+    case 'Dataiku':
+      return { ...baseProps, color: isActive ? "#f3ffe6" : "#e6ffb3", envMapIntensity: 1.7 }
+    case 'Power BI':
+      return { ...baseProps, color: isActive ? "#f7ffe6" : "#efFFB3", envMapIntensity: 1.4 }
+    case 'Data Warehousing':
+      return { ...baseProps, color: isActive ? "#faffe6" : "#f5ffb3", envMapIntensity: 1.6 }
+    case 'ETL':
+      return { ...baseProps, color: isActive ? "#fdffe6" : "#fbffb3", envMapIntensity: 1.5 }
+
+    // Web Development - Orange/amber glass
+    case 'React.js':
+      return { ...baseProps, color: isActive ? "#fff7e6" : "#ffeeb3", envMapIntensity: 1.8, transmission: 0.92 }
+    case 'Next.js':
+      return { ...baseProps, color: isActive ? "#fffae6" : "#fff5b3", envMapIntensity: 1.6 }
+    case 'Flask':
+      return { ...baseProps, color: isActive ? "#fffce6" : "#fff9b3", envMapIntensity: 1.5 }
+    case 'Node.js':
+      return { ...baseProps, color: isActive ? "#ffffe6" : "#ffffb3", envMapIntensity: 1.7 }
+    case 'REST APIs':
+      return { ...baseProps, color: isActive ? "#fcffe6" : "#f9ffb3", envMapIntensity: 1.4 }
+    case 'GraphQL':
+      return { ...baseProps, color: isActive ? "#f9ffe6" : "#f2ffb3", envMapIntensity: 1.6 }
+
+    // Project Management - Rose/pink glass
+    case 'Agile':
+      return { ...baseProps, color: isActive ? "#ffe6f7" : "#ffb3ef", envMapIntensity: 1.5, transmission: 0.85 }
+    case 'Scrum':
+      return { ...baseProps, color: isActive ? "#ffe6fa" : "#ffb3f5", envMapIntensity: 1.4 }
+    case 'Kanban':
+      return { ...baseProps, color: isActive ? "#ffe6fc" : "#ffb3f9", envMapIntensity: 1.6 }
+    case 'Jira':
+      return { ...baseProps, color: isActive ? "#ffe6ff" : "#ffb3ff", envMapIntensity: 1.3 }
+    case 'Leadership':
+      return { ...baseProps, color: isActive ? "#fce6ff" : "#f9b3ff", envMapIntensity: 1.7 }
+    case 'Team Building':
+      return { ...baseProps, color: isActive ? "#f9e6ff" : "#f2b3ff", envMapIntensity: 1.5 }
+
+    default:
+      return { ...baseProps, color: isActive ? "#ffffff" : "#cccccc", envMapIntensity: 1.0 }
+  }
+}
+
+// Enhanced Skills Display with Glass Materials and Light Reflection
 function SimpleSkillsDisplay({ skills, activeSkill, setActiveSkill }: { 
   skills: any[], 
   activeSkill: string, 
@@ -288,26 +522,20 @@ function SimpleSkillsDisplay({ skills, activeSkill, setActiveSkill }: {
           <group 
             key={skill.name}
             position={[
-              (col - 1) * 3.5, // Increased spacing to accommodate larger cubes
+              (col - 1) * 3.5, // Increased spacing to accommodate larger objects
               1.5 - row * 3.0, // Increased vertical spacing
               0
             ]}
             onClick={() => setActiveSkill(skill.name)}
           >
             <mesh>
-              <boxGeometry args={[size, size, size]} />
-              <meshStandardMaterial 
-                color={activeSkill === skill.name ? "#ffffff" : "#666"} 
-                transparent 
-                opacity={activeSkill === skill.name ? 0.9 : 0.6}
-                metalness={0.7}
-                roughness={0.3}
-                emissive={activeSkill === skill.name ? "#ffffff" : "#000"}
-                emissiveIntensity={activeSkill === skill.name ? 0.2 : 0.0}
+              {getSkillGeometry(skill.name, size)}
+              <meshPhysicalMaterial 
+                {...getSkillMaterial(skill.name, activeSkill === skill.name, size)}
               />
             </mesh>
             <Text
-              position={[0, size + 0.5, 0]} // Adjusted for larger cubes
+              position={[0, size + 0.5, 0]} // Adjusted for varied shapes
               fontSize={0.18} // Increased font size
               color="white"
               anchorX="center"
@@ -316,7 +544,7 @@ function SimpleSkillsDisplay({ skills, activeSkill, setActiveSkill }: {
               {skill.name}
             </Text>
             <Text
-              position={[0, size + 0.2, 0]} // Adjusted for larger cubes
+              position={[0, size + 0.2, 0]} // Adjusted for varied shapes
               fontSize={0.12} // Increased font size
               color="white"
               anchorX="center"
@@ -343,10 +571,30 @@ function Skills3D({ activeCategory, activeSkill, setActiveSkill }: {
   
   return (
     <>
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ffffff" />
-      <pointLight position={[0, 0, 10]} intensity={0.3} color="#ffffff" />
+      {/* Enhanced lighting for glass reflections */}
+      <ambientLight intensity={0.3} />
+      
+      {/* Main rim lights for glass reflections */}
+      <pointLight position={[10, 10, 10]} intensity={2} color="#ffffff" />
+      <pointLight position={[-10, -10, -10]} intensity={1.5} color="#b3d9ff" />
+      <pointLight position={[0, 0, 15]} intensity={1.2} color="#ffffff" />
+      
+      {/* RGB accent lights that match the pulsing glow colors */}
+      <pointLight position={[8, 5, 8]} intensity={0.8} color="#ff6b6b" />
+      <pointLight position={[-8, 5, 8]} intensity={0.8} color="#4ecdc4" />
+      <pointLight position={[0, 8, -8]} intensity={0.8} color="#45b7d1" />
+      <pointLight position={[5, -5, 5]} intensity={0.6} color="#96ceb4" />
+      <pointLight position={[-5, -5, 5]} intensity={0.6} color="#feca57" />
+      
+      {/* Additional fill lights for better glass illumination */}
+      <spotLight 
+        position={[0, 15, 0]} 
+        target-position={[0, 0, 0]}
+        intensity={1.0} 
+        angle={Math.PI / 4}
+        penumbra={0.5}
+        color="#ffffff"
+      />
       
       <SimpleSkillsDisplay
         skills={category.skills}
@@ -394,23 +642,15 @@ export default function SkillsVisualization() {
           </p>
         </motion.div>
 
-        {/* Category Navigation with Pulsing Effects */}
+        {/* Category Navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="mb-12 relative"
+          className="mb-12"
         >
-          {/* RGB glow effects behind navigation */}
-          <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-3xl opacity-3 animate-pulse" 
-               style={{ animationDelay: '0s', animationDuration: '3s' }} />
-          <div className="absolute inset-0 bg-purple-500 rounded-2xl blur-2xl opacity-2 animate-pulse" 
-               style={{ animationDelay: '1s', animationDuration: '4s' }} />
-          <div className="absolute inset-0 bg-cyan-500 rounded-2xl blur-xl opacity-2 animate-pulse" 
-               style={{ animationDelay: '2s', animationDuration: '5s' }} />
-          
-          <div className="flex flex-wrap justify-center gap-4 relative z-10">
+          <div className="flex flex-wrap justify-center gap-4">
             {skillCategories.map((category) => {
               const IconComponent = category.icon
               return (
@@ -420,7 +660,7 @@ export default function SkillsVisualization() {
                     setActiveCategory(category.id)
                     setActiveSkill('')
                   }}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-full font-medium transition-all duration-300 relative ${
+                  className={`flex items-center gap-3 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                     activeCategory === category.id
                       ? 'bg-white/20 text-white shadow-lg border border-white/30'
                       : 'bg-white/10 text-white/70 hover:bg-white/20 border border-white/10'
@@ -428,15 +668,6 @@ export default function SkillsVisualization() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {/* Active button gets extra pulsing effect */}
-                  {activeCategory === category.id && (
-                    <>
-                      <div className="absolute inset-0 border border-white/40 rounded-full animate-pulse" 
-                           style={{ animationDuration: '2s' }} />
-                      <div className="absolute inset-1 border border-white/20 rounded-full animate-pulse" 
-                           style={{ animationDuration: '3s', animationDelay: '0.5s' }} />
-                    </>
-                  )}
                   <IconComponent size={20} />
                   {category.name}
                 </motion.button>
@@ -473,21 +704,11 @@ export default function SkillsVisualization() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 relative">
-              {/* RGB glow effects for active skill panel */}
-              <div className="absolute inset-0 bg-red-500 rounded-2xl blur-2xl opacity-3 animate-pulse" 
-                   style={{ animationDelay: '0s', animationDuration: '4s' }} />
-              <div className="absolute inset-0 bg-green-500 rounded-2xl blur-xl opacity-2 animate-pulse" 
-                   style={{ animationDelay: '1.33s', animationDuration: '4s' }} />
-              <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-xl opacity-2 animate-pulse" 
-                   style={{ animationDelay: '2.66s', animationDuration: '4s' }} />
-              
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-4 h-4 rounded-full bg-white/30 border border-white/50 animate-pulse" 
-                       style={{ animationDuration: '2s' }} />
-                  <h3 className="text-xl font-bold text-white">{currentCategory.name}</h3>
-                </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-4 h-4 rounded-full bg-white/30 border border-white/50" />
+                <h3 className="text-xl font-bold text-white">{currentCategory.name}</h3>
+              </div>
               
               {currentSkill ? (
                 <motion.div
@@ -517,7 +738,6 @@ export default function SkillsVisualization() {
                   Click on a sphere to see skill details
                 </p>
               )}
-              </div>
             </div>
 
             {/* Skills List */}
