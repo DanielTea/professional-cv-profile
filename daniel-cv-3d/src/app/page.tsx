@@ -13,7 +13,7 @@ const ProjectShowcase = dynamic(() => import('../components/ProjectShowcase'), {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-transparent">
+    <main className="min-h-screen bg-black">
       <Navbar />
       
       <Hero3D />

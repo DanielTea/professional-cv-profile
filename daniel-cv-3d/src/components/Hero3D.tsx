@@ -188,7 +188,7 @@ export default function Hero3D() {
   console.log('Hero3D component rendering...')
   
   return (
-    <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-transparent">
+    <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-black">
       {/* Debug: Ensure section is visible */}
       <div className="absolute top-4 left-4 text-white/50 text-sm z-50">
         Hero3D Section Loaded ✅
@@ -218,8 +218,8 @@ export default function Hero3D() {
             transition={{ duration: 1, delay: 0.5 }}
             className="text-left relative z-20"
           >
-            {/* Enhanced background overlay for text readability with oil spill reflection */}
-            <div className="absolute inset-2 bg-black/60 rounded-2xl backdrop-blur-sm -z-10 p-6 m-4 border border-white/10 shadow-2xl"></div>
+            {/* Background overlay for text readability */}
+            <div className="absolute inset-2 bg-black/40 rounded-2xl backdrop-blur-sm -z-10 p-6 m-4"></div>
             <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 lg:mb-8"
               initial={{ opacity: 0, y: 30 }}
@@ -250,13 +250,13 @@ export default function Hero3D() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.1 }}
             >
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base backdrop-blur-sm">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base">
                 10+ Years Experience
               </span>
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base backdrop-blur-sm">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base">
                 AI Specialist
               </span>
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base backdrop-blur-sm">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base">
                 2K+ Followers
               </span>
             </motion.div>
@@ -268,7 +268,7 @@ export default function Hero3D() {
               transition={{ duration: 0.8, delay: 1.3 }}
             >
               <motion.button
-                className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white/90 text-black rounded-full font-semibold hover:bg-white transition-all duration-300 text-sm sm:text-base backdrop-blur-sm"
+                className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 text-sm sm:text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.querySelector('#experience')?.scrollIntoView({ behavior: 'smooth' })}
@@ -277,7 +277,7 @@ export default function Hero3D() {
               </motion.button>
               
               <motion.button
-                className="px-6 py-2.5 sm:px-8 sm:py-3 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm sm:text-base backdrop-blur-sm"
+                className="px-6 py-2.5 sm:px-8 sm:py-3 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open('mailto:info@danieltremer.com')}
@@ -300,20 +300,20 @@ export default function Hero3D() {
               transition={{ duration: 0.3 }}
               style={{ perspective: '1000px' }}
             >
-              {/* Enhanced RGB glow effects with oil spill colors */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-2xl opacity-10 animate-pulse" 
+              {/* Enhanced RGB glow effects */}
+              <div className="absolute inset-0 bg-red-500 rounded-full blur-2xl opacity-5 animate-pulse" 
                    style={{ animationDelay: '0s' }} />
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full blur-2xl opacity-10 animate-pulse" 
+              <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-5 animate-pulse" 
                    style={{ animationDelay: '0.33s' }} />
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full blur-2xl opacity-10 animate-pulse" 
+              <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-5 animate-pulse" 
                    style={{ animationDelay: '0.66s' }} />
               
               {/* Main image container with 3D transform */}
               <motion.div 
-                className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/50 shadow-2xl bg-white backdrop-blur-sm"
+                className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white"
                 whileHover={{ 
                   boxShadow: "0 25px 50px rgba(255, 255, 255, 0.3)",
-                  borderColor: "rgba(255, 255, 255, 0.8)",
+                  borderColor: "rgba(255, 255, 255, 1)",
                   scale: 1.02
                 }}
                 transition={{ duration: 0.3 }}
@@ -336,7 +336,7 @@ export default function Hero3D() {
                 />
               </motion.div>
               
-              {/* Multiple accent rings for depth with iridescent effect */}
+              {/* Multiple accent rings for depth */}
               <div className="absolute inset-0 rounded-full border border-white/30 animate-pulse" 
                    style={{ animationDuration: '2s' }} />
               <div className="absolute inset-2 rounded-full border border-white/20 animate-pulse" 
@@ -355,7 +355,7 @@ export default function Hero3D() {
           transition={{ duration: 0.8, delay: 2 }}
         >
           <motion.div
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center backdrop-blur-sm"
+            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >

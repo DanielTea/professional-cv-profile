@@ -18,8 +18,6 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </head>
       <body className="antialiased">
-        {/* Oil Spill Reflection Background */}
-        <div className="oil-spill-background"></div>
         {children}
       </body>
     </html>
