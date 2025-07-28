@@ -37,7 +37,7 @@ export default function Home() {
       </section>
       
       <footer className="bg-black/20 p-8 text-center text-white/70">
-        <p>&copy; 2025 Daniel Tremer. All rights reserved.</p>
+        <p>&copy; 2025 Your Name. All rights reserved.</p>
         <p className="mt-2">Built with Next.js, Three.js & Vercel</p>
       </footer>
     </main>

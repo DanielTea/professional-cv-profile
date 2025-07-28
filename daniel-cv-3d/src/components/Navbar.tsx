@@ -43,7 +43,7 @@ export default function Navbar() {
             className="text-white font-bold text-xl cursor-pointer"
             onClick={() => scrollToSection('#hero')}
           >
-            Daniel Tremer
+            Your Name
           </motion.div>
 
           {/* Desktop Navigation */}

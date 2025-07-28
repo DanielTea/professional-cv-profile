@@ -167,7 +167,7 @@ export default function Hero3D() {
       
       {/* Overlay Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen pt-20 pb-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen pt-16 pb-16 sm:pt-20 sm:pb-20">
           {/* Left side - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -183,10 +183,10 @@ export default function Hero3D() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              Daniel
+              Your Name
               <br />
               <span className="text-gray-300 font-light">
-                Tremer
+                Here
               </span>
             </motion.h1>
             
@@ -237,7 +237,7 @@ export default function Hero3D() {
                 className="px-6 py-2.5 sm:px-8 sm:py-3 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => window.open('mailto:info@danieltremer.com')}
+                onClick={() => window.open('mailto:your.email@example.com')}
               >
                 Get In Touch
               </motion.button>
@@ -252,7 +252,7 @@ export default function Hero3D() {
             className="relative z-20"
           >
             <motion.div
-              className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto"
+              className="relative w-48 h-48 xs:w-56 xs:h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto"
               whileHover={{ scale: 1.05, rotateY: 5 }}
               transition={{ duration: 0.3 }}
               style={{ perspective: '1000px' }}
@@ -275,17 +275,12 @@ export default function Hero3D() {
                 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Visible placeholder to test container */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center text-gray-600 font-bold text-lg">
-                  DT
-                </div>
-                
                 <Image
-                  src="/profile.jpg"
-                  alt="Daniel Tremer - Profile Picture"
+                  src="/profile.svg"
+                  alt="Profile Picture"
                   width={400}
                   height={400}
-                  className="w-full h-full object-cover transition-all duration-500 hover:brightness-110 relative z-10"
+                  className="w-full h-full object-cover transition-all duration-500 hover:brightness-110 relative z-10 rounded-full"
                   priority={true}
                   unoptimized={true}
                   onLoad={() => console.log('Profile image loaded successfully!')}

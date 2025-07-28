@@ -1,6 +1,6 @@
-# Daniel Tremer - 3D Portfolio
+# Your Name - 3D Portfolio
 
-A stunning 3D portfolio website built with Next.js, Three.js, and modern web technologies. This interactive portfolio showcases Daniel Tremer's professional experience, skills, and projects through immersive 3D visualizations.
+A stunning 3D portfolio website built with Next.js, Three.js, and modern web technologies. This interactive portfolio showcases your professional experience, skills, and projects through immersive 3D visualizations.
 
 ## 🚀 Features
 
@@ -216,15 +216,15 @@ This portfolio uses [Inter](https://github.com/rsms/inter), a high-quality typef
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 👨‍💻 About Daniel Tremer
+## 👨‍💻 About You
 
-Daniel Tremer is a Managing Director at control-f GmbH, with over 10 years of experience in AI, machine learning, and software development. He has worked with leading companies like Porsche AG, Mercedes-Benz, and founded multiple AI ventures.
+This portfolio template is designed for professionals in AI, machine learning, and software development. Customize it with your own experience and projects.
 
-**Connect with Daniel:**
-- 🌐 Website: [danieltremer.com](https://danieltremer.com)
-- 💼 LinkedIn: [daniel-tremer](https://www.linkedin.com/in/daniel-tremer/)
-- 🐙 GitHub: [DanielTea](https://github.com/DanielTea)
-- 📧 Email: info@danieltremer.com
+**Connect with Me:**
+- 🌐 Website: [your-website.com](https://your-website.com)
+- 💼 LinkedIn: [your-profile](https://www.linkedin.com/in/your-profile/)
+- 🐙 GitHub: [YourGitHub](https://github.com/YourGitHub)
+- 📧 Email: your.email@example.com
 
 ---
 
