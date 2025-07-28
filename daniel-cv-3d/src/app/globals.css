@@ -1,15 +1,23 @@
 @import "tailwindcss";
 
-:root {
+/* Inter Font Configuration - Official Setup */
+:root { 
+  font-family: 'Inter', sans-serif;
   --background: #ffffff;
   --foreground: #171717;
+}
+
+@supports (font-variation-settings: normal) {
+  :root { 
+    font-family: 'Inter var', sans-serif; 
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter var', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Inter var', 'Inter', 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +30,6 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter var', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* Enable ligatures and contextual alternates */
 }

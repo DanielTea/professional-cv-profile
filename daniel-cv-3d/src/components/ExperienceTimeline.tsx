@@ -68,26 +68,40 @@ const experiences = [
   }
 ]
 
-// Get the appropriate company logo
-function getCompanyLogo(logoId: string, size: number = 24) {
-  const logoMap: { [key: string]: string } = {
-    'control-f': '/company_icons/control-f.png',
-    'porsche': '/company_icons/Porsche.png',
-    'mercedes': '/company_icons/Daimler.png', // Using Mercedes logo for Daimler as requested
-    'mbition': '/company_icons/mbition.webp', // MBition has its own logo
+// Get the appropriate company logo with enhanced styling
+function getCompanyLogo(logoId: string, size: number = 32) {
+  const logoMap: { [key: string]: { path: string, needsWhiteBackground: boolean } } = {
+    'control-f': { path: '/company_icons/control-f.png', needsWhiteBackground: true },
+    'porsche': { path: '/company_icons/Porsche.png', needsWhiteBackground: true },
+    'mercedes': { path: '/company_icons/Daimler.png', needsWhiteBackground: true }, // Using Mercedes logo for Daimler as requested
+    'mbition': { path: '/company_icons/mbition.webp', needsWhiteBackground: false }, // Black logo needs transparent/dark background
   }
 
-  const logoPath = logoMap[logoId]
+  const logoInfo = logoMap[logoId]
   
-  if (logoPath) {
+  if (logoInfo) {
+    const paddingSize = size >= 100 ? 8 : 4;
+    const imageSizeReduction = logoInfo.needsWhiteBackground ? paddingSize : 0;
+    
     return (
-      <Image
-        src={logoPath}
-        alt={`${logoId} logo`}
-        width={size}
-        height={size}
-        className="object-contain"
-      />
+      <div 
+        className={`flex items-center justify-center rounded-xl overflow-hidden shadow-lg ${
+          logoInfo.needsWhiteBackground ? 'bg-white' : 'bg-gray-100/20 border border-white/30'
+        }`}
+        style={{ 
+          width: size, 
+          height: size,
+          padding: logoInfo.needsWhiteBackground ? `${paddingSize/2}px` : '2px'
+        }}
+      >
+        <Image
+          src={logoInfo.path}
+          alt={`${logoId} logo`}
+          width={size - imageSizeReduction}
+          height={size - imageSizeReduction}
+          className="object-contain"
+        />
+      </div>
     )
   }
   
@@ -210,15 +224,22 @@ export default function ExperienceTimeline() {
   const [activeExperience, setActiveExperience] = useState(1)
   
   const currentExp = experiences.find(exp => exp.id === activeExperience) || experiences[0]
+  
+  if (!currentExp) {
+    console.error('No experience found!')
+    return null
+  }
+  
+
 
   return (
-    <section className="min-h-screen bg-black py-20">
+    <section className="min-h-screen bg-black py-20" id="professional-journey">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1, margin: "0px 0px -200px 0px" }}
           className="text-center mb-16"
         >
                           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
@@ -237,36 +258,38 @@ export default function ExperienceTimeline() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1, margin: "0px 0px -150px 0px" }}
           className="mb-12"
         >
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {experiences.map((exp) => (
               <motion.button
                 key={exp.id}
                 onClick={() => setActiveExperience(exp.id)}
-                className={`px-4 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-4 py-3 sm:px-6 sm:py-4 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 flex items-center gap-2 sm:gap-3 min-h-[50px] sm:min-h-[60px] ${
                   activeExperience === exp.id
-                   ? 'bg-white text-black shadow-lg border-2 border-white/50'
-                   : 'bg-black/60 text-white/70 hover:bg-white/10 border border-white/30'
+                   ? 'bg-white text-black shadow-xl border-2 border-white/50 transform scale-105 shadow-white/20'
+                   : 'bg-black/60 text-white/70 hover:bg-white/10 border border-white/30 hover:border-white/50'
                 }`}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {getCompanyLogo(exp.logo, 18)}
-                {exp.company}
+                <div className="flex-shrink-0">
+                  {getCompanyLogo(exp.logo, 28)}
+                </div>
+                <span className="font-semibold whitespace-nowrap">{exp.company}</span>
               </motion.button>
             ))}
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[80vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start lg:items-center min-h-[80vh]">
           {/* 3D Timeline Visualization */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1, margin: "0px 0px -100px 0px" }}
             className="h-[600px] lg:h-[700px] xl:h-[800px] relative"
           >
             <Canvas camera={{ position: [5, 3, 8], fov: 75 }}>
@@ -277,11 +300,17 @@ export default function ExperienceTimeline() {
           </motion.div>
 
                       {/* Enhanced Experience Details Panel */}
+          <motion.div 
+            className="relative order-last lg:order-none w-full"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             <motion.div
               key={activeExperience}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               className="relative"
             >
               {/* RGB glow effects like profile picture */}
@@ -291,15 +320,17 @@ export default function ExperienceTimeline() {
                    style={{ animationDelay: '0.5s' }} />
               
               <div className="relative bg-black/80 backdrop-blur-md rounded-2xl p-8 border-2 border-white/30 shadow-2xl">
-                                 <div className="flex items-center gap-4 mb-6">
-                   <div className="p-3 bg-white/10 rounded-full border border-white/30">
-                     {getCompanyLogo(currentExp.logo, 24)}
-                   </div>
-                   <div>
-                     <h3 className="text-2xl font-bold text-white">{currentExp.company}</h3>
-                     <div className="w-full h-0.5 bg-gradient-to-r from-white/50 to-transparent mt-1"></div>
-                   </div>
-                 </div>
+                {currentExp ? (
+                  <>
+                    <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 mb-6">
+                      <div className="flex items-center justify-center flex-shrink-0">
+                        {getCompanyLogo(currentExp.logo, 100)}
+                      </div>
+                      <div className="flex-1 text-center sm:text-left">
+                        <h3 className="text-2xl font-bold text-white">{currentExp.company}</h3>
+                        <div className="w-full h-0.5 bg-gradient-to-r from-white/50 to-transparent mt-1"></div>
+                      </div>
+                    </div>
             
                           <h4 className="text-xl text-gray-300 mb-4 font-medium">{currentExp.role}</h4>
             
@@ -333,9 +364,14 @@ export default function ExperienceTimeline() {
                         </span>
                       ))}
                                          </div>
-                </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-white text-center">Loading experience details...</div>
+                )}
               </div>
             </motion.div>
+          </motion.div>
         </div>
 
         {/* Timeline Navigation */}

@@ -102,7 +102,6 @@ function ProjectCard({ project, isActive, onClick }: {
           anchorX="center"
           anchorY="middle"
           maxWidth={2.2}
-          font="/fonts/Inter-Bold.woff"
         >
           {project.title}
         </Text>

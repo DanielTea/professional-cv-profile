@@ -11,6 +11,7 @@ A stunning 3D portfolio website built with Next.js, Three.js, and modern web tec
 - **Responsive Design**: Optimized for all devices and screen sizes
 - **Smooth Animations**: Powered by Framer Motion and GSAP
 - **Modern UI**: Glass morphism effects and gradient designs
+- **Professional Typography**: Inter font for optimal screen readability
 
 ## 🛠 Tech Stack
 
@@ -19,6 +20,7 @@ A stunning 3D portfolio website built with Next.js, Three.js, and modern web tec
 - **3D Helpers**: React Three Drei for utilities
 - **Animations**: Framer Motion & GSAP
 - **Styling**: Tailwind CSS
+- **Typography**: Inter font (variable font support)
 - **Icons**: Lucide React
 - **Package Manager**: pnpm
 - **Deployment**: Vercel
@@ -176,6 +178,23 @@ const experiences = [
   }
 ]
 ```
+
+## 🔤 Typography
+
+This portfolio uses [Inter](https://github.com/rsms/inter), a high-quality typeface specifically designed for computer screens and used by companies like Mozilla, NASA, and Figma.
+
+**Inter Font Benefits:**
+- **Screen Optimized**: Designed specifically for digital interfaces
+- **Variable Font**: Supports full weight spectrum (100-900) with optimal performance
+- **Enhanced Readability**: Tall x-height for better mixed-case and lowercase text readability
+- **OpenType Features**: Contextual alternates, slashed zero, tabular numbers
+- **Professional Grade**: Used by leading tech companies and design systems
+
+**Implementation:**
+- Loaded from the official Inter CDN for optimal performance
+- Variable font support with fallbacks for older browsers
+- Enabled ligatures and contextual alternates for enhanced typography
+- Consistent typography across all UI components and 3D text elements
 
 ## 📱 Performance Optimization
 
