@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Tremer - Professional Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0077b5 0%, #0056b3 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .profile-image {
+            flex-shrink: 0;
+        }
+
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+        }
+
+        .profile-info {
+            text-align: left;
+        }
+
+        .profile-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .profile-info p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #0077b5;
+            display: inline-block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #495057;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: rgba(0, 119, 181, 0.05);
+            transform: translateY(-1px);
+            transition: all 0.3s ease;
+        }
+
+        .category {
+            font-weight: 600;
+            color: #0077b5;
+            min-width: 200px;
+        }
+
+        .value {
+            color: #333;
+        }
+
+        .link {
+            color: #0077b5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+            color: #005885;
+        }
+
+        .tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 2px;
+            font-weight: 500;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #0077b5;
+        }
+
+        .skill-category h4 {
+            color: #0077b5;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .recommendation-author {
+            font-weight: 600;
+            color: #0077b5;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-text {
+            font-style: italic;
+            line-height: 1.7;
+            color: #495057;
+        }
+
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+            vertical-align: middle;
+            border-radius: 4px;
+            background: #f8f9fa;
+            padding: 4px;
+        }
+
+        .recommender-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .recommender-details {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-info {
+                text-align: center;
+            }
+            
+            .profile-info h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <img src="IMG_3709%203.JPG" alt="Daniel Tremer" class="profile-photo">
+                </div>
+                <div class="profile-info">
+                    <h1>Daniel Tremer</h1>
+                    <p>Managing Director @ control-f GmbH // Software Developer & Machine Learning Engineer</p>
+                    <div class="profile-stats">
+                        <span class="stat">10+ Years Experience</span>
+                        <span class="stat">2K+ Followers</span>
+                        <span class="stat">500+ Connections</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Basic Information -->
+            <div class="section">
+                <h2 class="section-title">Professional Overview</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">Full Name</td>
+                            <td class="value">Daniel Tremer</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Location</td>
+                            <td class="value">Berlin, Germany</td>
+                        </tr>
+                        <tr>
+                            <td class="category">LinkedIn Profile</td>
+                            <td class="value"><a href="https://www.linkedin.com/in/daniel-tremer/" class="link">linkedin.com/in/daniel-tremer</a></td>
+                        </tr>
+                        <tr>
+                            <td class="category">Network</td>
+                            <td class="value">2K+ followers, 500+ connections</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Years of Experience</td>
+                            <td class="value">10+ years in Data Science & AI</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Current Position</td>
+                            <td class="value">Managing Director @ control-f GmbH</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Company Website</td>
+                            <td class="value"><a href="https://controlf.io" class="link">controlf.io</a></td>
+                        </tr>
+                        <tr>
+                            <td class="category">Email</td>
+                            <td class="value"><a href="mailto:info@danieltremer.com" class="link">info@danieltremer.com</a></td>
+                        </tr>
+                        <tr>
+                            <td class="category">GitHub</td>
+                            <td class="value"><a href="https://github.com/DanielTea" class="link">github.com/DanielTea</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Technical Expertise -->
+            <div class="section">
+                <h2 class="section-title">Technical Expertise & Technologies</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Technology Category</th>
+                            <th>Specific Technologies</th>
+                            <th>Proficiency Level</th>
+                            <th>Years of Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">Programming Languages</td>
+                            <td class="value">Python, JavaScript, R, SQL, Java, PureBasic</td>
+                            <td class="value">Expert</td>
+                            <td class="value">10+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Machine Learning & AI</td>
+                            <td class="value">TensorFlow, Keras, scikit-learn, PySpark, Google FaceNet</td>
+                            <td class="value">Expert</td>
+                            <td class="value">7+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Cloud Platforms & Infrastructure</td>
+                            <td class="value">Microsoft Azure, AWS (Cloudera Suite), Docker, Kubernetes, Jenkins CI/CD</td>
+                            <td class="value">Advanced</td>
+                            <td class="value">6+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Big Data & Analytics</td>
+                            <td class="value">PySpark, Hadoop, Cloudera Suite, Dataiku, Azure ML Infrastructure</td>
+                            <td class="value">Advanced</td>
+                            <td class="value">5+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Databases & Data Management</td>
+                            <td class="value">PostgreSQL, SAP Data Warehouse Cloud, SQL Server</td>
+                            <td class="value">Advanced</td>
+                            <td class="value">8+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Web Development & APIs</td>
+                            <td class="value">React.js, Flask, d3.js, REST APIs, OAuth2</td>
+                            <td class="value">Advanced</td>
+                            <td class="value">6+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Project Management & Agile</td>
+                            <td class="value">Jira, Confluence, Scrum, Kanban, Agile Methodologies</td>
+                            <td class="value">Advanced</td>
+                            <td class="value">5+ years</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Testing & Automation</td>
+                            <td class="value">Selenium Framework, Jupyter Notebooks, SAP Crystal Reports</td>
+                            <td class="value">Intermediate</td>
+                            <td class="value">4+ years</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Top Skills</h4>
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Deep Learning</span>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Core Competencies</h4>
+                        <span class="tag">Data Science</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Artificial Intelligence</span>
+                        <span class="tag">Software Development</span>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Specialized Areas</h4>
+                        <span class="tag">Predictive Analytics</span>
+                        <span class="tag">Facial Recognition</span>
+                        <span class="tag">Automotive AI</span>
+                        <span class="tag">Data Pipeline Development</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education & Certifications -->
+            <div class="section">
+                <h2 class="section-title">Education & Certifications</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Institution/Organization</th>
+                            <th>Qualification</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">Hochschule der Medien Stuttgart</td>
+                            <td class="value">Bachelor of Science (B.S.), Mobile Media</td>
+                            <td class="value">2015 - 2017</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Universität Stuttgart</td>
+                            <td class="value">Computer Science</td>
+                            <td class="value">2012 - 2015</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Professional Services -->
+            <div class="section">
+                <h2 class="section-title">Professional Services</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Service Category</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">Web Solutions</td>
+                            <td class="value">Web Design, Web Development</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Cloud Services</td>
+                            <td class="value">Cloud Management, Cloud Application Development</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Software Development</td>
+                            <td class="value">SaaS Development, Custom Software Development, Application Development</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Quality Assurance</td>
+                            <td class="value">Software Testing</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Data Management</td>
+                            <td class="value">Database Development</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Work Experience & Problem Solving -->
+            <div class="section">
+                <h2 class="section-title">Professional Experience</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Role & Duration</th>
+                            <th>Technologies Used</th>
+                            <th>Key Responsibilities & Achievements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">control-f GmbH</td>
+                            <td class="value">Managing Director<br>February 2024 - Present</td>
+                            <td class="value">AI, Data Science, Proprietary AI Systems</td>
+                            <td class="value">Leading a dynamic team of entrepreneurs and software engineers. Delivering cutting-edge AI, data science, and data solutions to businesses worldwide. Innovating and developing proprietary AI products and systems.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">uipilot.ai</td>
+                            <td class="value">Builder<br>February 2025 - Present</td>
+                            <td class="value">No-code UI Testing, Web Applications</td>
+                            <td class="value">Developing a no-code UI testing solution that eliminates repetitive test code. Enabling cross-team automated testing for web applications and prototypes without coding requirements.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">RoboWork</td>
+                            <td class="value">Founder<br>March 2023 - Present</td>
+                            <td class="value">Custom AI Software Solutions</td>
+                            <td class="value">Founded AI software solutions provider. Designing, developing, and deploying tailor-made AI solutions for organizations. Ensuring seamless AI integration into existing systems.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Porsche AG</td>
+                            <td class="value">Specialist, Data Science & AI Projects<br>June 2021 - February 2024</td>
+                            <td class="value">Azure ML, Cloudera Suite, SAP Data Warehouse Cloud, Dataiku, Python, TensorFlow, PySpark</td>
+                            <td class="value">Conducted quality-driven data analysis for decision-making. Built data analyzing pipeline for vehicle data with PySpark. Developed and operationalized data pipelines and data views for streamlined access.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">MBition GmbH</td>
+                            <td class="value">Senior Product Owner<br>August 2020 - June 2021</td>
+                            <td class="value">Jira, Confluence, Agile, Scrum, Kanban, Linux Kernel Virtualization</td>
+                            <td class="value">Led R&D initiatives for automotive technology innovation. Spearheaded next-generation Mercedes Benz Infotainment System with Dynamic Content Platform Integration. Implemented application containerization.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Daimler AG</td>
+                            <td class="value">Technical Lead & Product Owner AI & Digitalization<br>December 2019 - August 2020</td>
+                            <td class="value">R, Python, React.js, JavaScript, Docker, Kubernetes, Jenkins, Azure</td>
+                            <td class="value">Coordinated software architecture with ML components. Designed microservice architectures using Docker and K8s. Led project predicting procurement savings, analyzing 1TB+ of procurement data.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Daimler AG</td>
+                            <td class="value">Project Coordinator AI & Digitalization<br>March 2019 - December 2019</td>
+                            <td class="value">Python, Keras, TensorFlow, Microsoft Azure, Docker, Kubernetes</td>
+                            <td class="value">Coordinated AI software development projects. Implemented NLP models for text analysis. Designed and deployed text classification models. Managed Azure cloud infrastructure.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Tremer AI & Data Analytics</td>
+                            <td class="value">Founder<br>March 2018 - September 2019</td>
+                            <td class="value">Machine Learning, Data Processing, Data Visualization</td>
+                            <td class="value">Provided freelance custom software development with ML focus. Preprocessed and cleansed large data chunks. Created data visualizations for stakeholder decision-making.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Drees & Sommer</td>
+                            <td class="value">Freelance Software Engineer<br>April 2018 - April 2019</td>
+                            <td class="value">TensorFlow 1.4 (Google FaceNet), Keras, Python, Flask, OAuth2</td>
+                            <td class="value">Developed room guidance system using facial recognition. Built deep learning engine for multi-camera face recognition. Utilized OAuth2 for LinkedIn picture crawling. Designed pathing algorithms.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Porsche AG</td>
+                            <td class="value">Bachelor Thesis & Research<br>October 2017 - September 2018</td>
+                            <td class="value">Python, Keras, TensorFlow, Scikit-learn, JavaScript, d3.js, Flask</td>
+                            <td class="value">Thesis: "A Deep-Learning Approach on Automotive Maneuver Detection". Explored ML approaches (LSTMs, CNNs) for driving maneuver classification. Built live data analytics dashboard for Jenkins Build Server.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Porsche Cars North America</td>
+                            <td class="value">Information Technology<br>March 2017 - October 2017</td>
+                            <td class="value">Python, Scikit-learn, Flask, Hadoop, PySpark</td>
+                            <td class="value">Built data analysis and anomaly detection monitoring tool. Utilized Support Vector Machines and Isolation Forest algorithms. Automated IT processes with Python scripts. Implemented Cloudera Hadoop Cluster.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Porsche AG</td>
+                            <td class="value">Decentralized Server Infrastructure<br>October 2013 - February 2017</td>
+                            <td class="value">SAP Crystal Reports, SQL, Python, Java, PureBasic, PostgreSQL</td>
+                            <td class="value">Developed automated server installation scripts. Implemented custom PostgreSQL databases. Managed automated server and BI reports. Implemented automated change request scripts.</td>
+                        </tr>
+                        <tr>
+                            <td class="category">University of Stuttgart</td>
+                            <td class="value">Scientific Assistant<br>September 2013 - October 2013</td>
+                            <td class="value">Java, Selenium Framework</td>
+                            <td class="value">Implemented test scripts for campus management system to ensure software quality and functionality.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Academic Projects & Research -->
+            <div class="section">
+                <h2 class="section-title">Academic Projects & Research</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Project/Thesis</th>
+                            <th>Date</th>
+                            <th>Institution</th>
+                            <th>Technologies Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">A Deep-Learning Approach on Automotive Maneuver Detection</td>
+                            <td class="value">May 2018 - September 2018</td>
+                            <td class="value">Porsche AG (Bachelor Thesis)</td>
+                            <td class="value">Python, Keras, TensorFlow 1.x, Scikit-learn, Variational Autoencoder</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Campus Management System Testing</td>
+                            <td class="value">September 2013 - October 2013</td>
+                            <td class="value">University of Stuttgart</td>
+                            <td class="value">Java, Selenium Framework</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Professional Recommendations -->
+            <div class="section">
+                <h2 class="section-title">Professional Recommendations</h2>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Recommender</th>
+                            <th>Position & Company</th>
+                            <th>Date</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">Can Pinar</td>
+                            <td class="value">Founder & CEO @ Cytolytics<br>Company: Cytolytics (Biotech)</td>
+                            <td class="value">June 8, 2020</td>
+                            <td class="value">"I worked with Daniel on a Machine Learning based Cloud application. He is an excellent developer who has a wide variety of technical and communicational skills. Daniel has a great knowledge of cutting edge technologies and knows also how and when to use them. He has a deep understanding of software architectures and knows how to build them from scratch. Working with Daniel was a pleasure for me. He is a kind and open-minded personality that everyone would like to have in his team."</td>
+                        </tr>
+                        <tr>
+                            <td class="category">
+                                <div class="recommender-info">
+                                    <img src="https://logo.clearbit.com/mercedes-benz.com" alt="Mercedes-Benz" class="company-logo">
+                                    <div class="recommender-details">Christoph Meier</div>
+                                </div>
+                            </td>
+                            <td class="value">Project Manager / Product Owner<br>Company: Mercedes-Benz (Daimler AG)</td>
+                            <td class="value">April 7, 2020</td>
+                            <td class="value">"I am working together with Daniel on multiple Procurement-related data science initiatives, where he constantly proves his great expertise in machine learning and cloud architecture. I got to know him as a proactive and solution-oriented colleague, who is driven by his creativity and his curiosity for current trends in technology. His open-mindedness makes it a pleasure working with him."</td>
+                        </tr>
+                        <tr>
+                            <td class="category">
+                                <div class="recommender-info">
+                                    <img src="https://logo.clearbit.com/mercedes-benz.com" alt="Mercedes-Benz" class="company-logo">
+                                    <div class="recommender-details">Andreas Waßmus</div>
+                                </div>
+                            </td>
+                            <td class="value">AI Technologies Implementation Specialist<br>Company: Mercedes-Benz (Daimler AG)</td>
+                            <td class="value">March 12, 2020</td>
+                            <td class="value">"I worked with Daniel for about a year on a data science project in Azure. Daniel is a very good software developer and he has a broad knowledge of big data architectures. He was always up to date with the latest technologies and trends in machine learning and cloud architecture. New challenges are something he enjoys, and he has been great at finding creative solutions."</td>
+                        </tr>
+                        <tr>
+                            <td class="category">David Sebastian Schlepps</td>
+                            <td class="value">Head of AI Academy<br>Company: AI Academy / Consulting</td>
+                            <td class="value">January 13, 2020</td>
+                            <td class="value">"Daniel has a very broad technical background combined with remarkable passion for the field of data science. In the year we were working together, we worked on numerous challenges in machine learning and data engineering - he pushed the products forward with an eye for detail and great curiosity for the latest trends."</td>
+                        </tr>
+                        <tr>
+                            <td class="category">
+                                <div class="recommender-info">
+                                    <img src="https://logo.clearbit.com/porsche.com" alt="Porsche AG" class="company-logo">
+                                    <div class="recommender-details">Tobias Grosse-Puppendahl</div>
+                                </div>
+                            </td>
+                            <td class="value">Data & AI Architect<br>Company: Porsche AG</td>
+                            <td class="value">December 19, 2019</td>
+                            <td class="value">"Daniel has a very inspiring personality, full of ideas and with a broad technical background. Daniel is able to deliver and prototype software products extremely quickly, and has internalized the agile mindset."</td>
+                        </tr>
+                        <tr>
+                            <td class="category">
+                                <div class="recommender-info">
+                                    <img src="https://logo.clearbit.com/helsing.ai" alt="Helsing" class="company-logo">
+                                    <div class="recommender-details">Dr. Jan Feiling</div>
+                                </div>
+                            </td>
+                            <td class="value">Product Manager<br>Company: Helsing (Defense AI)</td>
+                            <td class="value">December 10, 2019</td>
+                            <td class="value">"Daniel is person with a creative mindset and a very special passion for the future of artificial intelligence. I enjoyed how he approached different tasks in the field of machine learning - he is not only talking; he is doing things."</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Tobias Oberrauch</td>
+                            <td class="value">Geschäftsführer (Managing Director)<br>Company: audius KI (AI Consulting)</td>
+                            <td class="value">December 9, 2019</td>
+                            <td class="value">"I enjoy working with Daniel because he is extremely reliable and open-minded. He has deep technical skills and practical experience in managing complex projects. I would answer the question of whether I would work with Daniel: 'Yes, of course'."</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Summary</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">Total LinkedIn Recommendations</td>
+                            <td class="value">7 professional recommendations from industry leaders</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Industries Represented</td>
+                            <td class="value">AI/ML, Automotive, Data Science, Enterprise Software, Biotech</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Key Themes</td>
+                            <td class="value">Technical Excellence, Leadership, Innovation, Problem-Solving, Collaboration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Current Projects & Focus Areas -->
+            <div class="section">
+                <h2 class="section-title">Current Projects & Focus Areas</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Project/Company</th>
+                            <th>Focus Area</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="category">control-f GmbH</td>
+                            <td class="value">AI Product Development</td>
+                            <td class="value">Leading development of proprietary AI products, models, and systems for enterprise clients worldwide</td>
+                        </tr>
+                        <tr>
+                            <td class="category">uipilot.ai</td>
+                            <td class="value">No-Code Testing Solutions</td>
+                            <td class="value">Building automated UI testing platform that eliminates repetitive test code for cross-functional teams</td>
+                        </tr>
+                        <tr>
+                            <td class="category">RoboWork</td>
+                            <td class="value">Custom AI Solutions</td>
+                            <td class="value">Providing tailor-made AI software solutions for businesses looking to integrate AI into existing systems</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Automotive AI</td>
+                            <td class="value">Data Science & Analytics</td>
+                            <td class="value">Specializing in automotive data analysis, vehicle data pipelines, and predictive analytics for manufacturing</td>
+                        </tr>
+                        <tr>
+                            <td class="category">Entrepreneurship</td>
+                            <td class="value">Technology Innovation</td>
+                            <td class="value">Building and leading multiple technology ventures focused on AI, data science, and software development</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
