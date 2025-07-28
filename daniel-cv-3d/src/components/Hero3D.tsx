@@ -1,12 +1,22 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Float, Environment, MeshTransmissionMaterial } from '@react-three/drei'
+import { OrbitControls, Float, Environment } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { useMemo, useRef } from 'react'
-import { Vector3, Color } from 'three'
+import { Vector3, Color, Mesh, Material } from 'three'
 import { useFrame } from '@react-three/fiber'
 import Image from 'next/image'
+
+// Element interface for better typing
+interface FloatingElementData {
+  id: number
+  position: Vector3
+  scale: number
+  opacity: number
+  rotationSpeed: number
+  hueShift: number
+}
 
 // Abstract Triangle-like Floating Elements Component with Oil Spill Reflections
 function FloatingElements() {
@@ -36,9 +46,9 @@ function FloatingElements() {
 }
 
 // Individual floating element with oil spill reflection
-function FloatingElement({ element }: { element: any }) {
-  const meshRef = useRef<any>()
-  const materialRef = useRef<any>()
+function FloatingElement({ element }: { element: FloatingElementData }) {
+  const meshRef = useRef<Mesh>(null)
+  const materialRef = useRef<Material>(null)
   
   useFrame((state) => {
     if (meshRef.current) {
@@ -54,8 +64,18 @@ function FloatingElement({ element }: { element: any }) {
       const saturation = 0.8 + Math.sin(time * 2) * 0.2
       const lightness = 0.6 + Math.sin(time * 3 + element.id) * 0.3
       
-      materialRef.current.color = new Color().setHSL(hue / 360, saturation, lightness)
-      materialRef.current.emissive = new Color().setHSL((hue + 60) / 360, 0.5, 0.1)
+      // Type assertion for material properties
+      const material = materialRef.current as Material & {
+        color?: Color
+        emissive?: Color
+      }
+      
+      if (material.color) {
+        material.color = new Color().setHSL(hue / 360, saturation, lightness)
+      }
+      if (material.emissive) {
+        material.emissive = new Color().setHSL((hue + 60) / 360, 0.5, 0.1)
+      }
     }
   })
 
