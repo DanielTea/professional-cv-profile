@@ -283,10 +283,7 @@ export default function SkillsVisualization() {
               />
             </Canvas>
             
-            {/* Controls Hint */}
-            <div className="absolute bottom-4 left-4 text-white/50 text-sm">
-              <p>🖱️ Click spheres • 🔄 Drag to rotate • 📏 Scroll to zoom</p>
-            </div>
+
           </motion.div>
 
           {/* Skill Details Panel */}

@@ -21,34 +21,9 @@ const projects = [
     position: [0, 0, 0] as [number, number, number],
     link: "https://controlf.io"
   },
+
   {
     id: 2,
-    title: "uipilot.ai",
-    category: "No-Code Testing",
-    description: "Revolutionary no-code UI testing solution that eliminates repetitive test code for cross-functional teams.",
-    technologies: ["TypeScript", "React", "Automation", "Testing", "SaaS"],
-    impact: "Reducing testing time by 80%",
-    status: "Active",
-    year: "2025",
-    color: "#06b6d4",
-    position: [4, 2, -2] as [number, number, number],
-    link: "https://uipilot.ai"
-  },
-  {
-    id: 3,
-    title: "RoboWork",
-    category: "AI Solutions",
-    description: "Custom AI software solutions provider designing and deploying tailor-made AI solutions for organizations.",
-    technologies: ["Python", "AI", "Custom Solutions", "Integration"],
-    impact: "50+ successful AI implementations",
-    status: "Active",
-    year: "2023",
-    color: "#10b981",
-    position: [-4, 2, -2] as [number, number, number],
-    link: "#"
-  },
-  {
-    id: 4,
     title: "Porsche Vehicle Data Pipeline",
     category: "Automotive AI",
     description: "Built comprehensive data analyzing pipeline for vehicle data using PySpark, processing millions of data points.",
@@ -61,7 +36,7 @@ const projects = [
     link: "#"
   },
   {
-    id: 5,
+    id: 3,
     title: "Mercedes Infotainment System",
     category: "Automotive Tech",
     description: "Led R&D for next-generation Mercedes Benz Infotainment System with Dynamic Content Platform Integration.",
@@ -74,7 +49,7 @@ const projects = [
     link: "#"
   },
   {
-    id: 6,
+    id: 4,
     title: "Deep Learning Maneuver Detection",
     category: "Research",
     description: "Bachelor thesis on automotive maneuver detection using LSTMs and CNNs for driving behavior classification.",
@@ -278,10 +253,7 @@ export default function ProjectShowcase() {
               />
             </Canvas>
             
-            {/* Controls Hint */}
-            <div className="absolute bottom-4 left-4 text-white/50 text-sm">
-              <p>🖱️ Click cards • 🔄 Drag to rotate • 📏 Scroll to zoom</p>
-            </div>
+
           </motion.div>
 
           {/* Project Details Panel */}

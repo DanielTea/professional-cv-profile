@@ -97,65 +97,86 @@ function FloatingElements() {
 
 // Main 3D Scene
 function Scene() {
-  return (
-    <>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
-      <pointLight position={[-10, -10, -10]} intensity={0.4} color="#ffffff" />
-      <pointLight position={[0, 10, -10]} intensity={0.3} color="#ffffff" />
-      {/* Additional RGB accent lights */}
-      <pointLight position={[15, 5, 5]} intensity={0.2} color="#ff0040" />
-      <pointLight position={[-15, 5, 5]} intensity={0.2} color="#00ff40" />
-      <pointLight position={[0, 15, -5]} intensity={0.2} color="#0040ff" />
-      
-      <FloatingElements />
-      
-      {/* Central visible element for debugging */}
-      <mesh position={[0, 0, -5]}>
-        <icosahedronGeometry args={[1]} />
-        <meshStandardMaterial 
-          color="#ffffff" 
-          wireframe 
-          transparent 
-          opacity={0.1}
+  console.log('Scene component rendering...')
+  
+  try {
+    return (
+      <>
+        <ambientLight intensity={0.3} />
+        <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
+        <pointLight position={[-10, -10, -10]} intensity={0.4} color="#ffffff" />
+        <pointLight position={[0, 10, -10]} intensity={0.3} color="#ffffff" />
+        {/* Additional RGB accent lights */}
+        <pointLight position={[15, 5, 5]} intensity={0.2} color="#ff0040" />
+        <pointLight position={[-15, 5, 5]} intensity={0.2} color="#00ff40" />
+        <pointLight position={[0, 15, -5]} intensity={0.2} color="#0040ff" />
+        
+        <FloatingElements />
+        
+        {/* Central visible element for debugging */}
+        <mesh position={[0, 0, -5]}>
+          <icosahedronGeometry args={[1]} />
+          <meshStandardMaterial 
+            color="#ffffff" 
+            wireframe 
+            transparent 
+            opacity={0.1}
+          />
+        </mesh>
+        
+        <Environment preset="night" />
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          autoRotate
+          autoRotateSpeed={0.2}
+          maxPolarAngle={Math.PI / 2}
+          minPolarAngle={Math.PI / 3}
         />
-      </mesh>
-      
-      <Environment preset="night" />
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        autoRotate
-        autoRotateSpeed={0.2}
-        maxPolarAngle={Math.PI / 2}
-        minPolarAngle={Math.PI / 3}
-      />
-    </>
-  )
+      </>
+    )
+  } catch (error) {
+    console.error('Scene rendering error:', error)
+    return null
+  }
 }
 
 export default function Hero3D() {
+  console.log('Hero3D component rendering...')
+  
   return (
     <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-black">
+      {/* Debug: Ensure section is visible */}
+      <div className="absolute top-4 left-4 text-white/50 text-sm z-50">
+        Hero3D Section Loaded ✅
+      </div>
+      
       {/* Background 3D Canvas */}
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 15], fov: 75 }}>
+        <Canvas 
+          camera={{ position: [0, 0, 15], fov: 75 }}
+          onCreated={() => console.log('Canvas created successfully')}
+          onError={(error) => console.error('Canvas error:', error)}
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true }}
+          fallback={<div className="w-full h-full bg-gray-900 flex items-center justify-center text-white">3D Loading...</div>}
+        >
           <Scene />
         </Canvas>
       </div>
       
       {/* Overlay Content */}
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen pt-20 pb-20">
           {/* Left side - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-left relative z-30"
+            className="text-left relative z-20"
           >
             {/* Background overlay for text readability */}
-            <div className="absolute inset-0 bg-black/40 rounded-2xl backdrop-blur-sm -z-10 p-8"></div>
+            <div className="absolute inset-2 bg-black/40 rounded-2xl backdrop-blur-sm -z-10 p-6 m-4"></div>
             <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 lg:mb-8"
               initial={{ opacity: 0, y: 30 }}
@@ -228,7 +249,7 @@ export default function Hero3D() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="relative z-30"
+            className="relative z-20"
           >
             <motion.div
               className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto"
@@ -246,21 +267,29 @@ export default function Hero3D() {
               
               {/* Main image container with 3D transform */}
               <motion.div 
-                className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/80 shadow-2xl bg-white"
+                className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white"
                 whileHover={{ 
-                  boxShadow: "0 25px 50px rgba(255, 255, 255, 0.2)",
-                  borderColor: "rgba(255, 255, 255, 1)"
+                  boxShadow: "0 25px 50px rgba(255, 255, 255, 0.3)",
+                  borderColor: "rgba(255, 255, 255, 1)",
+                  scale: 1.02
                 }}
                 transition={{ duration: 0.3 }}
               >
+                {/* Visible placeholder to test container */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center text-gray-600 font-bold text-lg">
+                  DT
+                </div>
+                
                 <Image
                   src="/profile.jpg"
-                  alt="Daniel Tremer"
+                  alt="Daniel Tremer - Profile Picture"
                   width={400}
                   height={400}
-                  className="w-full h-full object-cover transition-all duration-500 hover:brightness-110"
-                  priority
-                  unoptimized
+                  className="w-full h-full object-cover transition-all duration-500 hover:brightness-110 relative z-10"
+                  priority={true}
+                  unoptimized={true}
+                  onLoad={() => console.log('Profile image loaded successfully!')}
+                  onError={(e) => console.error('Profile image failed to load:', e)}
                 />
               </motion.div>
               

@@ -4,13 +4,15 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Text } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { Building2, Calendar, MapPin, Target, TestTube, Bot, Car, Star, Container } from 'lucide-react'
+import { Building2, Calendar, MapPin } from 'lucide-react'
+import Image from 'next/image'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useRef } from 'react'
+import * as THREE from 'three'
 import { 
   PorscheAnimation, 
   MercedesAnimation, 
-  DaimlerAnimation, 
   ControlFAnimation, 
-  UIPilotAnimation, 
   RoboWorkAnimation 
 } from './CompanyAnimations'
 
@@ -25,34 +27,11 @@ const experiences = [
     technologies: ["AI", "Data Science", "Proprietary AI Systems"],
     color: "#ffffff",
     position: [0, 6, 0] as [number, number, number],
-    icon: Target
+    logo: "control-f"
   },
+
   {
     id: 2,
-    company: "uipilot.ai",
-    role: "Builder",
-    period: "February 2025 - Present",
-    location: "Remote",
-    description: "Developing a no-code UI testing solution that eliminates repetitive test code.",
-    technologies: ["No-code UI Testing", "Web Applications"],
-    color: "#ffffff",
-    position: [8, 3, -3] as [number, number, number],
-    icon: TestTube
-  },
-  {
-    id: 3,
-    company: "RoboWork",
-    role: "Founder",
-    period: "March 2023 - Present",
-    location: "Berlin, Germany",
-    description: "Founded AI software solutions provider. Designing, developing, and deploying tailor-made AI solutions.",
-    technologies: ["Custom AI Solutions"],
-    color: "#ffffff",
-    position: [-8, 3, -3] as [number, number, number],
-    icon: Bot
-  },
-  {
-    id: 4,
     company: "Porsche AG",
     role: "Specialist, Data Science & AI Projects",
     period: "June 2021 - February 2024",
@@ -61,10 +40,10 @@ const experiences = [
     technologies: ["Azure ML", "Cloudera Suite", "SAP Data Warehouse Cloud", "Dataiku", "Python", "TensorFlow", "PySpark"],
     color: "#ffffff",
     position: [6, 0, 4] as [number, number, number],
-    icon: Car
+    logo: "porsche"
   },
   {
-    id: 5,
+    id: 3,
     company: "MBition GmbH",
     role: "Senior Product Owner",
     period: "August 2020 - June 2021",
@@ -73,10 +52,10 @@ const experiences = [
     technologies: ["Jira", "Confluence", "Agile", "Scrum", "Kanban"],
     color: "#ffffff",
     position: [-6, 0, 4] as [number, number, number],
-    icon: Star
+    logo: "mbition"
   },
   {
-    id: 6,
+    id: 4,
     company: "Daimler AG",
     role: "Technical Lead & Product Owner AI",
     period: "December 2019 - August 2020",
@@ -85,9 +64,36 @@ const experiences = [
     technologies: ["R", "Python", "React.js", "JavaScript", "Docker", "Kubernetes", "Jenkins", "Azure"],
     color: "#ffffff",
     position: [0, -3, -4] as [number, number, number],
-    icon: Container
+    logo: "mercedes"
   }
 ]
+
+// Get the appropriate company logo
+function getCompanyLogo(logoId: string, size: number = 24) {
+  const logoMap: { [key: string]: string } = {
+    'control-f': '/company_icons/control-f.png',
+    'porsche': '/company_icons/Porsche.png',
+    'mercedes': '/company_icons/Daimler.png', // Using Mercedes logo for Daimler as requested
+    'mbition': '/company_icons/mbition.webp', // MBition has its own logo
+  }
+
+  const logoPath = logoMap[logoId]
+  
+  if (logoPath) {
+    return (
+      <Image
+        src={logoPath}
+        alt={`${logoId} logo`}
+        width={size}
+        height={size}
+        className="object-contain"
+      />
+    )
+  }
+  
+  // Fallback to building icon if logo not found
+  return <Building2 size={size} className="text-white" />
+}
 
 // Get the appropriate animation component for each company
 function getCompanyAnimation(companyName: string, isActive: boolean) {
@@ -96,84 +102,105 @@ function getCompanyAnimation(companyName: string, isActive: boolean) {
   switch (companyName) {
     case "control-f GmbH":
       return <ControlFAnimation {...commonProps} />
-    case "uipilot.ai":
-      return <UIPilotAnimation {...commonProps} />
-    case "RoboWork":
-      return <RoboWorkAnimation {...commonProps} />
     case "Porsche AG":
       return <PorscheAnimation {...commonProps} />
     case "MBition GmbH":
       return <MercedesAnimation {...commonProps} />
     case "Daimler AG":
-      return <DaimlerAnimation {...commonProps} />
+      return <RoboWorkAnimation {...commonProps} />
     default:
       return <ControlFAnimation {...commonProps} />
   }
 }
 
-// 3D Experience Animation Component
-function ExperienceAnimation({ experience, isActive, onClick }: { 
-  experience: typeof experiences[0], 
-  isActive: boolean, 
-  onClick: () => void 
+// Billboard Text Component - Always faces the camera
+function BillboardText({ children, position, fontSize, ...props }: { 
+  children: React.ReactNode, 
+  position: [number, number, number], 
+  fontSize: number,
+  [key: string]: unknown
 }) {
+  const meshRef = useRef<THREE.Mesh>(null)
+  const { camera } = useThree()
+  
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.lookAt(camera.position)
+    }
+  })
+  
   return (
-    <group position={experience.position} onClick={onClick}>
-      {getCompanyAnimation(experience.company, isActive)}
+    <Text
+      ref={meshRef}
+      position={position}
+      fontSize={fontSize}
+      {...props}
+    >
+      {children}
+    </Text>
+  )
+}
+
+// Single Active Animation Component - Only shows the selected company
+function ActiveCompanyAnimation({ experience }: { experience: typeof experiences[0] }) {
+  return (
+    <group position={[0, 0, 0]}>
+      {getCompanyAnimation(experience.company, true)}
       
-      {/* Company Label */}
-      <Text
-        position={[0, -3, 0]}
-        fontSize={0.2}
-        color={isActive ? "#ffffff" : "#888"}
+      {/* Company Label - Always facing user */}
+      <BillboardText
+        position={[0, -5, 0]}
+        fontSize={0.5}
+        color="#ffffff"
         anchorX="center"
         anchorY="middle"
-        maxWidth={3}
+        maxWidth={10}
+        outlineWidth={0.02}
+        outlineColor="#000000"
       >
-{experience.company}
-      </Text>
+        {experience.company}
+      </BillboardText>
       
-      {/* Click Indicator */}
-      {!isActive && (
-        <Text
-          position={[0, -3.5, 0]}
-          fontSize={0.1}
-          color="#666"
-          anchorX="center"
-          anchorY="middle"
-        >
-          Click to explore
-        </Text>
-      )}
+      {/* Role Label - Always facing user */}
+      <BillboardText
+        position={[0, -6, 0]}
+        fontSize={0.25}
+        color="#ffffff"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={10}
+        outlineWidth={0.01}
+        outlineColor="#000000"
+      >
+        {experience.role}
+      </BillboardText>
     </group>
   )
 }
 
-// 3D Scene Component
-function Timeline3D({ activeExperience, setActiveExperience }: { activeExperience: number, setActiveExperience: (id: number) => void }) {
+// 3D Scene Component - Shows only the active company animation
+function Timeline3D({ activeExperience }: { activeExperience: number }) {
+  const currentExp = experiences.find(exp => exp.id === activeExperience) || experiences[0]
+  
   return (
     <>
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#8b5cf6" />
+      <ambientLight intensity={0.5} />
+      <pointLight position={[8, 8, 8]} intensity={1.2} color="#ffffff" />
+      <pointLight position={[-8, -8, -8]} intensity={0.6} color="#ffffff" />
+      <pointLight position={[0, 10, -5]} intensity={0.8} color="#ffffff" />
       
-      {experiences.map((exp) => (
-        <ExperienceAnimation
-          key={exp.id}
-          experience={exp}
-          isActive={activeExperience === exp.id}
-          onClick={() => setActiveExperience(exp.id)}
-        />
-      ))}
+      {/* Only render the active company's animation */}
+      <ActiveCompanyAnimation key={activeExperience} experience={currentExp} />
       
       <Environment preset="night" />
       <OrbitControls
         enableZoom={true}
         enablePan={true}
         autoRotate={true}
-        autoRotateSpeed={0.2}
-        maxDistance={20}
-        minDistance={5}
+        autoRotateSpeed={0.3}
+        maxDistance={15}
+        minDistance={3}
+        target={[0, 0, 0]}
       />
     </>
   )
@@ -226,7 +253,7 @@ export default function ExperienceTimeline() {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <exp.icon size={18} />
+                {getCompanyLogo(exp.logo, 18)}
                 {exp.company}
               </motion.button>
             ))}
@@ -242,17 +269,11 @@ export default function ExperienceTimeline() {
             viewport={{ once: true }}
             className="h-[600px] lg:h-[700px] xl:h-[800px] relative"
           >
-            <Canvas camera={{ position: [8, 5, 8], fov: 75 }}>
-              <Timeline3D 
-                activeExperience={activeExperience} 
-                setActiveExperience={setActiveExperience} 
-              />
+            <Canvas camera={{ position: [5, 3, 8], fov: 75 }}>
+              <Timeline3D activeExperience={activeExperience} />
             </Canvas>
             
-            {/* Controls Hint */}
-            <div className="absolute bottom-4 left-4 text-white/50 text-sm">
-              <p>🖱️ Click cards • 🔄 Drag to rotate • 📏 Scroll to zoom</p>
-            </div>
+
           </motion.div>
 
                       {/* Enhanced Experience Details Panel */}
@@ -272,7 +293,7 @@ export default function ExperienceTimeline() {
               <div className="relative bg-black/80 backdrop-blur-md rounded-2xl p-8 border-2 border-white/30 shadow-2xl">
                                  <div className="flex items-center gap-4 mb-6">
                    <div className="p-3 bg-white/10 rounded-full border border-white/30">
-                     <currentExp.icon size={24} className="text-white" />
+                     {getCompanyLogo(currentExp.logo, 24)}
                    </div>
                    <div>
                      <h3 className="text-2xl font-bold text-white">{currentExp.company}</h3>

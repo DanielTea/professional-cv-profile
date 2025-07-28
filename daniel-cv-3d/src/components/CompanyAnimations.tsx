@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Float, Box, Sphere, Text } from '@react-three/drei'
+import { Float, Box, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
 
 // Porsche Animation - Car with Data Streams
@@ -22,8 +22,8 @@ export function PorscheAnimation({ isActive }: { isActive: boolean }) {
   })
 
   return (
-    <Float speed={0.5} rotationIntensity={0.1} floatIntensity={0.2}>
-      <group ref={groupRef} position={[0, 0, 0]}>
+    <Float speed={0.5} rotationIntensity={0.2} floatIntensity={0.3}>
+      <group ref={groupRef} position={[0, 0, 0]} scale={[1.5, 1.5, 1.5]}>
         {/* Rectangular Car Visualization */}
         <group>
           {/* Main Car Frame */}
@@ -97,84 +97,103 @@ export function PorscheAnimation({ isActive }: { isActive: boolean }) {
           ))}
         </group>
 
-        {/* Data Analytics Labels */}
-        {isActive && (
-          <group>
-            <Text position={[0, 3, 0]} fontSize={0.2} color="#ffffff" anchorX="center">
-              PySpark Pipeline
-            </Text>
-            <Text position={[0, -3, 0]} fontSize={0.15} color="#ffffff" anchorX="center">
-              Vehicle Data Analysis
-            </Text>
-          </group>
-        )}
+        {/* Text removed to prevent overlap with main labels */}
       </group>
     </Float>
   )
 }
 
-// Mercedes Animation - Infotainment System
+// Mercedes Animation - Enhanced Infotainment System
 export function MercedesAnimation({ isActive }: { isActive: boolean }) {
   const screenRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
     if (screenRef.current && isActive) {
       screenRef.current.rotation.y = Math.sin(state.clock.elapsedTime) * 0.1
+      // Animate display content
+      screenRef.current.children.forEach((child, index) => {
+        if (child.type === 'Group' && index > 2) {
+          child.position.y += Math.sin(state.clock.elapsedTime * 2 + index) * 0.02
+        }
+      })
     }
   })
 
   return (
-    <Float speed={0.3} rotationIntensity={0.1} floatIntensity={0.2}>
-      <group ref={screenRef}>
-        {/* Car Dashboard */}
-        <Box args={[3, 0.1, 1.5]} position={[0, 0, 0]}>
-          <meshStandardMaterial color="#2a2a2a" />
-        </Box>
-        
-        {/* Central Display */}
-        <Box args={[1.5, 1, 0.1]} position={[0, 0.6, 0.75]}>
+    <Float speed={0.3} rotationIntensity={0.2} floatIntensity={0.3}>
+      <group ref={screenRef} scale={[1.5, 1.5, 1.5]}>
+        {/* Enhanced Car Dashboard Base */}
+        <Box args={[4, 0.2, 2]} position={[0, 0, 0]}>
           <meshStandardMaterial 
-            color={isActive ? "#1a1a2e" : "#333"} 
-            emissive={isActive ? "#0f0f2a" : "#111"}
-            emissiveIntensity={0.3}
+            color={isActive ? "#ffffff" : "#333"} 
+            emissive={isActive ? "#ffffff" : "#111"}
+            emissiveIntensity={isActive ? 0.2 : 0.1}
+            wireframe
           />
         </Box>
         
-        {/* Display Content */}
+        {/* Main Central Display - Larger and Clearer */}
+        <Box args={[2, 1.2, 0.1]} position={[0, 0.8, 0.9]}>
+          <meshStandardMaterial 
+            color={isActive ? "#ffffff" : "#333"} 
+            emissive={isActive ? "#ffffff" : "#111"}
+            emissiveIntensity={isActive ? 0.4 : 0.2}
+          />
+        </Box>
+        
+        {/* Enhanced Display Content */}
         {isActive && (
           <group>
-            <Box args={[0.1, 0.1, 0.02]} position={[-0.5, 0.7, 0.82]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+            {/* Menu Icons */}
+            <Box args={[0.15, 0.15, 0.02]} position={[-0.6, 0.9, 0.92]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
             </Box>
-            <Box args={[0.1, 0.1, 0.02]} position={[0, 0.7, 0.82]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+            <Box args={[0.15, 0.15, 0.02]} position={[-0.3, 0.9, 0.92]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
             </Box>
-            <Box args={[0.1, 0.1, 0.02]} position={[0.5, 0.7, 0.82]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+            <Box args={[0.15, 0.15, 0.02]} position={[0, 0.9, 0.92]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
+            </Box>
+            <Box args={[0.15, 0.15, 0.02]} position={[0.3, 0.9, 0.92]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
+            </Box>
+            <Box args={[0.15, 0.15, 0.02]} position={[0.6, 0.9, 0.92]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
+            </Box>
+            
+            {/* Content Area */}
+            <Box args={[1.5, 0.6, 0.02]} position={[0, 0.6, 0.92]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.3} />
             </Box>
           </group>
         )}
         
-        {/* Side Displays */}
-        <Box args={[0.8, 0.6, 0.05]} position={[-1.2, 0.5, 0.5]}>
+        {/* Enhanced Side Displays */}
+        <Box args={[1, 0.8, 0.05]} position={[-1.5, 0.6, 0.7]}>
           <meshStandardMaterial 
-            color={isActive ? "#1a1a2e" : "#333"} 
-            emissive={isActive ? "#0f0f2a" : "#111"}
-            emissiveIntensity={0.2}
+            color={isActive ? "#ffffff" : "#333"} 
+            emissive={isActive ? "#ffffff" : "#111"}
+            emissiveIntensity={isActive ? 0.3 : 0.1}
           />
         </Box>
-        <Box args={[0.8, 0.6, 0.05]} position={[1.2, 0.5, 0.5]}>
+        <Box args={[1, 0.8, 0.05]} position={[1.5, 0.6, 0.7]}>
           <meshStandardMaterial 
-            color={isActive ? "#1a1a2e" : "#333"} 
-            emissive={isActive ? "#0f0f2a" : "#111"}
-            emissiveIntensity={0.2}
+            color={isActive ? "#ffffff" : "#333"} 
+            emissive={isActive ? "#ffffff" : "#111"}
+            emissiveIntensity={isActive ? 0.3 : 0.1}
           />
         </Box>
-
+        
+        {/* Additional Navigation Elements */}
         {isActive && (
-          <Text position={[0, 2, 0]} fontSize={0.2} color="#ffffff" anchorX="center">
-            Next-Gen Infotainment
-          </Text>
+          <group>
+            <Box args={[0.3, 0.1, 0.05]} position={[-1.5, 0.2, 0.75]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.4} />
+            </Box>
+            <Box args={[0.3, 0.1, 0.05]} position={[1.5, 0.2, 0.75]}>
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.4} />
+            </Box>
+          </group>
         )}
       </group>
     </Float>
@@ -195,8 +214,8 @@ export function DaimlerAnimation({ isActive }: { isActive: boolean }) {
   })
 
   return (
-    <Float speed={0.4} rotationIntensity={0.1} floatIntensity={0.3}>
-      <group ref={containersRef}>
+    <Float speed={0.4} rotationIntensity={0.2} floatIntensity={0.4}>
+      <group ref={containersRef} scale={[1.5, 1.5, 1.5]}>
         {/* Docker Containers */}
         {Array.from({ length: 6 }, (_, i) => (
           <Box 
@@ -236,16 +255,7 @@ export function DaimlerAnimation({ isActive }: { isActive: boolean }) {
           </Box>
         ))}
 
-        {isActive && (
-          <group>
-            <Text position={[0, 2, 0]} fontSize={0.2} color="#ffffff" anchorX="center">
-              Microservices
-            </Text>
-            <Text position={[0, -2, 0]} fontSize={0.15} color="#ffffff" anchorX="center">
-              K8s + Docker
-            </Text>
-          </group>
-        )}
+        {/* Text removed to prevent overlap with main labels */}
       </group>
     </Float>
   )
@@ -270,8 +280,8 @@ export function ControlFAnimation({ isActive }: { isActive: boolean }) {
   })
 
   return (
-    <Float speed={0.6} rotationIntensity={0.2} floatIntensity={0.4}>
-      <group ref={neuralRef}>
+    <Float speed={0.6} rotationIntensity={0.3} floatIntensity={0.5}>
+      <group ref={neuralRef} scale={[1.2, 1.2, 1.2]}>
         {/* Enhanced Neural Network Layers */}
         {Array.from({ length: 4 }, (_, layerIndex) => (
           <group key={layerIndex} position={[(layerIndex - 1.5) * 2.2, 0, 0]}>
@@ -321,16 +331,7 @@ export function ControlFAnimation({ isActive }: { isActive: boolean }) {
           </group>
         ))}
 
-        {isActive && (
-          <group>
-            <Text position={[0, 2.5, 0]} fontSize={0.2} color="#8b5cf6" anchorX="center">
-              AI Platform
-            </Text>
-            <Text position={[0, -2.5, 0]} fontSize={0.15} color="#00ff88" anchorX="center">
-              Neural Networks
-            </Text>
-          </group>
-        )}
+        {/* Text removed to prevent overlap with main labels */}
       </group>
     </Float>
   )
@@ -351,8 +352,8 @@ export function UIPilotAnimation({ isActive }: { isActive: boolean }) {
   })
 
   return (
-    <Float speed={0.4} rotationIntensity={0.1} floatIntensity={0.2}>
-      <group ref={uiRef}>
+    <Float speed={0.4} rotationIntensity={0.2} floatIntensity={0.3}>
+      <group ref={uiRef} scale={[1.5, 1.5, 1.5]}>
         {/* Main Screen */}
         <Box args={[2, 1.5, 0.1]} position={[0, 0, 0]}>
           <meshStandardMaterial 
@@ -387,16 +388,7 @@ export function UIPilotAnimation({ isActive }: { isActive: boolean }) {
           </Sphere>
         )}
 
-        {isActive && (
-          <group>
-            <Text position={[0, 1.2, 0]} fontSize={0.2} color="#ffffff" anchorX="center">
-              No-Code Testing
-            </Text>
-            <Text position={[0, -1.2, 0]} fontSize={0.15} color="#ffffff" anchorX="center">
-              UI Automation
-            </Text>
-          </group>
-        )}
+        {/* Text removed to prevent overlap with main labels */}
       </group>
     </Float>
   )
@@ -420,8 +412,8 @@ export function RoboWorkAnimation({ isActive }: { isActive: boolean }) {
   })
 
   return (
-    <Float speed={0.4} rotationIntensity={0.1} floatIntensity={0.2}>
-      <group ref={aiRef}>
+    <Float speed={0.4} rotationIntensity={0.2} floatIntensity={0.3}>
+      <group ref={aiRef} scale={[1.8, 1.8, 1.8]}>
         {/* Central AI Core */}
         <Box args={[1, 1, 1]} position={[0, 0, 0]}>
           <meshStandardMaterial 
@@ -498,16 +490,7 @@ export function RoboWorkAnimation({ isActive }: { isActive: boolean }) {
           </Box>
         ))}
 
-        {isActive && (
-          <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.2} color="#ffffff" anchorX="center">
-              AI Neural Network
-            </Text>
-            <Text position={[0, -3.5, 0]} fontSize={0.15} color="#ffffff" anchorX="center">
-              Machine Learning
-            </Text>
-          </group>
-        )}
+        {/* Text removed to prevent overlap with main labels */}
       </group>
     </Float>
   )
