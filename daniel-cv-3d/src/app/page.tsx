@@ -13,7 +13,7 @@ const ProjectShowcase = dynamic(() => import('../components/ProjectShowcase'), {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-transparent">
       <Navbar />
       
       <Hero3D />
@@ -36,7 +36,7 @@ export default function Home() {
         </Suspense>
       </section>
       
-      <footer className="bg-black/20 p-8 text-center text-white/70">
+      <footer className="bg-black/20 p-8 text-center text-white/70 backdrop-blur-sm">
         <p>&copy; 2025 Daniel Tremer. All rights reserved.</p>
         <p className="mt-2">Built with Next.js, Three.js & Vercel</p>
       </footer>

@@ -1,13 +1,14 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Float, Environment } from '@react-three/drei'
+import { OrbitControls, Float, Environment, MeshTransmissionMaterial } from '@react-three/drei'
 import { motion } from 'framer-motion'
-import { useMemo } from 'react'
-import { Vector3 } from 'three'
+import { useMemo, useRef } from 'react'
+import { Vector3, Color } from 'three'
+import { useFrame } from '@react-three/fiber'
 import Image from 'next/image'
 
-// Abstract Triangle-like Floating Elements Component
+// Abstract Triangle-like Floating Elements Component with Oil Spill Reflections
 function FloatingElements() {
   // Generate random positions for abstract floating elements
   const elements = useMemo(() => {
@@ -21,79 +22,81 @@ function FloatingElements() {
       scale: Math.random() * 0.8 + 0.3,
       opacity: Math.random() * 0.5 + 0.2,
       rotationSpeed: (Math.random() - 0.5) * 0.02,
+      hueShift: Math.random() * 360,
     }))
   }, [])
 
   return (
     <>
       {elements.map((element) => (
-        <Float
-          key={element.id}
-          speed={0.6 + Math.random() * 0.6}
-          rotationIntensity={0.6}
-          floatIntensity={0.8}
-          position={element.position}
-        >
-          {element.id % 4 === 0 ? (
-            // Triangular Pyramid (Tetrahedron)
-            <mesh>
-              <tetrahedronGeometry args={[element.scale]} />
-              <meshStandardMaterial 
-                color="#ffffff" 
-                transparent 
-                opacity={element.opacity}
-                wireframe={element.id % 3 === 0}
-                metalness={0.5}
-                roughness={0.3}
-              />
-            </mesh>
-          ) : element.id % 4 === 1 ? (
-            // Octahedron (Double pyramid)
-            <mesh>
-              <octahedronGeometry args={[element.scale]} />
-              <meshStandardMaterial 
-                color="#ffffff" 
-                transparent 
-                opacity={element.opacity}
-                wireframe={element.id % 3 === 1}
-                metalness={0.6}
-                roughness={0.2}
-              />
-            </mesh>
-          ) : element.id % 4 === 2 ? (
-            // Icosahedron (Abstract triangular)
-            <mesh>
-              <icosahedronGeometry args={[element.scale]} />
-              <meshStandardMaterial 
-                color="#ffffff" 
-                transparent 
-                opacity={element.opacity}
-                wireframe={element.id % 3 === 2}
-                metalness={0.4}
-                roughness={0.4}
-              />
-            </mesh>
-          ) : (
-            // Stretched triangular prism
-            <mesh>
-              <cylinderGeometry args={[0, element.scale, element.scale * 2, 3]} />
-              <meshStandardMaterial 
-                color="#ffffff" 
-                transparent 
-                opacity={element.opacity}
-                wireframe={element.id % 2 === 0}
-                metalness={0.7}
-                roughness={0.1}
-              />
-            </mesh>
-          )}
-        </Float>
+        <FloatingElement key={element.id} element={element} />
       ))}
     </>
   )
 }
 
+// Individual floating element with oil spill reflection
+function FloatingElement({ element }: { element: any }) {
+  const meshRef = useRef<any>()
+  const materialRef = useRef<any>()
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x += element.rotationSpeed
+      meshRef.current.rotation.y += element.rotationSpeed * 0.7
+      meshRef.current.rotation.z += element.rotationSpeed * 0.3
+    }
+    
+    if (materialRef.current) {
+      // Create oil spill iridescent effect
+      const time = state.clock.elapsedTime
+      const hue = (element.hueShift + time * 30) % 360
+      const saturation = 0.8 + Math.sin(time * 2) * 0.2
+      const lightness = 0.6 + Math.sin(time * 3 + element.id) * 0.3
+      
+      materialRef.current.color = new Color().setHSL(hue / 360, saturation, lightness)
+      materialRef.current.emissive = new Color().setHSL((hue + 60) / 360, 0.5, 0.1)
+    }
+  })
 
+  const geometry = useMemo(() => {
+    if (element.id % 4 === 0) return 'tetrahedron'
+    if (element.id % 4 === 1) return 'octahedron'
+    if (element.id % 4 === 2) return 'icosahedron'
+    return 'pyramid'
+  }, [element.id])
+
+  return (
+    <Float
+      speed={0.6 + Math.random() * 0.6}
+      rotationIntensity={0.6}
+      floatIntensity={0.8}
+      position={element.position}
+    >
+      <mesh ref={meshRef}>
+        {geometry === 'tetrahedron' && <tetrahedronGeometry args={[element.scale]} />}
+        {geometry === 'octahedron' && <octahedronGeometry args={[element.scale]} />}
+        {geometry === 'icosahedron' && <icosahedronGeometry args={[element.scale]} />}
+        {geometry === 'pyramid' && <cylinderGeometry args={[0, element.scale, element.scale * 2, 3]} />}
+        
+        <meshPhysicalMaterial
+          ref={materialRef}
+          transparent
+          opacity={element.opacity}
+          metalness={0.9}
+          roughness={0.1}
+          clearcoat={1.0}
+          clearcoatRoughness={0.1}
+          reflectivity={1.0}
+          ior={1.5}
+          thickness={0.5}
+          transmission={element.id % 3 === 0 ? 0.3 : 0}
+          wireframe={element.id % 5 === 0}
+        />
+      </mesh>
+    </Float>
+  )
+}
 
 // Main 3D Scene
 function Scene() {
@@ -102,25 +105,45 @@ function Scene() {
   try {
     return (
       <>
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
-        <pointLight position={[-10, -10, -10]} intensity={0.4} color="#ffffff" />
-        <pointLight position={[0, 10, -10]} intensity={0.3} color="#ffffff" />
-        {/* Additional RGB accent lights */}
-        <pointLight position={[15, 5, 5]} intensity={0.2} color="#ff0040" />
-        <pointLight position={[-15, 5, 5]} intensity={0.2} color="#00ff40" />
-        <pointLight position={[0, 15, -5]} intensity={0.2} color="#0040ff" />
+        {/* Enhanced lighting for oil spill reflections */}
+        <ambientLight intensity={0.2} color="#ffffff" />
+        
+        {/* Main directional lights */}
+        <directionalLight position={[10, 10, 10]} intensity={1.2} color="#ffffff" castShadow />
+        <directionalLight position={[-10, 10, -10]} intensity={0.8} color="#ffffff" />
+        
+        {/* Point lights for iridescent effects */}
+        <pointLight position={[15, 5, 5]} intensity={0.6} color="#ff0080" />
+        <pointLight position={[-15, 5, 5]} intensity={0.6} color="#00ff80" />
+        <pointLight position={[0, 15, -5]} intensity={0.6} color="#0080ff" />
+        <pointLight position={[5, -10, 10]} intensity={0.4} color="#ff8000" />
+        <pointLight position={[-5, -10, 10]} intensity={0.4} color="#8000ff" />
+        <pointLight position={[0, 0, 20]} intensity={0.3} color="#ff0040" />
+        
+        {/* Spot lights for dramatic reflections */}
+        <spotLight
+          position={[0, 20, 0]}
+          angle={0.3}
+          penumbra={0.5}
+          intensity={0.8}
+          color="#ffffff"
+          castShadow
+        />
         
         <FloatingElements />
         
-        {/* Central visible element for debugging */}
+        {/* Central visible element for debugging with enhanced reflection */}
         <mesh position={[0, 0, -5]}>
           <icosahedronGeometry args={[1]} />
-          <meshStandardMaterial 
+          <meshPhysicalMaterial 
             color="#ffffff" 
             wireframe 
             transparent 
             opacity={0.1}
+            metalness={1.0}
+            roughness={0.0}
+            clearcoat={1.0}
+            reflectivity={1.0}
           />
         </mesh>
         
@@ -145,7 +168,7 @@ export default function Hero3D() {
   console.log('Hero3D component rendering...')
   
   return (
-    <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-black">
+    <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-transparent">
       {/* Debug: Ensure section is visible */}
       <div className="absolute top-4 left-4 text-white/50 text-sm z-50">
         Hero3D Section Loaded ✅
@@ -175,8 +198,8 @@ export default function Hero3D() {
             transition={{ duration: 1, delay: 0.5 }}
             className="text-left relative z-20"
           >
-            {/* Background overlay for text readability */}
-            <div className="absolute inset-2 bg-black/40 rounded-2xl backdrop-blur-sm -z-10 p-6 m-4"></div>
+            {/* Enhanced background overlay for text readability with oil spill reflection */}
+            <div className="absolute inset-2 bg-black/60 rounded-2xl backdrop-blur-sm -z-10 p-6 m-4 border border-white/10 shadow-2xl"></div>
             <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 lg:mb-8"
               initial={{ opacity: 0, y: 30 }}
@@ -207,13 +230,13 @@ export default function Hero3D() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.1 }}
             >
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base backdrop-blur-sm">
                 10+ Years Experience
               </span>
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base backdrop-blur-sm">
                 AI Specialist
               </span>
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white rounded-full border border-white/30 text-sm sm:text-base backdrop-blur-sm">
                 2K+ Followers
               </span>
             </motion.div>
@@ -225,7 +248,7 @@ export default function Hero3D() {
               transition={{ duration: 0.8, delay: 1.3 }}
             >
               <motion.button
-                className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 text-sm sm:text-base"
+                className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white/90 text-black rounded-full font-semibold hover:bg-white transition-all duration-300 text-sm sm:text-base backdrop-blur-sm"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.querySelector('#experience')?.scrollIntoView({ behavior: 'smooth' })}
@@ -234,7 +257,7 @@ export default function Hero3D() {
               </motion.button>
               
               <motion.button
-                className="px-6 py-2.5 sm:px-8 sm:py-3 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
+                className="px-6 py-2.5 sm:px-8 sm:py-3 border-2 border-white/50 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm sm:text-base backdrop-blur-sm"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open('mailto:info@danieltremer.com')}
@@ -257,20 +280,20 @@ export default function Hero3D() {
               transition={{ duration: 0.3 }}
               style={{ perspective: '1000px' }}
             >
-              {/* Enhanced RGB glow effects */}
-              <div className="absolute inset-0 bg-red-500 rounded-full blur-2xl opacity-5 animate-pulse" 
+              {/* Enhanced RGB glow effects with oil spill colors */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-2xl opacity-10 animate-pulse" 
                    style={{ animationDelay: '0s' }} />
-              <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-5 animate-pulse" 
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full blur-2xl opacity-10 animate-pulse" 
                    style={{ animationDelay: '0.33s' }} />
-              <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-5 animate-pulse" 
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full blur-2xl opacity-10 animate-pulse" 
                    style={{ animationDelay: '0.66s' }} />
               
               {/* Main image container with 3D transform */}
               <motion.div 
-                className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white"
+                className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/50 shadow-2xl bg-white backdrop-blur-sm"
                 whileHover={{ 
                   boxShadow: "0 25px 50px rgba(255, 255, 255, 0.3)",
-                  borderColor: "rgba(255, 255, 255, 1)",
+                  borderColor: "rgba(255, 255, 255, 0.8)",
                   scale: 1.02
                 }}
                 transition={{ duration: 0.3 }}
@@ -293,7 +316,7 @@ export default function Hero3D() {
                 />
               </motion.div>
               
-              {/* Multiple accent rings for depth */}
+              {/* Multiple accent rings for depth with iridescent effect */}
               <div className="absolute inset-0 rounded-full border border-white/30 animate-pulse" 
                    style={{ animationDuration: '2s' }} />
               <div className="absolute inset-2 rounded-full border border-white/20 animate-pulse" 
@@ -312,7 +335,7 @@ export default function Hero3D() {
           transition={{ duration: 0.8, delay: 2 }}
         >
           <motion.div
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
+            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center backdrop-blur-sm"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
