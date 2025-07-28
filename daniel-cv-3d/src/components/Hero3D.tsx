@@ -146,10 +146,6 @@ export default function Hero3D() {
   
   return (
     <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-black">
-      {/* Debug: Ensure section is visible */}
-      <div className="absolute top-4 left-4 text-white/50 text-sm z-50">
-        Hero3D Section Loaded ✅
-      </div>
       
       {/* Background 3D Canvas */}
       <div className="absolute inset-0 z-0">

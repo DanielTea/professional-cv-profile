@@ -1,20 +1,12 @@
 'use client'
 
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, Text } from '@react-three/drei'
+
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Building2, Calendar, MapPin } from 'lucide-react'
 import Image from 'next/image'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useRef } from 'react'
-import * as THREE from 'three'
-import { 
-  PorscheAnimation, 
-  MercedesAnimation, 
-  ControlFAnimation, 
-  RoboWorkAnimation 
-} from './CompanyAnimations'
+
+
 
 const experiences = [
   {
@@ -109,116 +101,9 @@ function getCompanyLogo(logoId: string, size: number = 32) {
   return <Building2 size={size} className="text-white" />
 }
 
-// Get the appropriate animation component for each company
-function getCompanyAnimation(companyName: string, isActive: boolean) {
-  const commonProps = { isActive };
-  
-  switch (companyName) {
-    case "control-f GmbH":
-      return <ControlFAnimation {...commonProps} />
-    case "Porsche AG":
-      return <PorscheAnimation {...commonProps} />
-    case "MBition GmbH":
-      return <MercedesAnimation {...commonProps} />
-    case "Daimler AG":
-      return <RoboWorkAnimation {...commonProps} />
-    default:
-      return <ControlFAnimation {...commonProps} />
-  }
-}
 
-// Billboard Text Component - Always faces the camera
-function BillboardText({ children, position, fontSize, ...props }: { 
-  children: React.ReactNode, 
-  position: [number, number, number], 
-  fontSize: number,
-  [key: string]: unknown
-}) {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const { camera } = useThree()
-  
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.lookAt(camera.position)
-    }
-  })
-  
-  return (
-    <Text
-      ref={meshRef}
-      position={position}
-      fontSize={fontSize}
-      {...props}
-    >
-      {children}
-    </Text>
-  )
-}
 
-// Single Active Animation Component - Only shows the selected company
-function ActiveCompanyAnimation({ experience }: { experience: typeof experiences[0] }) {
-  return (
-    <group position={[0, 0, 0]}>
-      {getCompanyAnimation(experience.company, true)}
-      
-      {/* Company Label - Always facing user */}
-      <BillboardText
-        position={[0, -5, 0]}
-        fontSize={0.5}
-        color="#ffffff"
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={10}
-        outlineWidth={0.02}
-        outlineColor="#000000"
-      >
-        {experience.company}
-      </BillboardText>
-      
-      {/* Role Label - Always facing user */}
-      <BillboardText
-        position={[0, -6, 0]}
-        fontSize={0.25}
-        color="#ffffff"
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={10}
-        outlineWidth={0.01}
-        outlineColor="#000000"
-      >
-        {experience.role}
-      </BillboardText>
-    </group>
-  )
-}
 
-// 3D Scene Component - Shows only the active company animation
-function Timeline3D({ activeExperience }: { activeExperience: number }) {
-  const currentExp = experiences.find(exp => exp.id === activeExperience) || experiences[0]
-  
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[8, 8, 8]} intensity={1.2} color="#ffffff" />
-      <pointLight position={[-8, -8, -8]} intensity={0.6} color="#ffffff" />
-      <pointLight position={[0, 10, -5]} intensity={0.8} color="#ffffff" />
-      
-      {/* Only render the active company's animation */}
-      <ActiveCompanyAnimation key={activeExperience} experience={currentExp} />
-      
-      <Environment preset="night" />
-      <OrbitControls
-        enableZoom={true}
-        enablePan={true}
-        autoRotate={true}
-        autoRotateSpeed={0.3}
-        maxDistance={15}
-        minDistance={3}
-        target={[0, 0, 0]}
-      />
-    </>
-  )
-}
 
 export default function ExperienceTimeline() {
   const [activeExperience, setActiveExperience] = useState(1)
@@ -262,9 +147,17 @@ export default function ExperienceTimeline() {
           className="mb-12"
         >
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            {experiences.map((exp) => (
+            {experiences.map((exp, index) => (
               <motion.button
                 key={exp.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                  ease: "easeOut"
+                }}
+                viewport={{ once: true }}
                 onClick={() => setActiveExperience(exp.id)}
                 className={`px-4 py-3 sm:px-6 sm:py-4 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 flex items-center gap-2 sm:gap-3 min-h-[50px] sm:min-h-[60px] ${
                   activeExperience === exp.id
@@ -283,28 +176,14 @@ export default function ExperienceTimeline() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start lg:items-center min-h-[80vh]">
-          {/* 3D Timeline Visualization */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true, amount: 0.1, margin: "0px 0px -100px 0px" }}
-            className="h-[600px] lg:h-[700px] xl:h-[800px] relative"
-          >
-            <Canvas camera={{ position: [5, 3, 8], fov: 75 }}>
-              <Timeline3D activeExperience={activeExperience} />
-            </Canvas>
-            
-
-          </motion.div>
-
-                      {/* Enhanced Experience Details Panel */}
+        <div className="flex justify-center">
+          {/* Enhanced Experience Details Panel */}
           <motion.div 
-            className="relative order-last lg:order-none w-full"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative w-full max-w-4xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
           >
             <motion.div
               key={activeExperience}

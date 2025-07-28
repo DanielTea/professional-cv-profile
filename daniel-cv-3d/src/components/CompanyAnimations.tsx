@@ -2,338 +2,493 @@
 
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Float, Box, Sphere } from '@react-three/drei'
+import { Float, Box } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Porsche Animation - Car with Data Streams
+// Porsche Animation - Data Analytics with Geometric Elements
 export function PorscheAnimation({ isActive }: { isActive: boolean }) {
   const groupRef = useRef<THREE.Group>(null)
-  const dataStreamsRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
     if (groupRef.current && isActive) {
-      groupRef.current.rotation.y += 0.01
-    }
-    if (dataStreamsRef.current && isActive) {
-      dataStreamsRef.current.children.forEach((child, index) => {
-        child.position.y = Math.sin(state.clock.elapsedTime * 2 + index) * 0.5
-      })
-    }
-  })
-
-  return (
-    <Float speed={0.5} rotationIntensity={0.2} floatIntensity={0.3}>
-      <group ref={groupRef} position={[0, 0, 0]} scale={[1.5, 1.5, 1.5]}>
-        {/* Rectangular Car Visualization */}
-        <group>
-          {/* Main Car Frame */}
-          <Box args={[4, 0.2, 2]} position={[0, 0.5, 0]}>
-            <meshStandardMaterial 
-              color={isActive ? "#ffffff" : "#333"} 
-              emissive={isActive ? "#ffffff" : "#111"}
-              emissiveIntensity={isActive ? 0.3 : 0.1}
-              wireframe
-            />
-          </Box>
-          {/* Car Outline */}
-          <Box args={[4.2, 0.05, 0.05]} position={[0, 0.5, 1]}>
-            <meshStandardMaterial 
-              color={isActive ? "#ffffff" : "#333"} 
-              emissive={isActive ? "#ffffff" : "#111"}
-              emissiveIntensity={isActive ? 0.4 : 0.1}
-            />
-          </Box>
-          <Box args={[4.2, 0.05, 0.05]} position={[0, 0.5, -1]}>
-            <meshStandardMaterial 
-              color={isActive ? "#ffffff" : "#333"} 
-              emissive={isActive ? "#ffffff" : "#111"}
-              emissiveIntensity={isActive ? 0.4 : 0.1}
-            />
-          </Box>
-          <Box args={[0.05, 0.05, 2]} position={[2.1, 0.5, 0]}>
-            <meshStandardMaterial 
-              color={isActive ? "#ffffff" : "#333"} 
-              emissive={isActive ? "#ffffff" : "#111"}
-              emissiveIntensity={isActive ? 0.4 : 0.1}
-            />
-          </Box>
-          <Box args={[0.05, 0.05, 2]} position={[-2.1, 0.5, 0]}>
-            <meshStandardMaterial 
-              color={isActive ? "#ffffff" : "#333"} 
-              emissive={isActive ? "#ffffff" : "#111"}
-              emissiveIntensity={isActive ? 0.4 : 0.1}
-            />
-          </Box>
-        </group>
-
-        {/* Linear Data Streams */}
-        <group ref={dataStreamsRef}>
-          {Array.from({ length: 16 }, (_, i) => (
-            <group key={i}>
-              <Box args={[0.1, 0.1, 0.1]} position={[
-                Math.cos(i * Math.PI / 8) * 5,
-                Math.sin(i * Math.PI / 8) * 2.5,
-                Math.sin(i * Math.PI / 4) * 3
-              ]}>
-                <meshStandardMaterial 
-                  color={isActive ? "#ffffff" : "#444"} 
-                  emissive={isActive ? "#ffffff" : "#111"}
-                  emissiveIntensity={isActive ? 0.6 : 0.1}
-                />
-              </Box>
-              {/* Data Flow Lines */}
-              <Box args={[0.02, 0.02, 2.5]} position={[
-                Math.cos(i * Math.PI / 8) * 2.5,
-                Math.sin(i * Math.PI / 8) * 1.25,
-                Math.sin(i * Math.PI / 4) * 1.5
-              ]}>
-                <meshStandardMaterial 
-                  color={isActive ? "#ffffff" : "#444"} 
-                  emissive={isActive ? "#ffffff" : "#111"}
-                  emissiveIntensity={isActive ? 0.4 : 0.1}
-                />
-              </Box>
-            </group>
-          ))}
-        </group>
-
-        {/* Text removed to prevent overlap with main labels */}
-      </group>
-    </Float>
-  )
-}
-
-// Mercedes Animation - Enhanced Infotainment System
-export function MercedesAnimation({ isActive }: { isActive: boolean }) {
-  const screenRef = useRef<THREE.Group>(null)
-  
-  useFrame((state) => {
-    if (screenRef.current && isActive) {
-      screenRef.current.rotation.y = Math.sin(state.clock.elapsedTime) * 0.1
-      // Animate display content
-      screenRef.current.children.forEach((child, index) => {
-        if (child.type === 'Group' && index > 2) {
-          child.position.y += Math.sin(state.clock.elapsedTime * 2 + index) * 0.02
-        }
-      })
-    }
-  })
-
-  return (
-    <Float speed={0.3} rotationIntensity={0.2} floatIntensity={0.3}>
-      <group ref={screenRef} scale={[1.5, 1.5, 1.5]}>
-        {/* Enhanced Car Dashboard Base */}
-        <Box args={[4, 0.2, 2]} position={[0, 0, 0]}>
-          <meshStandardMaterial 
-            color={isActive ? "#ffffff" : "#333"} 
-            emissive={isActive ? "#ffffff" : "#111"}
-            emissiveIntensity={isActive ? 0.2 : 0.1}
-            wireframe
-          />
-        </Box>
-        
-        {/* Main Central Display - Larger and Clearer */}
-        <Box args={[2, 1.2, 0.1]} position={[0, 0.8, 0.9]}>
-          <meshStandardMaterial 
-            color={isActive ? "#ffffff" : "#333"} 
-            emissive={isActive ? "#ffffff" : "#111"}
-            emissiveIntensity={isActive ? 0.4 : 0.2}
-          />
-        </Box>
-        
-        {/* Enhanced Display Content */}
-        {isActive && (
-          <group>
-            {/* Menu Icons */}
-            <Box args={[0.15, 0.15, 0.02]} position={[-0.6, 0.9, 0.92]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
-            </Box>
-            <Box args={[0.15, 0.15, 0.02]} position={[-0.3, 0.9, 0.92]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
-            </Box>
-            <Box args={[0.15, 0.15, 0.02]} position={[0, 0.9, 0.92]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
-            </Box>
-            <Box args={[0.15, 0.15, 0.02]} position={[0.3, 0.9, 0.92]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
-            </Box>
-            <Box args={[0.15, 0.15, 0.02]} position={[0.6, 0.9, 0.92]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} />
-            </Box>
-            
-            {/* Content Area */}
-            <Box args={[1.5, 0.6, 0.02]} position={[0, 0.6, 0.92]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.3} />
-            </Box>
-          </group>
-        )}
-        
-        {/* Enhanced Side Displays */}
-        <Box args={[1, 0.8, 0.05]} position={[-1.5, 0.6, 0.7]}>
-          <meshStandardMaterial 
-            color={isActive ? "#ffffff" : "#333"} 
-            emissive={isActive ? "#ffffff" : "#111"}
-            emissiveIntensity={isActive ? 0.3 : 0.1}
-          />
-        </Box>
-        <Box args={[1, 0.8, 0.05]} position={[1.5, 0.6, 0.7]}>
-          <meshStandardMaterial 
-            color={isActive ? "#ffffff" : "#333"} 
-            emissive={isActive ? "#ffffff" : "#111"}
-            emissiveIntensity={isActive ? 0.3 : 0.1}
-          />
-        </Box>
-        
-        {/* Additional Navigation Elements */}
-        {isActive && (
-          <group>
-            <Box args={[0.3, 0.1, 0.05]} position={[-1.5, 0.2, 0.75]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.4} />
-            </Box>
-            <Box args={[0.3, 0.1, 0.05]} position={[1.5, 0.2, 0.75]}>
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.4} />
-            </Box>
-          </group>
-        )}
-      </group>
-    </Float>
-  )
-}
-
-// Daimler Animation - Microservices Architecture
-export function DaimlerAnimation({ isActive }: { isActive: boolean }) {
-  const containersRef = useRef<THREE.Group>(null)
-  
-  useFrame((state) => {
-    if (containersRef.current && isActive) {
-      containersRef.current.children.forEach((child, index) => {
-        child.rotation.y += 0.02 * (index % 2 === 0 ? 1 : -1)
-        child.position.y += Math.sin(state.clock.elapsedTime * 2 + index) * 0.05
-      })
-    }
-  })
-
-  return (
-    <Float speed={0.4} rotationIntensity={0.2} floatIntensity={0.4}>
-      <group ref={containersRef} scale={[1.5, 1.5, 1.5]}>
-        {/* Docker Containers */}
-        {Array.from({ length: 6 }, (_, i) => (
-          <Box 
-            key={i}
-            args={[0.8, 0.8, 0.8]} 
-            position={[
-              (i % 3 - 1) * 1.5,
-              Math.floor(i / 3) * 1.5 - 0.75,
-              0
-            ]}
-          >
-            <meshStandardMaterial 
-              color={isActive ? `hsl(${i * 60}, 70%, 60%)` : "#444"} 
-              emissive={isActive ? `hsl(${i * 60}, 70%, 30%)` : "#111"}
-              emissiveIntensity={isActive ? 0.3 : 0.1}
-            />
-          </Box>
-        ))}
-        
-        {/* Connection Lines */}
-        {isActive && Array.from({ length: 5 }, (_, i) => (
-          <Box
-            key={`line-${i}`}
-            args={[0.05, 0.05, 1.2]}
-            position={[
-              (i % 2) * 1.5 - 0.75,
-              i * 0.3 - 0.6,
-              0
-            ]}
-            rotation={[0, 0, Math.PI / 4]}
-          >
-            <meshStandardMaterial 
-              color="#ffffff" 
-              emissive="#ffffff"
-              emissiveIntensity={0.5}
-            />
-          </Box>
-        ))}
-
-        {/* Text removed to prevent overlap with main labels */}
-      </group>
-    </Float>
-  )
-}
-
-// Control-F Animation - AI Neural Network
-export function ControlFAnimation({ isActive }: { isActive: boolean }) {
-  const neuralRef = useRef<THREE.Group>(null)
-  
-  useFrame((state) => {
-    if (neuralRef.current && isActive) {
-      neuralRef.current.rotation.y += 0.01
-      neuralRef.current.children.forEach((child, index) => {
+      groupRef.current.children.forEach((child, index) => {
         if (child.type === 'Group') {
-          (child as THREE.Group).children.forEach((neuron, i) => {
-            const scale = 1 + Math.sin(state.clock.elapsedTime * 3 + index + i) * 0.2
-            neuron.scale.setScalar(scale)
-          })
+          child.rotation.y = state.clock.elapsedTime * 0.3 + index * 0.5
+          child.position.y = Math.sin(state.clock.elapsedTime * 2 + index) * 0.3
         }
       })
     }
   })
 
   return (
-    <Float speed={0.6} rotationIntensity={0.3} floatIntensity={0.5}>
-      <group ref={neuralRef} scale={[1.2, 1.2, 1.2]}>
-        {/* Enhanced Neural Network Layers */}
-        {Array.from({ length: 4 }, (_, layerIndex) => (
-          <group key={layerIndex} position={[(layerIndex - 1.5) * 2.2, 0, 0]}>
-            {Array.from({ length: 6 }, (_, neuronIndex) => (
-              <Sphere 
-                key={neuronIndex}
-                args={[0.25]} 
-                position={[0, (neuronIndex - 2.5) * 1.2, 0]}
-              >
-                <meshStandardMaterial 
-                  color={isActive ? "#ffffff" : "#444"} 
-                  emissive={isActive ? "#ffffff" : "#111"}
-                  emissiveIntensity={isActive ? 0.6 : 0.1}
-                />
-              </Sphere>
-            ))}
-          </group>
-        ))}
-        
-        {/* Enhanced Neural Connections */}
-        {isActive && Array.from({ length: 3 }, (_, connectionLayer) => (
-          <group key={`connections-${connectionLayer}`}>
-            {Array.from({ length: 36 }, (_, i) => (
-              <Box
-                key={i}
-                args={[2, 0.04, 0.04]}
-                position={[
-                  (connectionLayer - 1) * 2.2 + 1.1,
-                  ((i % 6) - 2.5) * 1.2,
-                  0
-                ]}
-                rotation={[
-                  0,
-                  0,
-                  (Math.floor(i / 6) - 2.5) * 0.25
-                ]}
-              >
-                <meshStandardMaterial 
-                  color="#ffffff" 
-                  emissive="#ffffff"
-                  emissiveIntensity={0.4}
-                  transparent
-                  opacity={0.8}
-                />
-              </Box>
-            ))}
-          </group>
+    <group ref={groupRef} scale={[1.2, 1.2, 1.2]}>
+      {/* Central Data Core - Icosahedron */}
+      <Float speed={0.6} rotationIntensity={0.8} floatIntensity={0.5}>
+        <mesh position={[0, 0, 0]}>
+          <icosahedronGeometry args={[1.2]} />
+          <meshStandardMaterial 
+            color={isActive ? "#ffffff" : "#444"} 
+            transparent 
+            opacity={isActive ? 0.8 : 0.3}
+            wireframe
+            metalness={0.8}
+            roughness={0.2}
+          />
+        </mesh>
+      </Float>
+
+      {/* Data Processing Nodes - Octahedrons */}
+      {Array.from({ length: 8 }, (_, i) => (
+        <Float
+          key={i}
+          speed={0.8 + i * 0.1}
+          rotationIntensity={0.6}
+          floatIntensity={0.4}
+          position={[
+            Math.cos(i * Math.PI / 4) * 3,
+            Math.sin(i * Math.PI / 4) * 2,
+            Math.sin(i * Math.PI / 2) * 2
+          ]}
+        >
+          <mesh>
+            <octahedronGeometry args={[0.4]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.7 : 0.2}
+              wireframe={i % 2 === 0}
+              metalness={0.6}
+              roughness={0.3}
+            />
+          </mesh>
+        </Float>
+      ))}
+
+      {/* Data Stream Connectors - Tetrahedrons */}
+      {Array.from({ length: 12 }, (_, i) => (
+        <Float
+          key={`stream-${i}`}
+          speed={1.0 + i * 0.05}
+          rotationIntensity={0.4}
+          floatIntensity={0.6}
+          position={[
+            Math.cos(i * Math.PI / 6) * 5,
+            Math.sin(i * Math.PI / 6) * 3,
+            Math.cos(i * Math.PI / 3) * 3
+          ]}
+        >
+          <mesh>
+            <tetrahedronGeometry args={[0.2]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.6 : 0.2}
+              metalness={0.7}
+              roughness={0.1}
+            />
+          </mesh>
+        </Float>
+      ))}
+    </group>
+  )
+}
+
+// Mercedes Animation - UI/UX Interface Elements
+export function MercedesAnimation({ isActive }: { isActive: boolean }) {
+  const interfaceRef = useRef<THREE.Group>(null)
+  
+  useFrame((state) => {
+    if (interfaceRef.current && isActive) {
+      interfaceRef.current.children.forEach((child, index) => {
+        if (child.type === 'Group') {
+          child.rotation.z = Math.sin(state.clock.elapsedTime * 0.5 + index) * 0.1
+          child.position.y = Math.sin(state.clock.elapsedTime * 1.5 + index * 0.5) * 0.2
+        }
+      })
+    }
+  })
+
+    return (
+    <group ref={interfaceRef} scale={[1.2, 1.2, 1.2]}>
+      {/* Central Interface Hub - Dodecahedron */}
+      <Float speed={0.4} rotationIntensity={0.6} floatIntensity={0.3}>
+        <mesh position={[0, 0, 0]}>
+          <dodecahedronGeometry args={[1]} />
+          <meshStandardMaterial 
+            color={isActive ? "#ffffff" : "#444"} 
+            transparent 
+            opacity={isActive ? 0.7 : 0.3}
+            wireframe
+            metalness={0.6}
+            roughness={0.3}
+          />
+        </mesh>
+      </Float>
+
+      {/* Interface Screens - Flat triangular prisms */}
+      {Array.from({ length: 3 }, (_, i) => (
+        <Float
+          key={`screen-${i}`}
+          speed={0.6 + i * 0.1}
+          rotationIntensity={0.3}
+          floatIntensity={0.4}
+          position={[
+            Math.cos(i * Math.PI * 2 / 3) * 2.5,
+            Math.sin(i * Math.PI * 2 / 3) * 1.5,
+            0
+          ]}
+        >
+          <mesh rotation={[0, 0, i * Math.PI * 2 / 3]}>
+            <cylinderGeometry args={[0, 0.8, 0.1, 3]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.8 : 0.3}
+              metalness={0.8}
+              roughness={0.1}
+            />
+          </mesh>
+        </Float>
+      ))}
+
+      {/* UI Elements - Small tetrahedrons */}
+      {Array.from({ length: 9 }, (_, i) => (
+        <Float
+          key={`ui-${i}`}
+          speed={0.8 + i * 0.05}
+          rotationIntensity={0.5}
+          floatIntensity={0.6}
+          position={[
+            Math.cos(i * Math.PI / 4.5) * 4,
+            Math.sin(i * Math.PI / 4.5) * 3,
+            Math.sin(i * Math.PI / 3) * 2
+          ]}
+        >
+          <mesh>
+            <tetrahedronGeometry args={[0.15]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.6 : 0.2}
+              metalness={0.7}
+              roughness={0.2}
+            />
+          </mesh>
+        </Float>
+      ))}
+
+      {/* Data Flow Connectors - Thin icosahedrons */}
+      {Array.from({ length: 6 }, (_, i) => (
+        <Float
+          key={`connector-${i}`}
+          speed={1.2 + i * 0.1}
+          rotationIntensity={0.8}
+          floatIntensity={0.3}
+          position={[
+            Math.cos(i * Math.PI / 3) * 3.5,
+            Math.sin(i * Math.PI / 3) * 2.5,
+            1
+          ]}
+        >
+          <mesh>
+            <icosahedronGeometry args={[0.2]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.5 : 0.2}
+              wireframe={i % 2 === 0}
+              metalness={0.5}
+              roughness={0.4}
+            />
+          </mesh>
+        </Float>
+      ))}
+    </group>
+  )
+}
+
+// Daimler Animation - Technical Architecture with Geometric Elements
+export function DaimlerAnimation({ isActive }: { isActive: boolean }) {
+  const architectureRef = useRef<THREE.Group>(null)
+  
+  useFrame((state) => {
+    if (architectureRef.current && isActive) {
+      architectureRef.current.children.forEach((child, index) => {
+        if (child.type === 'Group') {
+          child.rotation.x = Math.sin(state.clock.elapsedTime * 0.4 + index) * 0.2
+          child.position.y = Math.sin(state.clock.elapsedTime * 1.5 + index * 0.8) * 0.2
+        }
+      })
+    }
+  })
+
+  return (
+    <group ref={architectureRef} scale={[1.3, 1.3, 1.3]}>
+      {/* Central Architecture Hub - Larger icosahedron */}
+      <Float speed={0.5} rotationIntensity={0.4} floatIntensity={0.3}>
+        <mesh position={[0, 0, 0]}>
+          <icosahedronGeometry args={[1.4]} />
+          <meshStandardMaterial 
+            color={isActive ? "#ffffff" : "#444"} 
+            transparent 
+            opacity={isActive ? 0.6 : 0.3}
+            wireframe
+            metalness={0.9}
+            roughness={0.1}
+          />
+        </mesh>
+      </Float>
+
+      {/* Microservice Containers - Octahedrons */}
+      {Array.from({ length: 8 }, (_, i) => (
+        <Float
+          key={`container-${i}`}
+          speed={0.7 + i * 0.1}
+          rotationIntensity={0.5}
+          floatIntensity={0.4}
+          position={[
+            Math.cos(i * Math.PI / 4) * 3.5,
+            Math.sin(i * Math.PI / 4) * 2.5,
+            Math.sin(i * Math.PI / 2) * 1.5
+          ]}
+        >
+          <mesh>
+            <octahedronGeometry args={[0.5]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.8 : 0.3}
+              wireframe={i % 3 === 0}
+              metalness={0.7}
+              roughness={0.3}
+            />
+          </mesh>
+        </Float>
+      ))}
+
+      {/* Connection Nodes - Dodecahedrons */}
+      {Array.from({ length: 12 }, (_, i) => (
+        <Float
+          key={`node-${i}`}
+          speed={0.9 + i * 0.05}
+          rotationIntensity={0.6}
+          floatIntensity={0.5}
+          position={[
+            Math.cos(i * Math.PI / 6) * 5,
+            Math.sin(i * Math.PI / 6) * 3.5,
+            Math.cos(i * Math.PI / 4) * 2
+          ]}
+        >
+          <mesh>
+            <dodecahedronGeometry args={[0.2]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.7 : 0.2}
+              metalness={0.8}
+              roughness={0.2}
+            />
+          </mesh>
+        </Float>
+      ))}
+    </group>
+  )
+}
+
+// Control-F Animation - Managing Director Leadership Hub
+export function ControlFAnimation({ isActive }: { isActive: boolean }) {
+  const leadershipRef = useRef<THREE.Group>(null)
+  const communicationLinesRef = useRef<THREE.Group>(null)
+  
+  useFrame((state) => {
+    if (leadershipRef.current && isActive) {
+      const time = state.clock.elapsedTime
+      
+      leadershipRef.current.children.forEach((child, index) => {
+        if (child.type === 'Group') {
+          // Orchestrated team movements - synchronized but with individual character
+          const teamSync = Math.sin(time * 0.8) * 0.2
+          const individualMotion = Math.sin(time * 1.2 + index * 0.5) * 0.1
+          
+          child.rotation.y = time * 0.4 + index * 0.3
+          child.position.y = teamSync + individualMotion
+          
+          // Pulsing effect for leadership influence
+          const scale = 1 + Math.sin(time * 2 + index) * 0.1
+          child.scale.setScalar(scale)
+        }
+      })
+    }
+
+    // Animate communication pulses
+    if (communicationLinesRef.current && isActive) {
+      const time = state.clock.elapsedTime
+      
+      communicationLinesRef.current.children.forEach((lineGroup, index) => {
+        // Each lineGroup now contains only the pulse sphere
+        if (lineGroup.children.length >= 1) {
+          const pulseSphere = lineGroup.children[0] // First (and only) child is the pulse sphere
+          const userData = pulseSphere.userData
+          
+          if (userData && userData.dist && userData.speed) {
+            // Calculate pulse position along the line
+            const cycleProgress = ((time * userData.speed) % 1)
+            const pulsePosition = cycleProgress * userData.dist - userData.dist / 2
+            
+            // Move pulse along the Z axis (direction of the line)
+            pulseSphere.position.z = pulsePosition
+            
+            // Fade pulse at the ends for smooth cycling
+            const material = (pulseSphere as THREE.Mesh).material as THREE.MeshStandardMaterial
+            const fadeZone = 0.1
+            let opacity = 1.0
+            
+            if (cycleProgress < fadeZone) {
+              opacity = cycleProgress / fadeZone
+            } else if (cycleProgress > 1 - fadeZone) {
+              opacity = (1 - cycleProgress) / fadeZone
+            }
+            
+            material.opacity = opacity
+            material.transparent = true
+          }
+        }
+      })
+    }
+  })
+
+  return (
+    <>
+      {/* Leadership Core and surrounding elements */}
+      <group ref={leadershipRef} scale={[1.5, 1.5, 1.5]}>
+        {/* Central Leadership Command - Brilliant dodecahedron */}
+        <Float speed={0.6} rotationIntensity={0.8} floatIntensity={0.5}>
+          <mesh position={[0, 0, 0]}>
+            <dodecahedronGeometry args={[1.2]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.95 : 0.3}
+              wireframe
+              metalness={1.0}
+              roughness={0.0}
+              emissive={isActive ? "#ffffff" : "#000"}
+              emissiveIntensity={isActive ? 0.2 : 0.0}
+            />
+          </mesh>
+        </Float>
+
+        {/* Team Members - Dynamic team constellation */}
+        {Array.from({ length: 8 }, (_, i) => (
+          <Float
+            key={`team-${i}`}
+            speed={0.8 + i * 0.1}
+            rotationIntensity={0.6}
+            floatIntensity={0.6}
+            position={[
+              Math.cos(i * Math.PI / 4) * 3,
+              Math.sin(i * Math.PI / 4) * 2,
+              Math.sin(i * Math.PI / 2) * 1.5
+            ]}
+          >
+            <mesh>
+              <icosahedronGeometry args={[0.4]} />
+              <meshStandardMaterial 
+                color={isActive ? "#ffffff" : "#444"} 
+                transparent 
+                opacity={isActive ? 0.8 : 0.3}
+                wireframe={i % 3 === 0}
+                metalness={0.8}
+                roughness={0.2}
+              />
+            </mesh>
+          </Float>
         ))}
 
-        {/* Text removed to prevent overlap with main labels */}
+        {/* AI Solutions Network - Cutting-edge delivery systems */}
+        {Array.from({ length: 12 }, (_, i) => (
+          <Float
+            key={`solution-${i}`}
+            speed={1.0 + i * 0.08}
+            rotationIntensity={0.7}
+            floatIntensity={0.7}
+            position={[
+              Math.cos(i * Math.PI / 6) * 4.5,
+              Math.sin(i * Math.PI / 6) * 3,
+              Math.cos(i * Math.PI / 4) * 2.5
+            ]}
+          >
+            <mesh>
+              <tetrahedronGeometry args={[0.25]} />
+              <meshStandardMaterial 
+                color={isActive ? "#ffffff" : "#444"} 
+                transparent 
+                opacity={isActive ? 0.7 : 0.2}
+                metalness={0.9}
+                roughness={0.1}
+              />
+            </mesh>
+          </Float>
+        ))}
+
+        {/* Global Reach - Worldwide delivery network */}
+        {Array.from({ length: 16 }, (_, i) => (
+          <Float
+            key={`global-${i}`}
+            speed={1.2 + i * 0.05}
+            rotationIntensity={0.9}
+            floatIntensity={0.8}
+            position={[
+              Math.cos(i * Math.PI / 8) * 6,
+              Math.sin(i * Math.PI / 8) * 4,
+              Math.sin(i * Math.PI / 4) * 3.5
+            ]}
+          >
+            <mesh>
+              <octahedronGeometry args={[0.15]} />
+              <meshStandardMaterial 
+                color={isActive ? "#ffffff" : "#444"} 
+                transparent 
+                opacity={isActive ? 0.6 : 0.2}
+                wireframe={i % 4 === 0}
+                metalness={0.7}
+                roughness={0.3}
+              />
+            </mesh>
+          </Float>
+        ))}
+
+        {/* Innovation Streams - Proprietary AI systems */}
+        {Array.from({ length: 6 }, (_, i) => (
+          <Float
+            key={`innovation-${i}`}
+            speed={1.4 + i * 0.1}
+            rotationIntensity={1.0}
+            floatIntensity={0.9}
+            position={[
+              Math.cos(i * Math.PI / 3) * 7.5,
+              Math.sin(i * Math.PI / 3) * 5,
+              Math.cos(i * Math.PI / 2) * 4
+            ]}
+          >
+            <mesh>
+              <dodecahedronGeometry args={[0.2]} />
+              <meshStandardMaterial 
+                color={isActive ? "#ffffff" : "#444"} 
+                transparent 
+                opacity={isActive ? 0.9 : 0.2}
+                metalness={1.0}
+                roughness={0.0}
+                emissive={isActive ? "#ffffff" : "#000"}
+                emissiveIntensity={isActive ? 0.3 : 0.0}
+              />
+            </mesh>
+          </Float>
+        ))}
       </group>
-    </Float>
+
+
+    </>
   )
 }
 
@@ -352,7 +507,7 @@ export function UIPilotAnimation({ isActive }: { isActive: boolean }) {
   })
 
   return (
-    <Float speed={0.4} rotationIntensity={0.2} floatIntensity={0.3}>
+    <Float speed={0.4} rotationIntensity={0} floatIntensity={0.3}>
       <group ref={uiRef} scale={[1.5, 1.5, 1.5]}>
         {/* Main Screen */}
         <Box args={[2, 1.5, 0.1]} position={[0, 0, 0]}>
@@ -383,9 +538,9 @@ export function UIPilotAnimation({ isActive }: { isActive: boolean }) {
         
         {/* Testing Cursor */}
         {isActive && (
-          <Sphere args={[0.08]} position={[0.5, 0.3, 0.15]}>
+          <Box args={[0.15, 0.15, 0.15]} position={[0.5, 0.3, 0.15]}>
             <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.8} />
-          </Sphere>
+          </Box>
         )}
 
         {/* Text removed to prevent overlap with main labels */}
@@ -394,104 +549,116 @@ export function UIPilotAnimation({ isActive }: { isActive: boolean }) {
   )
 }
 
-// RoboWork Animation - AI Network Visualization
+// RoboWork Animation - Technical Leadership Network
 export function RoboWorkAnimation({ isActive }: { isActive: boolean }) {
-  const aiRef = useRef<THREE.Group>(null)
+  const leadershipRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
-    if (aiRef.current && isActive) {
-      aiRef.current.rotation.y += 0.008
-      // Animate AI nodes
-      aiRef.current.children.forEach((child, index) => {
+    if (leadershipRef.current && isActive) {
+      leadershipRef.current.children.forEach((child, index) => {
         if (child.type === 'Group') {
-          const scale = 1 + Math.sin(state.clock.elapsedTime * 3 + index) * 0.15
-          child.scale.setScalar(scale)
+          child.rotation.z = Math.sin(state.clock.elapsedTime * 0.3 + index) * 0.15
+          child.position.y = Math.sin(state.clock.elapsedTime * 1.2 + index * 0.6) * 0.25
         }
       })
     }
   })
 
   return (
-    <Float speed={0.4} rotationIntensity={0.2} floatIntensity={0.3}>
-      <group ref={aiRef} scale={[1.8, 1.8, 1.8]}>
-        {/* Central AI Core */}
-        <Box args={[1, 1, 1]} position={[0, 0, 0]}>
+    <group ref={leadershipRef} scale={[1.3, 1.3, 1.3]}>
+      {/* Central Leadership Core - Dodecahedron */}
+      <Float speed={0.3} rotationIntensity={0.5} floatIntensity={0.4}>
+        <mesh position={[0, 0, 0]}>
+          <dodecahedronGeometry args={[1.3]} />
           <meshStandardMaterial 
             color={isActive ? "#ffffff" : "#444"} 
-            emissive={isActive ? "#ffffff" : "#111"}
-            emissiveIntensity={isActive ? 0.4 : 0.1}
+            transparent 
+            opacity={isActive ? 0.8 : 0.3}
             wireframe
+            metalness={0.8}
+            roughness={0.2}
           />
-        </Box>
-        
-        {/* AI Processing Lines */}
-        {Array.from({ length: 8 }, (_, i) => (
-          <group key={i}>
-            <Box 
-              args={[3, 0.05, 0.05]} 
-              position={[
-                Math.cos(i * Math.PI / 4) * 1.5,
-                Math.sin(i * Math.PI / 4) * 1.5,
-                0
-              ]}
-              rotation={[0, 0, i * Math.PI / 4]}
-            >
-              <meshStandardMaterial 
-                color={isActive ? "#ffffff" : "#444"} 
-                emissive={isActive ? "#ffffff" : "#111"}
-                emissiveIntensity={isActive ? 0.3 : 0.1}
-              />
-            </Box>
-          </group>
-        ))}
+        </mesh>
+      </Float>
 
-        {/* AI Data Nodes */}
-        {Array.from({ length: 12 }, (_, i) => (
-          <Box 
-            key={i}
-            args={[0.2, 0.2, 0.2]} 
-            position={[
-              Math.cos(i * Math.PI / 6) * 2.5,
-              Math.sin(i * Math.PI / 6) * 2.5,
-              Math.sin(i * Math.PI / 3) * 1
-            ]}
-          >
+      {/* Strategic Pillars - Tall triangular prisms */}
+      {Array.from({ length: 6 }, (_, i) => (
+        <Float
+          key={`pillar-${i}`}
+          speed={0.5 + i * 0.1}
+          rotationIntensity={0.3}
+          floatIntensity={0.3}
+          position={[
+            Math.cos(i * Math.PI / 3) * 3,
+            0,
+            Math.sin(i * Math.PI / 3) * 3
+          ]}
+        >
+          <mesh rotation={[0, i * Math.PI / 3, 0]}>
+            <cylinderGeometry args={[0, 0.4, 2, 3]} />
             <meshStandardMaterial 
               color={isActive ? "#ffffff" : "#444"} 
-              emissive={isActive ? "#ffffff" : "#111"}
-              emissiveIntensity={isActive ? 0.5 : 0.1}
+              transparent 
+              opacity={isActive ? 0.7 : 0.3}
+              wireframe={i % 2 === 0}
+              metalness={0.7}
+              roughness={0.3}
             />
-          </Box>
-        ))}
+          </mesh>
+        </Float>
+      ))}
 
-        {/* Connecting Lines */}
-        {isActive && Array.from({ length: 16 }, (_, i) => (
-          <Box
-            key={`line-${i}`}
-            args={[0.02, 0.02, 1.5]}
-            position={[
-              Math.cos(i * Math.PI / 8) * 1.25,
-              Math.sin(i * Math.PI / 8) * 1.25,
-              0
-            ]}
-            rotation={[
-              Math.cos(i * Math.PI / 8) * 0.5,
-              Math.sin(i * Math.PI / 8) * 0.5,
-              0
-            ]}
-          >
+      {/* Leadership Connections - Icosahedrons */}
+      {Array.from({ length: 10 }, (_, i) => (
+        <Float
+          key={`connection-${i}`}
+          speed={0.8 + i * 0.05}
+          rotationIntensity={0.6}
+          floatIntensity={0.5}
+          position={[
+            Math.cos(i * Math.PI / 5) * 4.5,
+            Math.sin(i * Math.PI / 5) * 2,
+            Math.sin(i * Math.PI / 2.5) * 2.5
+          ]}
+        >
+          <mesh>
+            <icosahedronGeometry args={[0.25]} />
             <meshStandardMaterial 
-              color="#ffffff" 
-              emissive="#ffffff"
-              emissiveIntensity={0.3}
-              transparent
-              opacity={0.6}
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.6 : 0.2}
+              metalness={0.9}
+              roughness={0.1}
             />
-          </Box>
-        ))}
+          </mesh>
+        </Float>
+      ))}
 
-        {/* Text removed to prevent overlap with main labels */}
-      </group>
-    </Float>
+      {/* Innovation Sparks - Small tetrahedrons */}
+      {Array.from({ length: 15 }, (_, i) => (
+        <Float
+          key={`innovation-${i}`}
+          speed={1.0 + i * 0.1}
+          rotationIntensity={0.8}
+          floatIntensity={0.6}
+          position={[
+            Math.cos(i * Math.PI / 7.5) * 5.5,
+            Math.sin(i * Math.PI / 7.5) * 3.5,
+            Math.cos(i * Math.PI / 5) * 3
+          ]}
+        >
+          <mesh>
+            <tetrahedronGeometry args={[0.15]} />
+            <meshStandardMaterial 
+              color={isActive ? "#ffffff" : "#444"} 
+              transparent 
+              opacity={isActive ? 0.5 : 0.2}
+              metalness={0.6}
+              roughness={0.4}
+            />
+          </mesh>
+        </Float>
+      ))}
+    </group>
   )
-} 
+}

@@ -72,17 +72,14 @@ function ProjectCard({ project, isActive, onClick }: {
   const meshRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.005
-      if (isActive) {
-        meshRef.current.position.y += Math.sin(state.clock.elapsedTime * 2) * 0.05
-        meshRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 3) * 0.05)
-      }
+    if (meshRef.current && isActive) {
+      meshRef.current.position.y += Math.sin(state.clock.elapsedTime * 2) * 0.05
+      meshRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 3) * 0.05)
     }
   })
 
   return (
-    <Float speed={0.5} rotationIntensity={0.2} floatIntensity={0.3}>
+    <Float speed={0.5} rotationIntensity={0} floatIntensity={0.3}>
       <group ref={meshRef} position={project.position} onClick={onClick}>
         <RoundedBox args={[2.5, 3, 0.2]} radius={0.1}>
           <meshStandardMaterial
@@ -160,16 +157,16 @@ function ProjectCard({ project, isActive, onClick }: {
           {project.impact}
         </Text>
         
-        {/* Hover Effect Ring */}
+        {/* Hover Effect Border */}
         {isActive && (
-          <mesh rotation={[0, 0, 0]} position={[0, 0, -0.15]}>
-            <torusGeometry args={[1.5, 0.05, 8, 32]} />
+          <Box args={[3.2, 3.2, 0.1]} position={[0, 0, -0.15]}>
             <meshStandardMaterial
               color={project.color}
               emissive={project.color}
               emissiveIntensity={0.5}
+              wireframe
             />
-          </mesh>
+          </Box>
         )}
       </group>
     </Float>
@@ -201,8 +198,7 @@ function Projects3D({ activeProject, setActiveProject }: {
       <OrbitControls
         enableZoom={true}
         enablePan={true}
-        autoRotate={true}
-        autoRotateSpeed={0.2}
+        autoRotate={false}
         maxDistance={20}
         minDistance={5}
       />
