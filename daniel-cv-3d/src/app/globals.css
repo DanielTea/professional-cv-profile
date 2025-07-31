@@ -33,3 +33,15 @@ body {
   font-family: 'Inter var', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* Enable ligatures and contextual alternates */
 }
+
+/* GitHub Contributions Chart Styling */
+.github-contributions-chart {
+  width: 100%;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+.github-contributions-chart:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
