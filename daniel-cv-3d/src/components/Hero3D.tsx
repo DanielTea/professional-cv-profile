@@ -440,7 +440,7 @@ export default function Hero3D() {
                 </div>
                 
                 <Image
-                  src="/profile.jpg"
+                  src="/images/profile.jpg"
                   alt="Daniel Tremer - Profile Picture"
                   width={400}
                   height={400}
@@ -448,7 +448,13 @@ export default function Hero3D() {
                   priority={true}
                   unoptimized={true}
                   onLoad={() => console.log('Profile image loaded successfully!')}
-                  onError={(e) => console.error('Profile image failed to load:', e)}
+                  onError={(e) => {
+                    console.error('Profile image failed to load:', e);
+                    console.log('Attempted to load from:', '/images/profile.jpg');
+                  }}
+                  onLoadingComplete={(result) => {
+                    console.log('Profile image loading complete:', result);
+                  }}
                 />
               </motion.div>
               
