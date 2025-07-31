@@ -20,6 +20,10 @@ const nextConfig: NextConfig = {
         pathname: '/social_preview.png',
         search: '',
       },
+      {
+        pathname: '/favicon*',
+        search: '',
+      },
     ],
   },
 };
