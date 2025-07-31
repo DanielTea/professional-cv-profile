@@ -440,17 +440,17 @@ export default function Hero3D() {
                 </div>
                 
                 <Image
-                  src="/images/profile.jpg"
+                  src="/images/profile.webp"
                   alt="Daniel Tremer - Profile Picture"
                   width={400}
                   height={400}
                   className="w-full h-full object-cover transition-all duration-500 hover:brightness-110 relative z-10"
                   priority={true}
-                  unoptimized={true}
                   onLoad={() => console.log('Profile image loaded successfully!')}
                   onError={(e) => {
-                    console.error('Profile image failed to load:', e);
-                    console.log('Attempted to load from:', '/images/profile.jpg');
+                    console.error('WebP failed, trying JPG fallback:', e);
+                    // Fallback to optimized JPG
+                    e.currentTarget.src = '/images/profile-optimized.jpg';
                   }}
                   onLoadingComplete={(result) => {
                     console.log('Profile image loading complete:', result);
