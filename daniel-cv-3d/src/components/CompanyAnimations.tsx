@@ -324,7 +324,7 @@ export function ControlFAnimation({ isActive }: { isActive: boolean }) {
     if (communicationLinesRef.current && isActive) {
       const time = state.clock.elapsedTime
       
-      communicationLinesRef.current.children.forEach((lineGroup, index) => {
+      communicationLinesRef.current.children.forEach((lineGroup, _) => {
         // Each lineGroup now contains only the pulse sphere
         if (lineGroup.children.length >= 1) {
           const pulseSphere = lineGroup.children[0] // First (and only) child is the pulse sphere

@@ -577,7 +577,7 @@ function GlitterEffect({ position, size, isActive }: {
         </mesh>
       ))}
       {/* Add some larger sparkle effects */}
-      {glitterParticles.slice(0, 8).map((particle, index) => (
+      {glitterParticles.slice(0, 8).map((particle, _) => (
         <mesh 
           key={`sparkle-${particle.id}`} 
           position={[
@@ -597,7 +597,7 @@ function GlitterEffect({ position, size, isActive }: {
         </mesh>
       ))}
       {/* Cross-shaped sparkles for extra glitter */}
-      {glitterParticles.slice(0, 8).map((particle, index) => (
+      {glitterParticles.slice(0, 8).map((particle, _) => (
         <mesh 
           key={`cross-${particle.id}`} 
           position={[

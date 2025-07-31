@@ -163,7 +163,7 @@ function GitHubContributionsChart() {
         const reposData = await reposResponse.json()
 
         // Calculate total stars from owned repositories
-        const totalStars = reposData.reduce((sum: number, repo: any) => sum + repo.stargazers_count, 0)
+        const totalStars = reposData.reduce((sum: number, repo: { stargazers_count: number }) => sum + repo.stargazers_count, 0)
 
         // Estimate contributions (this is an approximation since GitHub API doesn't provide exact public contribution count)
         const currentYear = new Date().getFullYear()
@@ -230,7 +230,7 @@ function GitHubContributionsChart() {
             rel="noopener noreferrer"
             className="block"
           >
-            <img
+            <Image
               key={chartKey || 'static'}
               src={isClient && chartKey 
                 ? `https://ghchart.rshah.org/239a3b/DanielTea?cache=${chartKey}`
@@ -238,6 +238,9 @@ function GitHubContributionsChart() {
               }
               alt="Daniel's GitHub Contributions Chart"
               className="github-contributions-chart w-full h-auto rounded-lg"
+              width={800}
+              height={200}
+              unoptimized
               loading="lazy"
               style={{ 
                 filter: 'brightness(1.2) contrast(1.1)',

@@ -1,7 +1,7 @@
 'use client'
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Float, OrbitControls, Environment, Text, Box, RoundedBox, MeshReflectorMaterial } from '@react-three/drei'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Float, Environment, Text, Box, RoundedBox, MeshReflectorMaterial } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { ExternalLink, Calendar, Zap, Trophy, Gamepad2, ArrowLeft, ArrowRight, ArrowUp } from 'lucide-react'
@@ -638,7 +638,7 @@ export default function ProjectShowcase() {
   useEffect(() => {
     const gameLoop = setInterval(() => {
       setCharacterPosition((prevPos) => {
-        let newVel: [number, number, number] = [...characterVelocity]
+        const newVel: [number, number, number] = [...characterVelocity]
         
         // Apply gravity
         if (!isGrounded) {
@@ -667,7 +667,7 @@ export default function ProjectShowcase() {
         setCharacterVelocity(newVel)
         
         // Update position using the new velocity
-        let newPos: [number, number, number] = [
+        const newPos: [number, number, number] = [
           prevPos[0] + newVel[0],
           prevPos[1] + newVel[1],
           prevPos[2]
@@ -688,7 +688,7 @@ export default function ProjectShowcase() {
     }, 16) // ~60fps
 
     return () => clearInterval(gameLoop)
-  }, [keys, characterVelocity, isGrounded])
+  }, [keys, characterVelocity, isGrounded, GRAVITY])
 
   const handleCharacterCollision = useCallback((projectId: number) => {
     setActiveProject(projectId)
