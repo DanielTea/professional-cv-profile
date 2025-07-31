@@ -1127,7 +1127,7 @@ export default function SkillsVisualization() {
   const currentSkill = currentCategory.skills.find(skill => skill.name === activeSkill)
 
   return (
-    <section className="min-h-screen bg-black py-20">
+    <section className="min-h-screen bg-black pt-4 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

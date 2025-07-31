@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Float, OrbitControls, Environment, Text, Box, RoundedBox, MeshReflectorMaterial } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { ExternalLink, Calendar, Zap, Trophy, Gamepad2 } from 'lucide-react'
+import { ExternalLink, Calendar, Zap, Trophy, Gamepad2, ArrowLeft, ArrowRight, ArrowUp } from 'lucide-react'
 import * as THREE from 'three'
 
 const projects = [
@@ -18,7 +18,7 @@ const projects = [
     status: "Active",
     year: "2024",
     color: "#ffffff",
-    position: [-5.5, 0.5, 0] as [number, number, number],
+    position: [-6, 0.5, -1] as [number, number, number],
     link: "https://controlf.io"
   },
   {
@@ -27,11 +27,11 @@ const projects = [
     category: "Automotive AI",
     description: "Built comprehensive data analyzing pipeline for vehicle data using PySpark, processing millions of data points.",
     technologies: ["PySpark", "Azure ML", "Python", "Big Data", "Analytics"],
-    impact: "Processing 10M+ vehicle data points",
+    impact: "Processing Millions of vehicle data points",
     status: "Completed",
     year: "2021-2024",
     color: "#ffffff",
-    position: [-2, 0.5, 0] as [number, number, number],
+    position: [-2, 0.5, -1] as [number, number, number],
     link: "#"
   },
   {
@@ -44,7 +44,7 @@ const projects = [
     status: "Completed",
     year: "2020-2021",
     color: "#ffffff",
-    position: [2, 0.5, 0] as [number, number, number],
+    position: [2, 0.5, -1] as [number, number, number],
     link: "#"
   },
   {
@@ -57,7 +57,7 @@ const projects = [
     status: "Research",
     year: "2018",
     color: "#ffffff",
-    position: [5.5, 0.5, 0] as [number, number, number],
+    position: [6, 0.5, -1] as [number, number, number],
     link: "#"
   }
 ]
@@ -134,9 +134,10 @@ function getProjectMaterial(projectName: string, isActive: boolean, size: number
 }
 
 // Game Character Component
-function GameCharacter({ position, onCollision }: { 
+function GameCharacter({ position, onCollision, movementDirection }: { 
   position: [number, number, number], 
-  onCollision: (projectId: number) => void 
+  onCollision: (projectId: number) => void,
+  movementDirection: number // -1 for left, 0 for no movement, 1 for right
 }) {
   const meshRef = useRef<THREE.Group>(null)
   const leftLegRef = useRef<THREE.Mesh>(null)
@@ -148,24 +149,58 @@ function GameCharacter({ position, onCollision }: {
   // Robot walking animation
   useFrame((state) => {
     const time = state.clock.elapsedTime
+    const isMoving = Math.abs(movementDirection) > 0
     
     if (meshRef.current) {
       // Set robot position directly on ground with slight walking bobbing
-      meshRef.current.position.set(position[0], position[1] + Math.sin(time * 8) * 0.05, position[2])
+      const bobbingIntensity = isMoving ? Math.sin(time * 8) * 0.05 : 0
+      meshRef.current.position.set(position[0], position[1] + bobbingIntensity, position[2])
+      
+      // Robot rotation based on movement direction
+      let targetRotation = 0
+      if (movementDirection < 0) {
+        // Moving left - face left (rotate 180 degrees)
+        targetRotation = Math.PI / 2 // 90° to face left on screen
+      } else if (movementDirection > 0) {
+        // Moving right - face right (rotate -90°)
+        targetRotation = -Math.PI / 2
+      }
+      
+      // Smooth rotation interpolation
+      const currentRotation = meshRef.current.rotation.y
+      const rotationDiff = targetRotation - currentRotation
+      
+      // Handle rotation wrapping (shortest path)
+      let adjustedDiff = rotationDiff
+      if (adjustedDiff > Math.PI) adjustedDiff -= 2 * Math.PI
+      if (adjustedDiff < -Math.PI) adjustedDiff += 2 * Math.PI
+      
+      meshRef.current.rotation.y += adjustedDiff * 0.1 // Smooth interpolation
+      
       // Slight forward lean while walking
-      meshRef.current.rotation.z = Math.sin(time * 4) * 0.05
+      if (isMoving) {
+        meshRef.current.rotation.z = Math.sin(time * 4) * 0.05
+      } else {
+        meshRef.current.rotation.z *= 0.9 // Gradually return to upright when not moving
+      }
     }
     
-    // Animate robot legs - walking motion
+    // Animate robot legs - walking motion (only when moving)
     if (leftLegRef.current && rightLegRef.current) {
-      leftLegRef.current.rotation.x = Math.sin(time * 8) * 0.8
-      rightLegRef.current.rotation.x = Math.sin(time * 8 + Math.PI) * 0.8
+      const legSpeed = isMoving ? 8 : 0
+      const legIntensity = isMoving ? 0.8 : 0
+      leftLegRef.current.rotation.x = Math.sin(time * legSpeed) * legIntensity
+      rightLegRef.current.rotation.x = Math.sin(time * legSpeed + Math.PI) * legIntensity
     }
     
-    // Animate robot arms - opposite to legs
+    // Animate robot arms - swing while walking, or relax when idle
     if (leftArmRef.current && rightArmRef.current) {
-      leftArmRef.current.rotation.x = Math.sin(time * 8 + Math.PI) * 0.5
-      rightArmRef.current.rotation.x = Math.sin(time * 8) * 0.5
+      const armSpeed = isMoving ? 8 : 0
+      const armIntensity = isMoving ? 0.5 : 0
+      const targetLeft = Math.sin(time * armSpeed + Math.PI) * armIntensity
+      const targetRight = Math.sin(time * armSpeed) * armIntensity
+      leftArmRef.current.rotation.x += (targetLeft - leftArmRef.current.rotation.x) * 0.2
+      rightArmRef.current.rotation.x += (targetRight - rightArmRef.current.rotation.x) * 0.2
     }
     
     // Antenna animation
@@ -465,11 +500,12 @@ function DynamicLightning({ position }: { position: [number, number, number] }) 
 
 
 // Game Scene Component
-function GameScene({ activeProject, setActiveProject, characterPosition, onCharacterCollision }: { 
+function GameScene({ activeProject, setActiveProject, characterPosition, onCharacterCollision, movementDirection }: { 
   activeProject: number, 
   setActiveProject: (id: number) => void,
   characterPosition: [number, number, number],
-  onCharacterCollision: (projectId: number) => void
+  onCharacterCollision: (projectId: number) => void,
+  movementDirection: number
 }) {
   return (
     <>
@@ -533,6 +569,7 @@ function GameScene({ activeProject, setActiveProject, characterPosition, onChara
       <GameCharacter 
         position={characterPosition}
         onCollision={onCharacterCollision}
+        movementDirection={movementDirection}
       />
       
       {/* Project Cards as Platforms */}
@@ -560,6 +597,7 @@ export default function ProjectShowcase() {
   const [characterVelocity, setCharacterVelocity] = useState<[number, number, number]>([0, 0, 0])
   const [isGrounded, setIsGrounded] = useState(true)
   const [keys, setKeys] = useState<{[key: string]: boolean}>({})
+  const [movementDirection, setMovementDirection] = useState(0) // -1 for left, 0 for no movement, 1 for right
   
   const currentProject = projects.find(p => p.id === activeProject) || projects[0]
 
@@ -572,10 +610,18 @@ export default function ProjectShowcase() {
   // Keyboard event handlers
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Prevent default browser behavior for game keys
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'Space', 'KeyA', 'KeyD', 'KeyW'].includes(event.code)) {
+        event.preventDefault()
+      }
       setKeys(prev => ({ ...prev, [event.code]: true }))
     }
 
     const handleKeyUp = (event: KeyboardEvent) => {
+      // Prevent default browser behavior for game keys
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'Space', 'KeyA', 'KeyD', 'KeyW'].includes(event.code)) {
+        event.preventDefault()
+      }
       setKeys(prev => ({ ...prev, [event.code]: false }))
     }
 
@@ -592,36 +638,38 @@ export default function ProjectShowcase() {
   useEffect(() => {
     const gameLoop = setInterval(() => {
       setCharacterPosition((prevPos) => {
-        setCharacterVelocity((prevVel) => {
-          let newVel: [number, number, number] = [...prevVel]
-          
-          // Apply gravity
-          if (!isGrounded) {
-            newVel[1] += GRAVITY
-          }
-          
-          // Handle movement
-          if (keys['ArrowLeft'] || keys['KeyA']) {
-            newVel[0] = -MOVE_SPEED
-          } else if (keys['ArrowRight'] || keys['KeyD']) {
-            newVel[0] = MOVE_SPEED
-          } else {
-            newVel[0] *= 0.8 // Friction
-          }
-          
-          // Handle jumping
-          if ((keys['ArrowUp'] || keys['Space'] || keys['KeyW']) && isGrounded) {
-            newVel[1] = JUMP_FORCE
-            setIsGrounded(false)
-          }
-          
-          return newVel
-        })
+        let newVel: [number, number, number] = [...characterVelocity]
         
-        // Update position
+        // Apply gravity
+        if (!isGrounded) {
+          newVel[1] += GRAVITY
+        }
+        
+        // Handle movement and update movement direction
+        if (keys['ArrowLeft'] || keys['KeyA']) {
+          newVel[0] = -MOVE_SPEED
+          setMovementDirection(-1) // Moving left
+        } else if (keys['ArrowRight'] || keys['KeyD']) {
+          newVel[0] = MOVE_SPEED
+          setMovementDirection(1) // Moving right
+        } else {
+          newVel[0] *= 0.8 // Friction
+          setMovementDirection(0) // Not moving horizontally
+        }
+        
+        // Handle jumping
+        if ((keys['ArrowUp'] || keys['Space'] || keys['KeyW']) && isGrounded) {
+          newVel[1] = JUMP_FORCE
+          setIsGrounded(false)
+        }
+        
+        // Update velocity state
+        setCharacterVelocity(newVel)
+        
+        // Update position using the new velocity
         let newPos: [number, number, number] = [
-          prevPos[0] + characterVelocity[0],
-          prevPos[1] + characterVelocity[1],
+          prevPos[0] + newVel[0],
+          prevPos[1] + newVel[1],
           prevPos[2]
         ]
         
@@ -659,66 +707,78 @@ export default function ProjectShowcase() {
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Featured
             <span className="text-gray-300 font-light">
-              {' '}Projects
+              {' '}Professional Projects
             </span>
           </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Play the platformer game! Use arrow keys or WASD to move and jump into project panels to explore them.
+            Play the platformer game! Use left/right arrow keys to move and up arrow to jump. Walk into project panels to explore them.
           </p>
           
           {/* Game Controls */}
           <div className="mt-6 flex justify-center">
             <div className="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
-              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-white/80">
+              <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-white/80">
                 <div className="flex items-center gap-2">
                   <Gamepad2 size={16} />
                   <span>Controls:</span>
                 </div>
-                <span>Arrow Keys / WASD to move</span>
-                <span>Space / Up Arrow / W to jump</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    <ArrowLeft size={16} />
+                    <ArrowRight size={16} />
+                  </div>
+                  <span>Move Left/Right</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ArrowUp size={16} />
+                  <span>Jump</span>
+                </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* 3D Game Scene - Full Width and Larger */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="w-full h-[400px] lg:h-[500px] xl:h-[600px] relative mb-1"
-        >
-          <Canvas 
-            camera={{ position: [0, 1, 18], fov: 50 }}
-            shadows
-            gl={{ antialias: true, alpha: false }}
+        {/* Game and Project Details - Side by Side */}
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
+          {/* 3D Game Scene - Left Side */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="lg:col-span-2 h-[600px] lg:h-[700px] xl:h-[800px] relative -mb-1"
           >
-            <GameScene
-              activeProject={activeProject}
-              setActiveProject={setActiveProject}
-              characterPosition={characterPosition}
-              onCharacterCollision={handleCharacterCollision}
-            />
-          </Canvas>
-        </motion.div>
+            <Canvas 
+              camera={{ position: [0, 1, 18], fov: 50 }}
+              shadows
+              gl={{ antialias: true, alpha: false }}
+            >
+              <GameScene
+                activeProject={activeProject}
+                setActiveProject={setActiveProject}
+                characterPosition={characterPosition}
+                onCharacterCollision={handleCharacterCollision}
+                movementDirection={movementDirection}
+              />
+            </Canvas>
+          </motion.div>
 
-        {/* Project Details Panel - Below Game */}
-        <motion.div
-          key={activeProject}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto"
-        >
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
+          {/* Project Details Panel - Right Side */}
+          <motion.div
+            key={activeProject}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-1 space-y-6"
+          >
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-3">
                 <div className="w-4 h-4 rounded-full bg-white/30 border border-white/50" />
-                <h3 className="text-2xl font-bold text-white">{currentProject.title}</h3>
+                <h3 className="text-lg font-bold text-white leading-tight">{currentProject.title}</h3>
               </div>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-start">
                 <span 
                   className={`px-3 py-1 rounded-full text-sm font-medium ${
                     currentProject.status === 'Active' ? 'bg-white/20 text-white' :
@@ -731,113 +791,64 @@ export default function ProjectShowcase() {
               </div>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Left Column */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-white/80 font-medium">{currentProject.category}</span>
-                  <span className="text-white/50">•</span>
-                  <div className="flex items-center gap-1 text-white/70">
-                    <Calendar size={14} />
-                    <span className="text-sm">{currentProject.year}</span>
-                  </div>
-                </div>
-                
-                <p className="text-white/80 leading-relaxed">
-                  {currentProject.description}
-                </p>
-                
-                <div className="flex items-center gap-2">
-                  <Trophy className="text-yellow-400" size={18} />
-                  <span className="text-white font-medium">{currentProject.impact}</span>
+            <div className="space-y-6">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-white/80 font-medium">{currentProject.category}</span>
+                <span className="text-white/50">•</span>
+                <div className="flex items-center gap-1 text-white/70">
+                  <Calendar size={14} />
+                  <span className="text-sm">{currentProject.year}</span>
                 </div>
               </div>
               
-              {/* Right Column */}
-              <div className="space-y-6">
-                <div>
-                  <h5 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
-                    <Zap size={18} />
-                    Technologies Used
-                  </h5>
-                  <div className="flex flex-wrap gap-2">
-                    {currentProject.technologies.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 rounded-full text-sm bg-white/10 border border-white/20 text-white/90"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                {currentProject.link !== '#' && (
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <a
-                      href={currentProject.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition-all duration-300"
-                    >
-                      <ExternalLink size={18} />
-                      Visit Project
-                    </a>
-                  </motion.div>
-                )}
+              <p className="text-white/80 leading-relaxed">
+                {currentProject.description}
+              </p>
+              
+              <div className="flex items-center gap-2">
+                <Trophy className="text-yellow-400" size={18} />
+                <span className="text-white font-medium">{currentProject.impact}</span>
               </div>
+              
+              <div>
+                <h5 className="text-base font-semibold text-white flex items-center gap-2 mb-3">
+                  <Zap size={18} />
+                  Technologies Used
+                </h5>
+                <div className="flex flex-wrap gap-2">
+                  {currentProject.technologies.map((tech, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 rounded-full text-sm bg-white/10 border border-white/20 text-white/90"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              {currentProject.link !== '#' && (
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <a
+                    href={currentProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <ExternalLink size={18} />
+                    Visit Project
+                  </a>
+                </motion.div>
+              )}
             </div>
           </div>
-        </motion.div>
-
-        {/* Character Position Debug */}
-        <div className="mt-8 text-center">
-          <div className="bg-white/5 backdrop-blur-md rounded-lg p-3 border border-white/10 inline-block">
-            <p className="text-white/50 text-xs">
-              Character: X: {characterPosition[0].toFixed(2)}, Y: {characterPosition[1].toFixed(2)} | 
-              Grounded: {isGrounded ? 'Yes' : 'No'}
-            </p>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Contact CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          viewport={{ once: true }}
-          className="mt-20 text-center"
-        >
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">Interested in Working Together?</h3>
-            <p className="text-white/70 mb-6">
-              I&apos;m always open to discussing new opportunities, innovative projects, and collaborations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.a
-                href="mailto:info@danieltremer.com"
-                className="px-8 py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get In Touch
-              </motion.a>
-              <motion.a
-                href="https://www.linkedin.com/in/daniel-tremer/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-3 border-2 border-white/30 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Connect on LinkedIn
-              </motion.a>
-            </div>
-          </div>
-        </motion.div>
+
       </div>
     </section>
   )
