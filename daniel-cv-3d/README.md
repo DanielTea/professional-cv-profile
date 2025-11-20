@@ -6,7 +6,7 @@ A high-performance, immersive 3D portfolio website inspired by **Industrial Sci-
 
 - **System HUD UI**: Custom navigation bar with data tickers, time synchronization, and technical readouts.
 - **3D Drone Recon**: Interactive "Project Database" where users pilot a drone to explore project holographic platforms.
-- **Neural Network Skills**: Interactive 3D visualization of technical skills as connected nodes in a 3D space.
+- **Neural Network Skills**: Interactive 3D visualization of technical skills as connected nodes with tactical data analysis HUD.
 - **Mission Log Experience**: A "Data Rail" timeline showcasing career history with encrypted/decrypted visual effects.
 - **GitHub Operations**: Live "Command Center" style GitHub integration with cache-busting contribution charts.
 - **Industrial Aesthetic**:
@@ -17,7 +17,7 @@ A high-performance, immersive 3D portfolio website inspired by **Industrial Sci-
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js 15 with TypeScript
+- **Framework**: Next.js 16 (Turbopack) with TypeScript
 - **3D Graphics**: Three.js with React Three Fiber
 - **3D Helpers**: React Three Drei for utilities
 - **Animations**: Framer Motion (for UI) & GSAP (for sequences)
@@ -33,7 +33,7 @@ A high-performance, immersive 3D portfolio website inspired by **Industrial Sci-
    cd daniel-cv-3d
    ```
 
-2. **Install dependencies**
+2. **Install dependencies** (using pnpm)
    ```bash
    pnpm install
    ```
@@ -61,7 +61,9 @@ daniel-cv-3d/
 │       ├── SkillsVisualization.tsx # "Neural Network" Skills
 │       ├── ProjectShowcase.tsx   # "Drone Recon" Game
 │       ├── Navbar.tsx            # "System HUD" Navigation
-│       └── Loader.tsx            # Loading State
+│       ├── Loader.tsx            # Loading State
+│       ├── CompanyAnimations.tsx # Animated Company Logos
+│       └── ScrollHighlight.tsx   # Scroll Interaction Helper
 ├── public/
 │   └── profile.webp              # Profile assets
 └── README.md                     # Documentation

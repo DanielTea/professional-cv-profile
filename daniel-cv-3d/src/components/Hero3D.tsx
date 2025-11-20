@@ -178,7 +178,7 @@ function Scene() {
 
 export default function Hero3D() {
   return (
-    <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[var(--color-background)]">
+    <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[var(--color-background)] pt-24 md:pt-0">
       
       {/* HUD Overlay Lines - Black lines for light theme */}
       <div className="absolute inset-0 pointer-events-none z-10">
@@ -230,7 +230,7 @@ export default function Hero3D() {
              <div className="inline-block px-2 py-1 bg-[var(--color-surface)] border border-black text-[var(--color-danger)] font-mono text-xs font-bold mb-4">
                 ID: 9821-A // SENIOR_ENGINEER
              </div>
-             <h1 className="text-6xl md:text-8xl font-display font-bold text-black leading-[0.85] tracking-tighter mb-6">
+             <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold text-black leading-[0.85] tracking-tighter mb-6">
                DANIEL<br/>
                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-black">TREMER</span>
              </h1>
@@ -283,3 +283,4 @@ export default function Hero3D() {
     </section>
   )
 }
+

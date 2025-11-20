@@ -104,7 +104,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${rajdhani.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${orbitron.variable} ${rajdhani.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="antialiased bg-[var(--color-background)] text-[var(--color-text-main)] font-sans selection:bg-[var(--color-volt)] selection:text-black">
         {children}
       </body>

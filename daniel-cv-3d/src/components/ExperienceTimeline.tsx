@@ -112,7 +112,7 @@ export default function ExperienceTimeline() {
                <div className="w-2 h-2 bg-[var(--color-danger)] animate-pulse" />
                <span className="text-[var(--color-danger)] font-mono text-xs tracking-widest">SYSTEM_LOG_02</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-display font-bold text-black uppercase">
+            <h2 className="text-3xl sm:text-4xl md:text-7xl font-display font-bold text-black uppercase">
               Career<span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-black stroke-black ml-4">History</span>
             </h2>
           </div>
@@ -127,9 +127,9 @@ export default function ExperienceTimeline() {
           {/* Navigation Rail */}
           <div className="lg:col-span-4">
             <div className="flex flex-col space-y-2 border-l-2 border-black/10 pl-6 relative">
-              {/* Active Indicator Line */}
+              {/* Active Indicator Line - Hidden on mobile for cleaner look */}
               <motion.div 
-                className="absolute left-[-2px] w-[2px] bg-black h-12 transition-all duration-300"
+                className="hidden lg:block absolute left-[-2px] w-[2px] bg-black h-12 transition-all duration-300"
                 animate={{ top: `${(activeExperience - 1) * (80 + 8)}px` }}
               />
 
@@ -137,9 +137,9 @@ export default function ExperienceTimeline() {
                 <button
                   key={exp.id}
                   onClick={() => setActiveExperience(exp.id)}
-                  className={`group text-left p-4 transition-all duration-300 border border-transparent relative overflow-hidden h-20 ${
+                  className={`group text-left p-4 transition-all duration-300 border border-transparent relative overflow-hidden h-auto md:h-20 ${
                     activeExperience === exp.id
-                      ? 'bg-white/60 border-black/10 shadow-sm'
+                      ? 'bg-white/60 border-black/10 shadow-sm border-l-4 border-l-black lg:border-l-transparent'
                       : 'hover:bg-white/40'
                   }`}
                 >

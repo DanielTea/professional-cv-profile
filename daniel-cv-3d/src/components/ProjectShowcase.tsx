@@ -1,282 +1,378 @@
 'use client'
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Float, Environment, Text, Box } from '@react-three/drei'
-import { motion } from 'framer-motion'
+import { Float, Environment, Text, Box, PerspectiveCamera, useTexture, Stars, Plane } from '@react-three/drei'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
-import { Trophy } from 'lucide-react'
+import { Trophy, ExternalLink, Terminal, Activity, Crosshair } from 'lucide-react'
 import * as THREE from 'three'
 
+// --- Enhanced Data ---
 const projects = [
   {
     id: 1,
     title: "control-f GmbH",
-    category: "AI Platform",
-    description: "Leading AI and data science solutions provider delivering cutting-edge proprietary AI systems to businesses worldwide.",
-    technologies: ["AI", "Machine Learning", "Data Science", "Python", "TensorFlow"],
-    impact: "Serving 100+ enterprise clients globally",
-    status: "Active",
-    year: "2024",
+    category: "Enterprise AI Architecture",
+    description: "Architecting a proprietary AI ecosystem. Delivering scalable machine learning solutions and data infrastructure for global enterprise clients. Leading technical strategy and engineering teams.",
+    technologies: ["Python", "TensorFlow", "React", "AWS", "Docker"],
+    impact: "Serving 100+ Global Clients",
+    status: "ONLINE",
     position: [-6, 0, 0] as [number, number, number],
-    link: "https://controlf.io"
+    link: "https://controlf.io",
+    color: "#FF2A2A"
   },
   {
     id: 2,
-    title: "Porsche Vehicle Data Pipeline",
-    category: "Automotive AI",
-    description: "Built comprehensive data analyzing pipeline for vehicle data using PySpark, processing millions of data points.",
-    technologies: ["PySpark", "Azure ML", "Python", "Big Data", "Analytics"],
-    impact: "Processing Millions of vehicle data points",
-    status: "Completed",
-    year: "2021-2024",
+    title: "Porsche Data Pipeline",
+    category: "Big Data Processing",
+    description: "Engineered a high-throughput vehicle data analysis pipeline using PySpark on Azure. Optimized for processing millions of telemetry points for predictive maintenance and R&D.",
+    technologies: ["PySpark", "Azure Databricks", "Delta Lake", "Scala"],
+    impact: "processed 50TB+ Vehicle Data",
+    status: "ARCHIVED",
     position: [-2, 0, 0] as [number, number, number],
-    link: "#"
+    link: "#",
+    color: "#00A3FF"
   },
   {
     id: 3,
-    title: "Mercedes Infotainment System",
-    category: "Automotive Tech",
-    description: "Led R&D for next-generation Mercedes Benz Infotainment System with Dynamic Content Platform Integration.",
-    technologies: ["Embedded Systems", "Linux", "Agile", "Product Management"],
-    impact: "Deployed in 500K+ vehicles",
-    status: "Completed",
-    year: "2020-2021",
+    title: "MBition Infotainment",
+    category: "Embedded Systems",
+    description: "Spearheaded R&D for the next-generation Mercedes-Benz User Experience (MBUX). Integrated dynamic content platforms into safety-critical automotive systems.",
+    technologies: ["C++", "Yocto Linux", "Qt/QML", "System Architecture"],
+    impact: "Deployed in 500k+ Vehicles",
+    status: "DEPLOYED",
     position: [2, 0, 0] as [number, number, number],
-    link: "#"
+    link: "#",
+    color: "#00FF94"
   },
   {
     id: 4,
-    title: "Deep Learning Maneuver Detection",
-    category: "Research",
-    description: "Bachelor thesis on automotive maneuver detection using LSTMs and CNNs for driving behavior classification.",
-    technologies: ["TensorFlow", "Keras", "Python", "Deep Learning", "Research"],
-    impact: "95% accuracy in maneuver detection",
-    status: "Research",
-    year: "2018",
+    title: "Maneuver Detection",
+    category: "Deep Learning Research",
+    description: "Academic research on autonomous driving behavior classification. Implemented LSTM and CNN architectures to detect complex driving maneuvers with high precision.",
+    technologies: ["Keras", "Pandas", "Deep Learning", "Neural Networks"],
+    impact: "95% Detection Accuracy",
+    status: "PUBLISHED",
     position: [6, 0, 0] as [number, number, number],
-    link: "#"
+    link: "#",
+    color: "#DFFF00"
   }
 ]
 
-// Mouse interaction handler
-function MouseController({ setActiveProject }: { setActiveProject: (id: number) => void }) {
-  const { mouse, raycaster, camera, scene } = useThree()
-  const mouseMarkerRef = useRef<THREE.Mesh>(null)
+// --- 3D Components ---
 
-  useFrame(() => {
-    // Update raycaster with current mouse position
-    raycaster.setFromCamera(mouse, camera)
-    
-    // Find intersection with ground plane
-    const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
-    const target = new THREE.Vector3()
-    raycaster.ray.intersectPlane(groundPlane, target)
-    
-    if (target && mouseMarkerRef.current) {
-      // Smoothly move marker to mouse position on ground
-      mouseMarkerRef.current.position.lerp(target, 0.2)
-      
-      // Check proximity to projects to trigger active state
-      projects.forEach(p => {
-        const dist = Math.sqrt(Math.pow(target.x - p.position[0], 2) + Math.pow(target.z - p.position[2], 2))
-        if (dist < 2.0) {
-          setActiveProject(p.id)
-        }
-      })
-    }
-  })
-
-  return (
-    <mesh ref={mouseMarkerRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
-      <ringGeometry args={[0.4, 0.5, 32]} />
-      <meshBasicMaterial color="#FF2A2A" transparent opacity={0.6} side={THREE.DoubleSide} />
-    </mesh>
-  )
-}
-
-function ProjectPlatform({ project, isActive, onClick }: { 
-  project: typeof projects[0], 
-  isActive: boolean, 
-  onClick: () => void 
-}) {
-  const meshRef = useRef<THREE.Group>(null)
+// Futuristic holographic platform
+function HolographicBase({ isActive, color }: { isActive: boolean, color: string }) {
+  const meshRef = useRef<THREE.Mesh>(null)
   
   useFrame((state) => {
     if (meshRef.current) {
-      // Hover animation
-      meshRef.current.position.y = project.position[1] + Math.sin(state.clock.elapsedTime + project.id) * 0.1
-      
-      if (isActive) {
-         meshRef.current.rotation.y += 0.01
-      } else {
-         // Reset rotation slowly
-         meshRef.current.rotation.y *= 0.95
-      }
+      meshRef.current.rotation.z += 0.005
+      meshRef.current.rotation.z = isActive 
+         ? meshRef.current.rotation.z + 0.02 
+         : meshRef.current.rotation.z
     }
   })
 
   return (
-    <group ref={meshRef} position={project.position} onClick={onClick}>
-      {/* Holographic Base - Dark wireframe */}
-      <Box args={[2.5, 0.1, 2.5]}>
-        <meshBasicMaterial color={isActive ? "#000" : "#999"} wireframe />
-      </Box>
-      
-      {/* Floating Cube - Concrete/White material */}
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-        <mesh position={[0, 1, 0]}>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial 
-            color={isActive ? "#fff" : "#eee"} 
-            wireframe={!isActive}
-            metalness={0.1}
-            roughness={0.8}
-          />
-          {/* Outline for cube */}
-          {isActive && (
-             <lineSegments>
-               <edgesGeometry args={[new THREE.BoxGeometry(1, 1, 1)]} />
-               <lineBasicMaterial color="black" linewidth={2} />
-             </lineSegments>
-          )}
-        </mesh>
-      </Float>
-
-      {/* Project Title */}
-      <Text
-        position={[0, 2.5, 0]}
-        fontSize={0.15}
-        color="black"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {project.title}
-      </Text>
-      
-      {/* Active Indicator Beam */}
-      {isActive && (
-        <mesh position={[0, 5, 0]} rotation={[0, 0, Math.PI]}>
-           <coneGeometry args={[1.2, 10, 32, 1, true]} />
-           <meshBasicMaterial color="#FF2A2A" transparent opacity={0.05} side={THREE.DoubleSide} />
-        </mesh>
-      )}
+    <group position={[0, -1, 0]}>
+       {/* Outer Ring */}
+       <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[1.8, 2, 64]} />
+          <meshBasicMaterial color={isActive ? color : "#333"} transparent opacity={0.4} side={THREE.DoubleSide} />
+       </mesh>
+       {/* Inner Rotating Hexagon */}
+       <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[1.5, 6]} />
+          <meshBasicMaterial color={isActive ? color : "#111"} wireframe transparent opacity={0.1} />
+       </mesh>
+       {/* Grid Floor Glow */}
+       {isActive && (
+          <pointLight position={[0, 1, 0]} color={color} intensity={2} distance={5} />
+       )}
     </group>
   )
 }
 
-function Scene({ activeProject, setActiveProject }: any) {
+// Floating project artifact
+function ProjectArtifact({ isActive, color }: { isActive: boolean, color: string }) {
+  return (
+    <Float speed={4} rotationIntensity={1} floatIntensity={1}>
+      <group position={[0, 1, 0]}>
+         <mesh>
+           <octahedronGeometry args={[0.8, 0]} />
+           <meshStandardMaterial 
+             color={isActive ? "#fff" : "#888"} 
+             wireframe
+             emissive={isActive ? color : "#000"}
+             emissiveIntensity={0.5}
+           />
+         </mesh>
+         {/* Inner Core */}
+         <mesh scale={0.5}>
+           <octahedronGeometry args={[0.8, 0]} />
+           <meshBasicMaterial color={isActive ? color : "#000"} />
+         </mesh>
+      </group>
+    </Float>
+  )
+}
+
+// Drone-like Camera Controller
+function DroneController({ targetPosition, isInitial }: { targetPosition: [number, number, number], isInitial: boolean }) {
+  const { camera } = useThree()
+  const vec = new THREE.Vector3()
+  
+  useFrame((state, delta) => {
+    // Smoothly interpolate camera position
+    // Target x is the project position, y is slightly up, z is back
+    const targetX = targetPosition[0]
+    
+    if (isInitial) {
+        // Wide shot to see everything
+        vec.set(0, 5, 15)
+        camera.lookAt(0, 0, 0)
+    } else {
+        // Move camera to "look at" the project from a dynamic angle
+        vec.set(targetX, 2, 8) 
+        camera.lookAt(targetX, 0.5, 0)
+    }
+
+    camera.position.lerp(vec, delta * 2)
+  })
+  
+  return null
+}
+
+function ProjectNode({ project, isActive, setActiveProject }: any) {
+  const groupRef = useRef<THREE.Group>(null)
+  const [hovered, setHovered] = useState(false)
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      const hoverY = Math.sin(state.clock.elapsedTime * 2 + project.id) * 0.1
+      groupRef.current.position.y = project.position[1] + hoverY
+    }
+  })
+
+  return (
+    <group 
+      ref={groupRef} 
+      position={project.position} 
+      onClick={() => setActiveProject(project.id)}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <HolographicBase isActive={isActive || hovered} color={project.color} />
+      <ProjectArtifact isActive={isActive || hovered} color={project.color} />
+      
+      {/* Connection Beam */}
+      <mesh position={[0, 25, 0]}>
+        <cylinderGeometry args={[0.02, 0.02, 50]} />
+        <meshBasicMaterial color={isActive ? project.color : "#333"} transparent opacity={0.2} />
+      </mesh>
+
+      {/* Label */}
+      <Text
+        position={[0, 2.5, 0]}
+        fontSize={0.25}
+        color="black"
+        anchorX="center"
+        anchorY="middle"
+        // removed font prop to use default font and avoid 404
+      >
+        {project.title.toUpperCase()}
+      </Text>
+    </group>
+  )
+}
+
+function Scene({ activeProject, setActiveProject, isInitial }: any) {
+  const currentProject = projects.find(p => p.id === activeProject) || projects[0]
+
   return (
     <>
-      <ambientLight intensity={0.8} />
-      <pointLight position={[10, 10, 10]} intensity={1} color="#fff" />
-      <pointLight position={[0, 5, 0]} intensity={1.5} color="#FF2A2A" distance={10} />
+      <DroneController targetPosition={currentProject.position} isInitial={isInitial} />
       
-      {/* Grid Floor - Dark lines */}
-      <gridHelper args={[100, 50, "#333", "#ccc"]} position={[0, 0, 0]} />
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} intensity={1} />
       
-      <MouseController setActiveProject={setActiveProject} />
-      
+      {/* Atmosphere - Adjusted radius to cover frustum corners */}
+      <Stars radius={300} depth={100} count={5000} factor={4} saturation={0} fade speed={1} />
+      <fog attach="fog" args={['#E6E6E6', 5, 80]} /> 
+
+      {/* Infinite Grid Floor - Massive Scale */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+         <planeGeometry args={[1000, 1000]} />
+         <meshBasicMaterial color="#E6E6E6" />
+      </mesh>
+      <gridHelper args={[1000, 500, "#000000", "#cccccc"]} position={[0, -2, 0]} />
+
       {projects.map((project) => (
-        <ProjectPlatform
+        <ProjectNode
           key={project.id}
           project={project}
           isActive={activeProject === project.id}
-          onClick={() => setActiveProject(project.id)}
+          setActiveProject={setActiveProject}
         />
       ))}
-      
-      <Environment preset="city" />
-      {/* Fog to blend floor into background */}
-      <fog attach="fog" args={['#E6E6E6', 5, 30]} />
     </>
   )
 }
 
 export default function ProjectShowcase() {
   const [activeProject, setActiveProject] = useState(1)
+  const [isInitial, setIsInitial] = useState(true)
   const currentProject = projects.find(p => p.id === activeProject) || projects[0]
 
+  // Auto-select first project and handle interaction state
+  useEffect(() => {
+      const timer = setTimeout(() => {
+          setIsInitial(false)
+      }, 2000)
+      return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <section className="min-h-screen bg-[var(--color-background)] py-20 relative" id="projects">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        <div className="mb-12 border-b border-black/20 pb-4">
-           <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-[var(--color-danger)]" />
-              <span className="text-[var(--color-danger)] font-mono text-xs tracking-widest">PROJECT_DATABASE</span>
+    <section className="min-h-screen bg-[var(--color-background)] py-24 relative overflow-hidden" id="projects">
+      
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        {/* Header */}
+        <div className="flex items-end justify-between mb-12 border-b border-black/10 pb-6">
+           <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-2 h-2 bg-[var(--color-volt)] rounded-full animate-pulse" />
+                <span className="font-mono text-xs uppercase tracking-widest text-gray-500"> drone_recon_active //</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-display font-bold uppercase text-black tracking-tighter">
+                Project<span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-400">Index</span>
+              </h2>
            </div>
-           <h2 className="text-5xl font-display font-bold text-black uppercase">Feature<span className="text-gray-500">Set</span></h2>
+           <div className="hidden md:flex items-center gap-4 font-mono text-xs text-gray-400">
+              <span>SYS.STATUS: OPTIMAL</span>
+              <span>LATENCY: 12ms</span>
+           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Interactive View */}
-          <div className="lg:col-span-2 h-[500px] border border-black/20 bg-[var(--color-surface)] relative shadow-inner overflow-hidden">
-             <div className="absolute top-4 left-4 text-xs font-mono text-[var(--color-danger)] z-10">
-                SYSTEM_VIEW_01 // INTERACTIVE
-             </div>
-             <Canvas camera={{ position: [0, 4, 12], fov: 45 }}>
-               <Scene 
-                 activeProject={activeProject} 
-                 setActiveProject={setActiveProject}
-               />
-             </Canvas>
-             
-             {/* Interaction hint */}
-             <div className="absolute bottom-4 left-4 text-xs font-mono text-gray-500">
-                HOVER TO SCAN // CLICK TO SELECT
-             </div>
-          </div>
+        <div className="grid lg:grid-cols-12 gap-0 border border-black/10 bg-white shadow-2xl">
+           
+           {/* Left: 3D Viewport (Drone Feed) */}
+           <div className="lg:col-span-8 min-h-[600px] h-full relative bg-gray-100 overflow-hidden group">
+              {/* HUD Overlays */}
+              <div className="absolute top-6 left-6 z-10 flex flex-col gap-1">
+                 <span className="text-[10px] font-mono text-[var(--color-danger)] uppercase tracking-widest bg-black/5 px-2 py-1">
+                    LIVE_FEED :: CAM_01
+                 </span>
+                 <span className="text-2xl font-display font-bold text-black opacity-20">
+                    {currentProject.id.toString().padStart(2, '0')}
+                 </span>
+              </div>
+              
+              {/* Crosshair */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10 opacity-30">
+                 <Crosshair size={40} strokeWidth={1} />
+              </div>
 
-          {/* Details Panel */}
-          <div className="lg:col-span-1 bg-[var(--color-surface)] border border-black p-6 relative shadow-xl">
-             <div className="absolute -top-2 -right-2 w-4 h-4 border-t-2 border-r-2 border-black" />
-             
-             {/* Decorative Project Lines */}
-             <div className="absolute -left-1 top-10 w-1 h-12 bg-[var(--color-volt)]"></div>
-             <div className="absolute right-6 top-6 w-12 h-12 border border-black/10 rounded-full flex items-center justify-center">
-                <div className="w-full h-[1px] bg-black/10 -rotate-45"></div>
-             </div>
-             
-             <div className="font-mono text-xs text-gray-500 mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 bg-black"></span>
-                PROJECT_ID: {currentProject.id.toString().padStart(2, '0')}
-             </div>
-             
-             <h3 className="text-2xl font-display font-bold text-black mb-2 uppercase">{currentProject.title}</h3>
-             <div className="text-black font-mono text-sm mb-6 font-bold">{currentProject.category}</div>
-             
-             <p className="text-gray-600 font-sans mb-6 leading-relaxed border-l border-black/20 pl-4">
-               {currentProject.description}
-             </p>
-             
-             <div className="mb-6">
-                <div className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">IMPACT_METRICS</div>
-                <div className="text-black font-bold flex items-center gap-2">
-                   <Trophy size={16} className="text-[var(--color-danger)]" />
-                   {currentProject.impact}
-                </div>
-             </div>
+              <div className="absolute bottom-6 right-6 z-10 text-right">
+                 <div className="text-[10px] font-mono text-gray-500 mb-1">COORDINATES</div>
+                 <div className="font-mono text-xs text-black">
+                    X: {currentProject.position[0].toFixed(2)} <br/>
+                    Y: {currentProject.position[1].toFixed(2)} <br/>
+                    Z: {currentProject.position[2].toFixed(2)}
+                 </div>
+              </div>
 
-             <div>
-                <div className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">SYSTEMS</div>
-                <div className="flex flex-wrap gap-2">
-                   {currentProject.technologies.map((tech, i) => (
-                     <span key={i} className="text-xs border border-black/20 px-2 py-1 text-gray-600 bg-white">{tech}</span>
-                   ))}
-                </div>
-             </div>
-             
-             {currentProject.link !== '#' && (
-               <a 
-                 href={currentProject.link}
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 className="block w-full mt-8 bg-black text-white text-center py-3 font-bold uppercase hover:bg-[var(--color-danger)] transition-colors chamfered"
-               >
-                 Access Project
-               </a>
-             )}
-          </div>
+              {/* Interactive Canvas */}
+              <Canvas shadows dpr={[1, 2]}>
+                 <Scene activeProject={activeProject} setActiveProject={(id: number) => { setActiveProject(id); setIsInitial(false); }} isInitial={isInitial} />
+              </Canvas>
+              
+              {/* Vignette & Grain for Camera Effect */}
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.1)_100%)]" />
+              {/* Removed noise.png background to avoid 404 */}
+              <div className="absolute inset-0 pointer-events-none opacity-5" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 0)', backgroundSize: '4px 4px' }}></div>
+           </div>
+
+           {/* Right: Data Terminal */}
+           <div className="lg:col-span-4 bg-black text-white p-8 flex flex-col relative overflow-hidden">
+              {/* Background Tech Decoration */}
+              <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                 <Terminal size={200} />
+              </div>
+
+              <div className="relative z-10 flex-1 flex flex-col">
+                 {/* Status Header */}
+                 <div className="flex justify-between items-center border-b border-white/20 pb-4 mb-8">
+                    <div className="flex items-center gap-2">
+                       <Activity size={14} className="text-[var(--color-volt)]" />
+                       <span className="font-mono text-xs text-[var(--color-volt)]">DATA_STREAM</span>
+                    </div>
+                    <span className="font-mono text-xs text-gray-500">SECURE</span>
+                 </div>
+
+                 <AnimatePresence mode='wait'>
+                    <motion.div
+                      key={currentProject.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex-1"
+                    >
+                       <div className="inline-block px-2 py-1 bg-[var(--color-surface)] text-black text-[10px] font-bold uppercase mb-4 font-mono">
+                          {currentProject.category}
+                       </div>
+                       
+                       <h3 className="text-3xl font-display font-bold mb-6 leading-none tracking-wide text-white">
+                          {currentProject.title}
+                       </h3>
+
+                       <div className="space-y-6 font-mono text-sm text-gray-400">
+                          <div>
+                             <span className="text-[10px] uppercase tracking-widest text-gray-600 block mb-2">Description</span>
+                             <p className="leading-relaxed text-gray-300 border-l-2 border-[var(--color-volt)] pl-3">
+                                {currentProject.description}
+                             </p>
+                          </div>
+
+                          <div>
+                             <span className="text-[10px] uppercase tracking-widest text-gray-600 block mb-2">Stack</span>
+                             <div className="flex flex-wrap gap-2">
+                                {currentProject.technologies.map((tech, i) => (
+                                  <span key={i} className="px-2 py-1 border border-white/20 text-xs text-gray-300">
+                                     {tech}
+                                  </span>
+                                ))}
+                             </div>
+                          </div>
+
+                          <div>
+                             <span className="text-[10px] uppercase tracking-widest text-gray-600 block mb-2">Impact</span>
+                             <div className="flex items-center gap-2 text-white font-bold">
+                                <Trophy size={14} className="text-[var(--color-volt)]" />
+                                {currentProject.impact}
+                             </div>
+                          </div>
+                       </div>
+                    </motion.div>
+                 </AnimatePresence>
+
+                 {/* Action Button */}
+                 <div className="mt-auto pt-8">
+                    <a 
+                      href={currentProject.link}
+                      className={`flex items-center justify-between w-full px-6 py-4 border border-white/20 transition-all group
+                        ${currentProject.link !== '#' ? 'hover:bg-[var(--color-volt)] hover:border-[var(--color-volt)] hover:text-black cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
+                    >
+                       <span className="font-bold font-display uppercase tracking-wider">
+                          {currentProject.link !== '#' ? 'Execute Protocol' : 'Access Restricted'}
+                       </span>
+                       <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                    </a>
+                 </div>
+              </div>
+           </div>
+
         </div>
       </div>
     </section>
