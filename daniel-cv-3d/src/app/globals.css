@@ -1,47 +1,193 @@
 @import "tailwindcss";
 
-/* Inter Font Configuration - Official Setup */
-:root { 
-  font-family: 'Inter', sans-serif;
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@supports (font-variation-settings: normal) {
-  :root { 
-    font-family: 'Inter var', sans-serif; 
-  }
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: 'Inter var', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Inter var', 'Inter', 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --color-volt: #DFFF00;
+  --color-volt-dim: #AACC00;
+  --color-danger: #FF2A2A;
+  --color-danger-dim: #CC0000;
+  
+  /* Light Mode Industrial Palette */
+  --color-background: #E6E6E6;
+  --color-surface: #F2F2F2;
+  --color-surface-light: #FFFFFF;
+  --color-text-main: #050505;
+  --color-text-dim: #404040;
+  --color-border: #000000;
+  
+  --font-display: var(--font-orbitron), system-ui, sans-serif;
+  --font-sans: var(--font-rajdhani), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #E6E6E6;
+  --foreground: #050505;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Inter var', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-feature-settings: 'liga' 1, 'calt' 1; /* Enable ligatures and contextual alternates */
+  font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
-/* GitHub Contributions Chart Styling */
-.github-contributions-chart {
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D4D4D4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-danger);
+}
+
+/* Scanline Effect - Inverted for Light Mode */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  transition: all 0.3s ease;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.03) 50%,
+    rgba(0, 0, 0, 0.03)
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
 }
 
-.github-contributions-chart:hover {
-  transform: scale(1.02);
-  opacity: 0.9;
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Glitch Text Effect Utilities */
+.glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--color-danger);
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+/* Chamfered Edges Utility */
+.chamfered {
+  clip-path: polygon(
+    10px 0, 100% 0, 
+    100% calc(100% - 10px), calc(100% - 10px) 100%, 
+    0 100%, 0 10px
+  );
+}
+
+.chamfered-border {
+  position: relative;
+}
+
+/* Border uses black/volt for high contrast */
+.chamfered-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000000; /* Outer border black */
+  clip-path: polygon(
+    10px 0, 100% 0, 
+    100% calc(100% - 10px), calc(100% - 10px) 100%, 
+    0 100%, 0 10px
+  );
+  z-index: -1;
+}
+
+.chamfered-border::after {
+  content: '';
+  position: absolute;
+  inset: 1px; /* Thin border */
+  background: var(--color-surface);
+  clip-path: polygon(
+    9.5px 0, 100% 0, 
+    100% calc(100% - 9.5px), calc(100% - 9.5px) 100%, 
+    0 100%, 0 9.5px
+  );
+  z-index: -1;
+}
+
+/* Red variant for chamfered border */
+.chamfered-border-red::before {
+  background: var(--color-danger);
+}
+
+/* New Technical Lines & Accents */
+.technical-line {
+  position: absolute;
+  background: #000;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.technical-crosshair {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.technical-crosshair::before,
+.technical-crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--color-danger);
+}
+
+.technical-crosshair::before {
+  top: 9px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.technical-crosshair::after {
+  left: 9px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+}
+
+.technical-dots {
+  background-image: radial-gradient(#000 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0.3;
+}
+
+.warning-stripe {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.1) 10px,
+    rgba(0, 0, 0, 0.1) 20px
+  );
 }

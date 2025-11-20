@@ -1,12 +1,10 @@
 'use client'
 
-
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Building2, Calendar, MapPin } from 'lucide-react'
 import Image from 'next/image'
-
-
+import ScrollHighlight from './ScrollHighlight'
 
 const experiences = [
   {
@@ -17,11 +15,8 @@ const experiences = [
     location: "Berlin, Germany",
     description: "Leading a dynamic team of entrepreneurs and software engineers. Delivering cutting-edge AI, data science, and data solutions to businesses worldwide.",
     technologies: ["AI", "Data Science", "Proprietary AI Systems"],
-    color: "#ffffff",
-    position: [0, 6, 0] as [number, number, number],
     logo: "control-f"
   },
-
   {
     id: 2,
     company: "Porsche AG",
@@ -30,8 +25,6 @@ const experiences = [
     location: "Stuttgart, Germany",
     description: "Conducted quality-driven data analysis for decision-making. Built data analyzing pipeline for vehicle data with PySpark.",
     technologies: ["Azure ML", "Cloudera Suite", "SAP Data Warehouse Cloud", "Dataiku", "Python", "TensorFlow", "PySpark"],
-    color: "#ffffff",
-    position: [6, 0, 4] as [number, number, number],
     logo: "porsche"
   },
   {
@@ -42,8 +35,6 @@ const experiences = [
     location: "Berlin, Germany",
     description: "Led R&D initiatives for automotive technology innovation. Spearheaded next-generation Mercedes Benz Infotainment System.",
     technologies: ["Jira", "Confluence", "Agile", "Scrum", "Kanban"],
-    color: "#ffffff",
-    position: [-6, 0, 4] as [number, number, number],
     logo: "mbition"
   },
   {
@@ -54,19 +45,16 @@ const experiences = [
     location: "Stuttgart, Germany",
     description: "Coordinated software architecture with ML components. Designed microservice architectures using Docker and K8s.",
     technologies: ["R", "Python", "React.js", "JavaScript", "Docker", "Kubernetes", "Jenkins", "Azure"],
-    color: "#ffffff",
-    position: [0, -3, -4] as [number, number, number],
     logo: "mercedes"
   }
 ]
 
-// Get the appropriate company logo with enhanced styling
 function getCompanyLogo(logoId: string, size: number = 32) {
   const logoMap: { [key: string]: { path: string, needsWhiteBackground: boolean } } = {
     'control-f': { path: '/company_icons/control-f.png', needsWhiteBackground: true },
     'porsche': { path: '/company_icons/Porsche.png', needsWhiteBackground: true },
-    'mercedes': { path: '/company_icons/Daimler.png', needsWhiteBackground: true }, // Using Mercedes logo for Daimler as requested
-    'mbition': { path: '/company_icons/mbition.webp', needsWhiteBackground: false }, // Black logo needs transparent/dark background
+    'mercedes': { path: '/company_icons/Daimler.png', needsWhiteBackground: true },
+    'mbition': { path: '/company_icons/mbition.webp', needsWhiteBackground: false },
   }
 
   const logoInfo = logoMap[logoId]
@@ -77,8 +65,8 @@ function getCompanyLogo(logoId: string, size: number = 32) {
     
     return (
       <div 
-        className={`flex items-center justify-center rounded-xl overflow-hidden shadow-lg ${
-          logoInfo.needsWhiteBackground ? 'bg-white' : 'bg-gray-100/20 border border-white/30'
+        className={`flex items-center justify-center overflow-hidden ${
+          logoInfo.needsWhiteBackground ? 'bg-white shadow-sm' : 'bg-black/5 border border-black/10'
         }`}
         style={{ 
           width: size, 
@@ -96,166 +84,157 @@ function getCompanyLogo(logoId: string, size: number = 32) {
       </div>
     )
   }
-  
-  // Fallback to building icon if logo not found
-  return <Building2 size={size} className="text-white" />
+  return <Building2 size={size} className="text-gray-400" />
 }
-
-
-
-
 
 export default function ExperienceTimeline() {
   const [activeExperience, setActiveExperience] = useState(1)
-  
   const currentExp = experiences.find(exp => exp.id === activeExperience) || experiences[0]
   
-  if (!currentExp) {
-    console.error('No experience found!')
-    return null
-  }
-  
-
-
   return (
-    <section className="min-h-screen bg-black py-20" id="professional-journey">
-      <div className="max-w-7xl mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.1, margin: "0px 0px -200px 0px" }}
-          className="text-center mb-16"
-        >
-                          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-                  Professional
-                  <span className="text-gray-300 font-light">
-                    {' '}Journey
-                  </span>
-                </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Explore my career timeline in 3D. Click on the floating cards to learn more about each role.
-          </p>
-        </motion.div>
+    <section className="min-h-screen bg-[var(--color-background)] py-20 relative" id="experience">
+      {/* Grid Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-10" 
+           style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
 
-                                 {/* Company Selection Navigation */}
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true, amount: 0.1, margin: "0px 0px -150px 0px" }}
-          className="mb-12"
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-16 border-b border-black/20 pb-4 flex justify-between items-end"
         >
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            {experiences.map((exp, index) => (
-              <motion.button
-                key={exp.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: index * 0.1,
-                  ease: "easeOut"
-                }}
-                viewport={{ once: true }}
-                onClick={() => setActiveExperience(exp.id)}
-                className={`px-4 py-3 sm:px-6 sm:py-4 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 flex items-center gap-2 sm:gap-3 min-h-[50px] sm:min-h-[60px] ${
-                  activeExperience === exp.id
-                   ? 'bg-white text-black shadow-xl border-2 border-white/50 transform scale-105 shadow-white/20'
-                   : 'bg-black/60 text-white/70 hover:bg-white/10 border border-white/30 hover:border-white/50'
-                }`}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="flex-shrink-0">
-                  {getCompanyLogo(exp.logo, 28)}
-                </div>
-                <span className="font-semibold whitespace-nowrap">{exp.company}</span>
-              </motion.button>
-            ))}
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+               <div className="w-2 h-2 bg-[var(--color-danger)] animate-pulse" />
+               <span className="text-[var(--color-danger)] font-mono text-xs tracking-widest">SYSTEM_LOG_02</span>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-display font-bold text-black uppercase">
+              Career<span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-black stroke-black ml-4">History</span>
+            </h2>
+          </div>
+          <div className="hidden md:block text-right font-mono text-gray-500 text-xs">
+            <div>// DECRYPTING_CAREER_DATA</div>
+            <div>// ACCESS_LEVEL: PUBLIC</div>
           </div>
         </motion.div>
 
-        <div className="flex justify-center">
-          {/* Enhanced Experience Details Panel */}
-          <motion.div 
-            className="relative w-full max-w-4xl"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Navigation Rail */}
+          <div className="lg:col-span-4">
+            <div className="flex flex-col space-y-2 border-l-2 border-black/10 pl-6 relative">
+              {/* Active Indicator Line */}
+              <motion.div 
+                className="absolute left-[-2px] w-[2px] bg-black h-12 transition-all duration-300"
+                animate={{ top: `${(activeExperience - 1) * (80 + 8)}px` }}
+              />
+
+              {experiences.map((exp, index) => (
+                <button
+                  key={exp.id}
+                  onClick={() => setActiveExperience(exp.id)}
+                  className={`group text-left p-4 transition-all duration-300 border border-transparent relative overflow-hidden h-20 ${
+                    activeExperience === exp.id
+                      ? 'bg-white/60 border-black/10 shadow-sm'
+                      : 'hover:bg-white/40'
+                  }`}
+                >
+                  <div className="flex items-center justify-between relative z-10">
+                     <div>
+                        <div className={`font-mono text-xs mb-1 uppercase ${activeExperience === exp.id ? 'text-[var(--color-danger)]' : 'text-gray-400'}`}>
+                          // 0{exp.id}
+                        </div>
+                        <div className={`font-bold uppercase tracking-wider ${activeExperience === exp.id ? 'text-black' : 'text-gray-500'}`}>
+                          {exp.company}
+                        </div>
+                     </div>
+                     {activeExperience === exp.id && <div className="w-2 h-2 bg-black" />}
+                  </div>
+                  
+                  {/* Hover Fill */}
+                  <div className="absolute inset-0 bg-white/80 transform translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 -z-0" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Detail View */}
+          <div className="lg:col-span-8">
             <motion.div
               key={activeExperience}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="relative"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-[var(--color-surface)] border border-black/20 p-8 relative min-h-[400px] shadow-xl"
             >
-              {/* RGB glow effects like profile picture */}
-              <div className="absolute inset-0 bg-white rounded-2xl blur-xl opacity-5 animate-pulse" 
-                   style={{ animationDelay: '0s' }} />
-              <div className="absolute inset-0 bg-gray-300 rounded-2xl blur-lg opacity-3 animate-pulse" 
-                   style={{ animationDelay: '0.5s' }} />
-              
-              <div className="relative bg-black/80 backdrop-blur-md rounded-2xl p-8 border-2 border-white/30 shadow-2xl">
-                {currentExp ? (
-                  <>
-                    <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 mb-6">
-                      <div className="flex items-center justify-center flex-shrink-0">
-                        {getCompanyLogo(currentExp.logo, 100)}
-                      </div>
-                      <div className="flex-1 text-center sm:text-left">
-                        <h3 className="text-2xl font-bold text-white">{currentExp.company}</h3>
-                        <div className="w-full h-0.5 bg-gradient-to-r from-white/50 to-transparent mt-1"></div>
-                      </div>
-                    </div>
-            
-                          <h4 className="text-xl text-gray-300 mb-4 font-medium">{currentExp.role}</h4>
-            
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-white/70">
-                <Calendar size={16} />
-                <span className="text-sm">{currentExp.period}</span>
-              </div>
-              <div className="flex items-center gap-2 text-white/70">
-                <MapPin size={16} />
-                <span className="text-sm">{currentExp.location}</span>
-              </div>
-            </div>
-            
-            <p className="text-white/80 leading-relaxed mb-6">
-              {currentExp.description}
-            </p>
-            
-            <div className="space-y-4">
-              <h5 className="text-lg font-semibold text-white flex items-center gap-2">
-                <Building2 size={18} />
-                Technologies & Tools
-              </h5>
-                                  <div className="flex flex-wrap gap-2">
-                      {currentExp.technologies.map((tech, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-white/10 text-white rounded-full text-sm border border-white/30 hover:bg-white/20 transition-all duration-300"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                                         </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-white text-center">Loading experience details...</div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+               {/* Decorative HUD Elements */}
+               <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-black opacity-50" />
+               <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-[var(--color-danger)] opacity-50" />
+               
+               {/* Warning Stripes Top Right */}
+               <div className="absolute top-0 right-0 w-24 h-8 overflow-hidden">
+                  <div className="w-full h-full warning-stripe opacity-20"></div>
+               </div>
+               
+               {/* Technical Crosshair */}
+               <div className="absolute bottom-4 left-4 w-4 h-4 border border-black/20 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-[var(--color-volt)] rounded-full"></div>
+               </div>
 
-        {/* Timeline Navigation */}
-        
+               <div className="absolute top-4 right-4 font-mono text-[10px] text-gray-400 tracking-widest flex items-center gap-2">
+                 <span className="w-2 h-2 bg-[var(--color-danger)] animate-pulse"></span>
+                 SECURE_CONNECTION_ESTABLISHED
+               </div>
+
+               <div className="flex items-start justify-between mb-8">
+                  <div className="flex items-center gap-6">
+                     <div className="border border-black/10 p-2 bg-white shadow-sm">
+                        {getCompanyLogo(currentExp.logo, 64)}
+                     </div>
+                     <div>
+                        <h3 className="text-3xl font-bold text-black uppercase tracking-wide font-display">
+                          <ScrollHighlight>{currentExp.role}</ScrollHighlight>
+                        </h3>
+                        <div className="text-gray-600 font-mono mt-1 font-bold">@ {currentExp.company}</div>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="grid grid-cols-2 gap-4 mb-8 border-y border-black/10 py-4 font-mono text-sm text-gray-500">
+                  <div className="flex items-center gap-2">
+                    <Calendar size={14} className="text-[var(--color-danger)]" />
+                    <span>{currentExp.period}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin size={14} className="text-[var(--color-danger)]" />
+                    <span>{currentExp.location}</span>
+                  </div>
+               </div>
+
+               <div className="mb-8 font-sans text-gray-800 leading-relaxed text-lg border-l-2 border-black/20 pl-4">
+                  {currentExp.description}
+               </div>
+
+               <div>
+                 <h4 className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-4">// TECH_STACK_USED</h4>
+                 <div className="flex flex-wrap gap-2">
+                    {currentExp.technologies.map((tech, i) => (
+                      <div key={i} className="px-3 py-1 bg-white border border-black/20 text-xs font-mono text-gray-600 hover:border-black hover:text-black transition-colors cursor-default shadow-sm">
+                        {tech}
+                      </div>
+                    ))}
+                 </div>
+               </div>
+
+            </motion.div>
+          </div>
+
+        </div>
       </div>
     </section>
   )
-} 
+}
