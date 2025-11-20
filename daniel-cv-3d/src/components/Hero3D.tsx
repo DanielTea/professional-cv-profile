@@ -8,6 +8,8 @@ import { Vector3 } from 'three'
 import * as THREE from 'three'
 import Image from 'next/image'
 import ScrollHighlight from './ScrollHighlight'
+import MouseCoordinates from './MouseCoordinates'
+import Barcode from './Barcode'
 
 // GitHub Stats Interface
 interface GitHubStats {
@@ -196,7 +198,7 @@ export default function Hero3D() {
         
         <div className="absolute right-12 bottom-32 text-[10px] font-mono text-black/40 flex flex-col items-end gap-2">
            <div className="flex items-center gap-2">
-              <span>COORDS: 34.0522° N</span>
+              <MouseCoordinates />
               <div className="w-4 h-4 border border-black rounded-full flex items-center justify-center">
                  <div className="w-2 h-[1px] bg-black"></div>
               </div>
@@ -228,7 +230,10 @@ export default function Hero3D() {
              transition={{ duration: 0.8 }}
           >
              <div className="inline-block px-2 py-1 bg-[var(--color-surface)] border border-black text-[var(--color-danger)] font-mono text-xs font-bold mb-4">
-                ID: 9821-A // SENIOR_ENGINEER
+                <div className="flex items-center gap-4">
+                  <span>ID: 9821-A // SENIOR_ENGINEER</span>
+                  <Barcode width="w-16" height="h-3" color="bg-[var(--color-danger)]" />
+                </div>
              </div>
              <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold text-black leading-[0.85] tracking-tighter mb-6">
                DANIEL<br/>
@@ -265,6 +270,7 @@ export default function Hero3D() {
                    src="/images/profile.webp" 
                    alt="Daniel Tremer" 
                    fill
+                   sizes="(max-width: 768px) 100vw, 500px"
                    className="object-cover"
                    priority
                  />

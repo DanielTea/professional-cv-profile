@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { Building2, Calendar, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import ScrollHighlight from './ScrollHighlight'
+import RandomNumber from './RandomNumber'
+import Barcode from './Barcode'
 
 const experiences = [
   {
@@ -109,24 +111,42 @@ export default function ExperienceTimeline() {
         >
           <div>
             <div className="flex items-center gap-2 mb-2">
-               <div className="w-2 h-2 bg-[var(--color-danger)] animate-pulse" />
-               <span className="text-[var(--color-danger)] font-mono text-xs tracking-widest">SYSTEM_LOG_02</span>
+               <div className="w-2 h-2 bg-[var(--color-danger)] animate-pulse shadow-[0_0_8px_var(--color-danger)]" />
+               <span className="text-[var(--color-danger)] font-mono text-xs tracking-widest">SYSTEM_LOG_02 // LIVE_RECORD</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-7xl font-display font-bold text-black uppercase">
               Career<span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-black stroke-black ml-4">History</span>
             </h2>
           </div>
           <div className="hidden md:block text-right font-mono text-gray-500 text-xs">
-            <div>// DECRYPTING_CAREER_DATA</div>
-            <div>// ACCESS_LEVEL: PUBLIC</div>
+            <div className="flex flex-col gap-1">
+               <div className="flex justify-end gap-2">
+                  <span className="opacity-50">
+                    PKT_LOSS: <RandomNumber min={0} max={2.5} decimals={2} suffix="%" interval={800} />
+                  </span>
+                  <span>// DECRYPTING_CAREER_DATA</span>
+               </div>
+               <div className="flex justify-end gap-1">
+                  <span className="w-1 h-3 bg-black/20"></span>
+                  <span className="w-1 h-3 bg-black/40"></span>
+                  <span className="w-1 h-3 bg-black/60"></span>
+                  <span className="w-1 h-3 bg-black/80"></span>
+                  <span>// ACCESS_LEVEL: PUBLIC</span>
+               </div>
+            </div>
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Navigation Rail */}
-          <div className="lg:col-span-4">
-            <div className="flex flex-col space-y-2 border-l-2 border-black/10 pl-6 relative">
+          <div className="lg:col-span-4 relative">
+            {/* Tech Decorative Lines for Rail */}
+            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-black/10 hidden lg:block"></div>
+            <div className="absolute left-0 top-0 w-2 h-2 bg-black hidden lg:block"></div>
+            <div className="absolute left-0 bottom-0 w-2 h-2 bg-black hidden lg:block"></div>
+
+            <div className="flex flex-col space-y-2 border-l-2 border-black/10 pl-6 relative z-10">
               {/* Active Indicator Line - Hidden on mobile for cleaner look */}
               <motion.div 
                 className="hidden lg:block absolute left-[-2px] w-[2px] bg-black h-12 transition-all duration-300"
@@ -175,14 +195,26 @@ export default function ExperienceTimeline() {
                <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-black opacity-50" />
                <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-[var(--color-danger)] opacity-50" />
                
+               {/* New Tech Accents */}
+               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-black/20"></div>
+               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-black/20"></div>
+               <div className="absolute left-0 top-1/2 -translate-y-1/2 h-16 w-[1px] bg-black/20"></div>
+               <div className="absolute right-0 top-1/2 -translate-y-1/2 h-16 w-[1px] bg-black/20"></div>
+
+               <div className="absolute -left-1 top-12 w-2 h-8 bg-black/10"></div>
+               <div className="absolute -right-1 bottom-12 w-2 h-8 bg-[var(--color-danger)]/20"></div>
+
                {/* Warning Stripes Top Right */}
                <div className="absolute top-0 right-0 w-24 h-8 overflow-hidden">
                   <div className="w-full h-full warning-stripe opacity-20"></div>
                </div>
                
                {/* Technical Crosshair */}
-               <div className="absolute bottom-4 left-4 w-4 h-4 border border-black/20 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 bg-[var(--color-volt)] rounded-full"></div>
+               <div className="absolute bottom-4 left-4 flex items-center gap-4">
+                  <div className="w-4 h-4 border border-black/20 rounded-full flex items-center justify-center">
+                    <div className="w-2 h-2 bg-[var(--color-volt)] rounded-full"></div>
+                  </div>
+                  <Barcode width="w-24" height="h-2" color="bg-black/20" />
                </div>
 
                <div className="absolute top-4 right-4 font-mono text-[10px] text-gray-400 tracking-widest flex items-center gap-2">

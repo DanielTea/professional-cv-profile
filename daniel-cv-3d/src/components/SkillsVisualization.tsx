@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
 import { Code, Database, Cloud, Brain, Wrench, Users, Terminal, Cpu, Globe, Activity, Layers, Shield } from 'lucide-react'
 import * as THREE from 'three'
+import Barcode from './Barcode'
 
 // --- Enhanced Data with "Cyber" flavor texts ---
 const skillCategories = [
@@ -274,23 +275,40 @@ export default function SkillsVisualization() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
-            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 border border-[var(--color-danger)] bg-[var(--color-surface)] rounded-sm">
-              <div className="w-2 h-2 bg-[var(--color-danger)] animate-pulse" />
-              <span className="text-[var(--color-danger)] font-mono text-xs uppercase tracking-widest">System_Grid_Active</span>
+            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 border border-[var(--color-danger)] bg-[var(--color-surface)] rounded-sm relative overflow-hidden">
+              <div className="absolute inset-0 bg-[var(--color-danger)]/5 animate-pulse"></div>
+              <div className="w-2 h-2 bg-[var(--color-danger)] animate-[ping_1.5s_infinite]" />
+              <span className="relative z-10 text-[var(--color-danger)] font-mono text-xs uppercase tracking-widest">System_Grid_Active</span>
             </div>
             <h2 className="text-4xl md:text-6xl font-display font-bold text-black uppercase tracking-tighter">
               Core<span className="text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-400">Competencies</span>
             </h2>
           </div>
           <div className="text-right hidden md:block">
-            <div className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-1">Current Module</div>
-            <div className="text-xl font-display font-bold text-black">{currentCategory.name}</div>
-            <div className="text-sm text-gray-500 font-mono">{currentCategory.description}</div>
+            <div className="flex flex-col items-end gap-1">
+               <div className="flex gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                     <div key={i} className="w-1 h-4 bg-black/20 animate-[pulse_1s_ease-in-out_infinite]" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                  ))}
+               </div>
+               <div className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-1">Current Module</div>
+               <div className="text-xl font-display font-bold text-black">{currentCategory.name}</div>
+               <div className="text-sm text-gray-500 font-mono">{currentCategory.description}</div>
+            </div>
           </div>
         </div>
 
         {/* Main Interface Grid */}
-        <div className="grid lg:grid-cols-12 gap-6 h-[750px]">
+        <div className="grid lg:grid-cols-12 gap-6 h-[750px] relative">
+           {/* Background Circuit Lines */}
+           <div className="absolute inset-0 pointer-events-none opacity-10 z-0 hidden lg:block">
+              <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                 <path d="M 10 10 H 200 V 50" stroke="black" fill="none" strokeWidth="1" />
+                 <path d="M 10 740 H 100 V 700" stroke="black" fill="none" strokeWidth="1" />
+                 <circle cx="200" cy="50" r="2" fill="black" />
+                 <circle cx="100" cy="700" r="2" fill="black" />
+              </svg>
+           </div>
           
            {/* Left: Category Selection (Tactical Menu) */}
            <div className="lg:col-span-2 flex flex-col gap-2">
@@ -316,12 +334,27 @@ export default function SkillsVisualization() {
 
            {/* Center: 3D Visualization */}
            <div className="lg:col-span-7 relative bg-[#f0f0f0] border border-black/10 shadow-inner overflow-hidden group">
+              {/* Radar Sweep Animation */}
+              <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] border border-black rounded-full animate-[spin_10s_linear_infinite] border-dashed"></div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] border border-black/50 rounded-full"></div>
+              </div>
+
               {/* Decorative Technical Lines - Moved to background (z-0) */}
               <div className="absolute top-4 left-4 w-32 h-[1px] bg-black/20 z-0 pointer-events-none" />
               <div className="absolute top-4 left-4 h-8 w-[1px] bg-black/20 z-0 pointer-events-none" />
               <div className="absolute bottom-4 right-4 w-32 h-[1px] bg-black/20 z-0 pointer-events-none" />
               <div className="absolute bottom-4 right-4 h-8 w-[1px] bg-black/20 z-0 pointer-events-none" />
               
+              {/* New Tech Accents */}
+              <div className="absolute top-4 right-4 flex gap-1 z-0">
+                 <div className="w-1 h-1 bg-black/20"></div>
+                 <div className="w-1 h-1 bg-black/20"></div>
+                 <div className="w-1 h-1 bg-[var(--color-danger)]/40"></div>
+              </div>
+              <div className="absolute bottom-4 left-24 w-24 h-[1px] bg-black/10 z-0"></div>
+              <div className="absolute bottom-4 left-[calc(6rem+6rem)] w-2 h-[1px] bg-black/10 z-0"></div>
+
               {/* Grid overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none z-0" />
 
@@ -390,13 +423,19 @@ export default function SkillsVisualization() {
                          
                          {/* Stats Grid (Flavor) */}
                          <div className="grid grid-cols-2 gap-2 mt-8 pt-8 border-t border-white/10">
-                            <div className="bg-white/5 p-2">
-                               <div className="text-[10px] text-gray-500 font-mono uppercase">Projects</div>
+                            <div className="bg-white/5 p-2 relative overflow-hidden">
+                               <div className="text-[10px] text-gray-500 font-mono uppercase mb-1">Projects</div>
                                <div className="text-lg font-display">{Math.floor(currentSkillData.level / 5)}+</div>
+                               <div className="absolute bottom-2 right-2 opacity-30">
+                                  <Barcode width="w-12" height="h-4" color="bg-white" />
+                               </div>
                             </div>
-                            <div className="bg-white/5 p-2">
-                               <div className="text-[10px] text-gray-500 font-mono uppercase">Experience</div>
+                            <div className="bg-white/5 p-2 relative overflow-hidden">
+                               <div className="text-[10px] text-gray-500 font-mono uppercase mb-1">Experience</div>
                                <div className="text-lg font-display">{Math.floor(currentSkillData.level / 20)} YRS</div>
+                               <div className="absolute bottom-2 right-2 opacity-30">
+                                  <Barcode width="w-12" height="h-4" color="bg-white" />
+                               </div>
                             </div>
                          </div>
                       </motion.div>

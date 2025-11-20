@@ -6,9 +6,12 @@ import { motion } from 'framer-motion'
 import Loader from '../components/Loader'
 import Navbar from '../components/Navbar'
 import Hero3D from '../components/Hero3D'
+import ScrollTechOverlay from '../components/ScrollTechOverlay'
+import RandomNumber from '../components/RandomNumber'
 
 // Dynamic imports for Three.js components to avoid SSR issues (except Hero)
 const ExperienceTimeline = dynamic(() => import('../components/ExperienceTimeline'), { ssr: false })
+const WorldMap3D = dynamic(() => import('../components/WorldMap3D'), { ssr: false })
 const SkillsVisualization = dynamic(() => import('../components/SkillsVisualization'), { ssr: false })
 const ProjectShowcase = dynamic(() => import('../components/ProjectShowcase'), { ssr: false })
 
@@ -30,6 +33,9 @@ export default function Home() {
       <Navbar />
       
       <Hero3D />
+
+      {/* New Scroll Parallax Overlay */}
+      <ScrollTechOverlay />
       
       {/* Decorative Background Lines */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -50,6 +56,12 @@ export default function Home() {
       <section id="experience" className="min-h-screen relative z-10">
         <Suspense fallback={<Loader />}>
           <ExperienceTimeline />
+        </Suspense>
+      </section>
+
+      <section id="world-map" className="relative z-10">
+        <Suspense fallback={<Loader />}>
+          <WorldMap3D />
         </Suspense>
       </section>
       
@@ -118,7 +130,7 @@ export default function Home() {
               {/* Technical footer data */}
               <div className="mt-8 pt-4 border-t border-black/10 flex justify-between text-[10px] font-mono text-gray-500">
                 <span>STATUS: ONLINE</span>
-                <span>LATENCY: 12ms</span>
+                <span>LATENCY: <RandomNumber min={8} max={24} decimals={0} suffix="ms" interval={1200} /></span>
                 <span>SECURE: TRUE</span>
               </div>
             </div>

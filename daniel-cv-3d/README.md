@@ -8,6 +8,7 @@ A high-performance, immersive 3D portfolio website inspired by **Industrial Sci-
 - **3D Drone Recon**: Interactive "Project Database" where users pilot a drone to explore project holographic platforms.
 - **Neural Network Skills**: Interactive 3D visualization of technical skills as connected nodes with tactical data analysis HUD.
 - **Mission Log Experience**: A "Data Rail" timeline showcasing career history with encrypted/decrypted visual effects.
+- **Global Presence**: Interactive 3D wireframe globe with real-time location tracking (Berlin HQ) and HUD overlay plus color-coded mission markers (Atlanta, Stuttgart, Bangkok, Tokyo).
 - **GitHub Operations**: Live "Command Center" style GitHub integration with cache-busting contribution charts.
 - **Industrial Aesthetic**:
   - **Volt Green (#DFFF00)** accent color.
@@ -58,6 +59,7 @@ daniel-cv-3d/
 │   └── components/
 │       ├── Hero3D.tsx            # "Command Center" Hero
 │       ├── ExperienceTimeline.tsx # "Mission Log" Timeline
+│       ├── WorldMap3D.tsx        # "Global Presence" Map
 │       ├── SkillsVisualization.tsx # "Neural Network" Skills
 │       ├── ProjectShowcase.tsx   # "Drone Recon" Game
 │       ├── Navbar.tsx            # "System HUD" Navigation

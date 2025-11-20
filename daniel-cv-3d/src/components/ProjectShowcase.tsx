@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
 import { Trophy, ExternalLink, Terminal, Activity, Crosshair } from 'lucide-react'
 import * as THREE from 'three'
+import RandomNumber from './RandomNumber'
+import Barcode from './Barcode'
 
 // --- Enhanced Data ---
 const projects = [
@@ -250,7 +252,7 @@ export default function ProjectShowcase() {
            </div>
            <div className="hidden md:flex items-center gap-4 font-mono text-xs text-gray-400">
               <span>SYS.STATUS: OPTIMAL</span>
-              <span>LATENCY: 12ms</span>
+              <span>LATENCY: <RandomNumber min={8} max={24} decimals={0} suffix="ms" interval={800} /></span>
            </div>
         </div>
 
@@ -258,14 +260,56 @@ export default function ProjectShowcase() {
            
            {/* Left: 3D Viewport (Drone Feed) */}
            <div className="lg:col-span-8 min-h-[600px] h-full relative bg-gray-100 overflow-hidden group">
+              {/* Moving Scanline */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-[var(--color-volt)]/30 z-20 animate-[scan_3s_linear_infinite] shadow-[0_0_15px_var(--color-volt)]"></div>
+
               {/* HUD Overlays */}
               <div className="absolute top-6 left-6 z-10 flex flex-col gap-1">
-                 <span className="text-[10px] font-mono text-[var(--color-danger)] uppercase tracking-widest bg-black/5 px-2 py-1">
-                    LIVE_FEED :: CAM_01
-                 </span>
+                 <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-mono text-[var(--color-danger)] uppercase tracking-widest bg-black/5 px-2 py-1 border border-[var(--color-danger)]/20">
+                       LIVE_FEED :: CAM_01
+                    </span>
+                    <div className="w-2 h-2 rounded-full bg-[var(--color-danger)] animate-pulse"></div>
+                 </div>
                  <span className="text-2xl font-display font-bold text-black opacity-20">
                     {currentProject.id.toString().padStart(2, '0')}
                  </span>
+              </div>
+              
+              {/* Top Right Metrics */}
+              <div className="absolute top-6 right-6 z-10 flex flex-col items-end gap-1 font-mono text-[10px] text-gray-500">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Barcode width="w-16" height="h-2" color="bg-black/40" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>BAT</span>
+                    <div className="flex gap-[1px]">
+                       <div className="w-1 h-2 bg-black"></div>
+                       <div className="w-1 h-2 bg-black"></div>
+                       <div className="w-1 h-2 bg-black"></div>
+                       <div className="w-1 h-2 bg-black/20"></div>
+                    </div>
+                  </div>
+                  <div>SIG: <RandomNumber min={85} max={99} decimals={0} suffix="%" interval={1500} /></div>
+                  <div>ENC: AES-256</div>
+              </div>
+
+              {/* Tech Borders */}
+              <div className="absolute inset-4 border border-black/5 pointer-events-none z-10">
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-black/20"></div>
+                  <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-black/20"></div>
+                  <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-black/20"></div>
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-black/20"></div>
+                  
+                  {/* Center Crosshair Lines */}
+                  <div className="absolute top-1/2 left-0 w-4 h-[1px] bg-black/40"></div>
+                  <div className="absolute top-1/2 right-0 w-4 h-[1px] bg-black/40"></div>
+                  <div className="absolute top-0 left-1/2 h-4 w-[1px] bg-black/40"></div>
+                  <div className="absolute bottom-0 left-1/2 h-4 w-[1px] bg-black/40"></div>
+                  
+                  {/* Inner Brackets */}
+                  <div className="absolute top-1/4 left-1/4 w-2 h-2 border-t border-l border-black/10"></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-2 h-2 border-b border-r border-black/10"></div>
               </div>
               
               {/* Crosshair */}
@@ -276,9 +320,9 @@ export default function ProjectShowcase() {
               <div className="absolute bottom-6 right-6 z-10 text-right">
                  <div className="text-[10px] font-mono text-gray-500 mb-1">COORDINATES</div>
                  <div className="font-mono text-xs text-black">
-                    X: {currentProject.position[0].toFixed(2)} <br/>
-                    Y: {currentProject.position[1].toFixed(2)} <br/>
-                    Z: {currentProject.position[2].toFixed(2)}
+                    X: {currentProject.position[0].toFixed(2)} <span className="text-gray-400">±<RandomNumber min={0} max={0.05} decimals={3} interval={100} /></span><br/>
+                    Y: {currentProject.position[1].toFixed(2)} <span className="text-gray-400">±<RandomNumber min={0} max={0.05} decimals={3} interval={120} /></span><br/>
+                    Z: {currentProject.position[2].toFixed(2)} <span className="text-gray-400">±<RandomNumber min={0} max={0.05} decimals={3} interval={140} /></span>
                  </div>
               </div>
 
