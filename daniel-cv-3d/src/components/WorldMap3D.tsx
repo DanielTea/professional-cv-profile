@@ -6,8 +6,6 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { motion } from 'framer-motion'
 
-const EARTH_MAP_URL = new URL('../../public/images/earth_tech_map.jpg', import.meta.url).href
-
 type Marker = {
   id: string
   label: string
@@ -99,7 +97,7 @@ const Globe = ({
   activeMarkerId: string | null
 }) => {
   const globeRef = useRef<THREE.Group>(null)
-  const earthMap = useTexture(EARTH_MAP_URL)
+  const earthMap = useTexture('/images/earth_tech_map.jpg')
 
   // Radius of the globe
   const R = 2
