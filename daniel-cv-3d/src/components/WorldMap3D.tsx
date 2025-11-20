@@ -180,16 +180,16 @@ const Globe = ({
             </mesh>
             <pointLight color={marker.color} distance={1} intensity={isActive ? 3 : 1.5} />
 
-            <Html position={[0.1, 0, 0]} distanceFactor={18} occlusion>
+            <Html position={[0.08, 0, 0]} distanceFactor={20} occlusion>
               <div
-                className={`font-mono text-[6px] tracking-[0.35em] uppercase px-1.5 py-[2px] border-l-2 transition-all duration-300 bg-black/70 backdrop-blur-[1px]`}
+                className={`font-mono text-[5px] tracking-[0.3em] uppercase px-1.5 py-[1px] border-l border-white/40 transition-all duration-300 bg-black/40 backdrop-blur-[1px] select-none`}
                 style={{
                   pointerEvents: 'auto',
-                  color: isActive ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                  color: isActive ? '#ffffff' : 'rgba(255,255,255,0.5)',
                   borderColor: marker.accent,
-                  opacity: isActive ? 1 : 0.6,
-                  letterSpacing: '0.4em',
-                  transform: isActive ? 'scale(1.05)' : 'scale(0.95)',
+                  opacity: isActive ? 1 : 0.5,
+                  letterSpacing: '0.3em',
+                  transform: isActive ? 'scale(1.1)' : 'scale(0.9)',
                 }}
                 onMouseEnter={() => onMarkerHover(marker)}
                 onMouseLeave={() => onMarkerHover(null)}
