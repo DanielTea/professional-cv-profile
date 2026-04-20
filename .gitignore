@@ -1,9 +1,11 @@
 .history/
-*.JPG
 daniel_cv_2025.pdf
 
 # Local-only
 .claude/
 .DS_Store
 inspiration/
+IMG_*.JPG
+IMG_*.jpg
+daniel-cv-3d/artsyle/
 
