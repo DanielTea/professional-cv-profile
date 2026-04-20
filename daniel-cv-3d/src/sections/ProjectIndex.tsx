@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useIsMobile } from "@/lib/useIsMobile";
 import {
   FileTag,
   ProjectCard,
@@ -149,14 +150,15 @@ const TABS = ["All", "Enterprise", "Startup", "Product", "Research"] as const;
 
 export function ProjectIndex() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("All");
+  const isMobile = useIsMobile();
   const filtered = useMemo(
     () => (tab === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === tab)),
     [tab],
   );
 
   return (
-    <section id="work" style={{ padding: "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24 }}>
+    <section id="work" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24, gap: 16, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_03 / PORTFOLIO</FileTag>
           <StencilTitle size={96} underscore>PROJECT_INDEX</StencilTitle>
@@ -224,7 +226,7 @@ export function ProjectIndex() {
 
       <SectionRule label="GRID" code={`${filtered.length} / ${PROJECTS.length}`} />
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28, marginTop: 28 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: isMobile ? 20 : 28, marginTop: 28 }}>
         {filtered.map((p) => (
           <ProjectCard
             key={p.id}

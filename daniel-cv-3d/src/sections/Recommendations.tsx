@@ -1,4 +1,5 @@
 "use client";
+import { useIsMobile } from "@/lib/useIsMobile";
 import { FileTag, QuoteCard, SectionRule, StencilTitle } from "@/assets";
 
 const QUOTES = [
@@ -61,8 +62,9 @@ const QUOTES = [
 ];
 
 export function Recommendations() {
+  const isMobile = useIsMobile();
   return (
-    <section id="recs" style={{ padding: "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
+    <section id="recs" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ marginBottom: 20 }}>
         <FileTag>SEC_05 / PEER FEEDBACK</FileTag>
         <StencilTitle size={96}>RECOMMENDATIONS</StencilTitle>
@@ -72,8 +74,8 @@ export function Recommendations() {
         style={{
           marginTop: 28,
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: 28,
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+          gap: isMobile ? 20 : 28,
         }}
       >
         {QUOTES.map((q) => (

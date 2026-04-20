@@ -1,4 +1,5 @@
 "use client";
+import { useIsMobile } from "@/lib/useIsMobile";
 import {
   BracesTag,
   FileTag,
@@ -10,11 +11,12 @@ import {
 } from "@/assets";
 
 export function Contact() {
+  const isMobile = useIsMobile();
   return (
     <section
       id="contact"
       style={{
-        padding: "72px 48px",
+        padding: isMobile ? "48px 16px" : "72px 48px",
         maxWidth: 1440,
         margin: "0 auto",
       }}
@@ -24,7 +26,7 @@ export function Contact() {
           position: "relative",
           background: colors.orange,
           color: colors.ink,
-          padding: "48px 48px 40px",
+          padding: isMobile ? "32px 20px 28px" : "48px 48px 40px",
           borderRadius: 14,
           border: `1.5px solid ${colors.ink}`,
           overflow: "hidden",
@@ -59,7 +61,7 @@ export function Contact() {
         <div style={{ marginBottom: 12 }}>
           <BracesTag tone="ink">HANDSHAKE</BracesTag>
         </div>
-        <StencilTitle size={140}>LET&apos;S BUILD</StencilTitle>
+        <StencilTitle size={isMobile ? 64 : 140}>LET&apos;S BUILD</StencilTitle>
         <p
           style={{
             marginTop: 16,

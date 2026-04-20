@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/lib/useIsMobile";
 import {
   Chevrons,
   DataStat,
@@ -38,6 +39,7 @@ export function GithubActivity() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [chartKey, setChartKey] = useState<number>(0);
   const [pulse, setPulse] = useState<boolean>(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setChartKey(Date.now());
@@ -91,8 +93,8 @@ export function GithubActivity() {
   });
 
   return (
-    <section id="github" style={{ padding: "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20 }}>
+    <section id="github" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20, gap: 16, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_06 / GITHUB TELEMETRY</FileTag>
           <StencilTitle size={96} underscore>BUILD_LOG</StencilTitle>
@@ -129,7 +131,7 @@ export function GithubActivity() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
           border: `1px solid ${colors.ink}`,
           marginTop: 16,
         }}
@@ -143,11 +145,18 @@ export function GithubActivity() {
           <div
             key={s.k}
             style={{
-              padding: "18px 22px",
-              borderRight: i < 3 ? `1px solid ${colors.ink}` : undefined,
+              padding: isMobile ? "14px 16px" : "18px 22px",
+              borderRight: isMobile
+                ? i % 2 === 0
+                  ? `1px solid ${colors.ink}`
+                  : undefined
+                : i < 3
+                  ? `1px solid ${colors.ink}`
+                  : undefined,
+              borderTop: isMobile && i >= 2 ? `1px solid ${colors.ink}` : undefined,
             }}
           >
-            <DataStat value={s.v} label={s.k} size="lg" />
+            <DataStat value={s.v} label={s.k} size={isMobile ? "md" : "lg"} />
           </div>
         ))}
       </div>
@@ -157,7 +166,7 @@ export function GithubActivity() {
         style={{
           marginTop: 20,
           display: "grid",
-          gridTemplateColumns: "1.3fr 1fr",
+          gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr",
           gap: 20,
           alignItems: "stretch",
         }}

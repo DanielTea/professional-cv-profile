@@ -5,6 +5,7 @@ import { OrbitControls, Html, Stars, useTexture } from '@react-three/drei'
 import { useRef, useMemo, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { motion } from 'framer-motion'
+import { useIsMobile } from '@/lib/useIsMobile'
 
 type Marker = {
   id: string
@@ -345,6 +346,7 @@ export default function WorldMap3D() {
   const [hoveredMarker, setHoveredMarker] = useState<Marker | null>(null)
   const [activeMarker, setActiveMarker] = useState<Marker>(MARKERS[0])
   const [canvasKey, setCanvasKey] = useState(0)
+  const isMobile = useIsMobile()
 
   const displayMarker = hoveredMarker ?? activeMarker
 
@@ -362,8 +364,8 @@ export default function WorldMap3D() {
 
   return (
     <section
-      className="relative w-full h-[600px] overflow-hidden my-10"
-      style={{ background: INK }}
+      className="relative w-full overflow-hidden my-10"
+      style={{ background: INK, height: isMobile ? 460 : 600 }}
     >
         {/* Subtle dot grid */}
         <div
@@ -388,7 +390,14 @@ export default function WorldMap3D() {
         />
 
         {displayMarker && (
-          <div className="absolute top-14 right-8 z-20 w-[340px] pointer-events-auto">
+          <div
+            className="absolute z-20 pointer-events-auto"
+            style={
+              isMobile
+                ? { left: 12, right: 12, bottom: 12, width: 'auto' }
+                : { top: 56, right: 32, width: 340 }
+            }
+          >
             <motion.article
               key={displayMarker.id}
               initial={{ opacity: 0, y: 8 }}

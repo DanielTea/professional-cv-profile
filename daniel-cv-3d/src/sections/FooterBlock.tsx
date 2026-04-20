@@ -1,7 +1,9 @@
 "use client";
+import { useIsMobile } from "@/lib/useIsMobile";
 import { Barcode, MetaLine, Monogram, TickerLine, Timestamp, colors, fonts } from "@/assets";
 
 export function FooterBlock() {
+  const isMobile = useIsMobile();
   return (
     <footer style={{ borderTop: `1px solid ${colors.ink}` }}>
       <TickerLine
@@ -19,11 +21,11 @@ export function FooterBlock() {
         style={{
           maxWidth: 1440,
           margin: "0 auto",
-          padding: "28px 48px",
+          padding: isMobile ? "22px 16px" : "28px 48px",
           display: "grid",
-          gridTemplateColumns: "auto 1fr auto",
-          alignItems: "center",
-          gap: 32,
+          gridTemplateColumns: isMobile ? "1fr" : "auto 1fr auto",
+          alignItems: isMobile ? "stretch" : "center",
+          gap: isMobile ? 18 : 32,
         }}
       >
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
@@ -41,8 +43,8 @@ export function FooterBlock() {
           ]}
         />
 
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
-          <Barcode seed="DT-FOOTER-2026" caption="DT · CONTROL-F · 2026" width={220} />
+        <div style={{ display: "flex", flexDirection: "column", alignItems: isMobile ? "flex-start" : "flex-end", gap: 6 }}>
+          <Barcode seed="DT-FOOTER-2026" caption="DT · CONTROL-F · 2026" width={isMobile ? 180 : 220} />
           <Timestamp />
         </div>
       </div>

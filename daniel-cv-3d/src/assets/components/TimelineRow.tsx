@@ -1,4 +1,6 @@
+"use client";
 import type { ReactNode } from "react";
+import { useIsMobile } from "@/lib/useIsMobile";
 import { asset } from "../asset";
 import { colors, fonts } from "../tokens";
 
@@ -15,13 +17,14 @@ type Props = {
 
 /** Editorial experience row: period | org/role | notes. */
 export function TimelineRow({ period, org, role, location, stack, children, index, logo }: Props) {
+  const isMobile = useIsMobile();
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "96px 1fr 1fr 40px",
-        gap: 24,
-        padding: "22px 0",
+        gridTemplateColumns: isMobile ? "1fr" : "96px 1fr 1fr 40px",
+        gap: isMobile ? 12 : 24,
+        padding: isMobile ? "18px 0" : "22px 0",
         borderTop: `1px solid ${colors.ink}`,
         alignItems: "start",
       }}
@@ -142,18 +145,20 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
           </div>
         )}
       </div>
-      <div
-        style={{
-          alignSelf: "center",
-          textAlign: "right",
-          fontFamily: fonts.display,
-          fontWeight: 900,
-          fontSize: 22,
-          color: colors.orange,
-        }}
-      >
-        →
-      </div>
+      {!isMobile && (
+        <div
+          style={{
+            alignSelf: "center",
+            textAlign: "right",
+            fontFamily: fonts.display,
+            fontWeight: 900,
+            fontSize: 22,
+            color: colors.orange,
+          }}
+        >
+          →
+        </div>
+      )}
     </div>
   );
 }

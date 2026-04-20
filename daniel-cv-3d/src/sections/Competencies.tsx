@@ -1,4 +1,5 @@
 "use client";
+import { useIsMobile } from "@/lib/useIsMobile";
 import {
   FileTag,
   Pictogram,
@@ -74,9 +75,10 @@ const GROUPS: Group[] = [
 ];
 
 export function Competencies() {
+  const isMobile = useIsMobile();
   return (
-    <section id="skills" style={{ padding: "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24 }}>
+    <section id="skills" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24, gap: 16, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_02 / CORE CAPABILITIES</FileTag>
           <StencilTitle size={96}>COMPETENCIES</StencilTitle>
@@ -102,7 +104,7 @@ export function Competencies() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
           gap: 0,
           border: `1px solid ${colors.ink}`,
         }}
@@ -111,9 +113,9 @@ export function Competencies() {
           <article
             key={g.code}
             style={{
-              padding: "24px 24px 28px",
-              borderRight: i % 2 === 0 ? `1px solid ${colors.ink}` : undefined,
-              borderTop: i >= 2 ? `1px solid ${colors.ink}` : undefined,
+              padding: isMobile ? "20px 18px 22px" : "24px 24px 28px",
+              borderRight: !isMobile && i % 2 === 0 ? `1px solid ${colors.ink}` : undefined,
+              borderTop: isMobile ? (i > 0 ? `1px solid ${colors.ink}` : undefined) : i >= 2 ? `1px solid ${colors.ink}` : undefined,
               display: "flex",
               flexDirection: "column",
               gap: 18,

@@ -1,4 +1,5 @@
 "use client";
+import { useIsMobile } from "@/lib/useIsMobile";
 import { colors, fonts } from "../tokens";
 import { Monogram } from "./Monogram";
 import { OrangePill } from "./OrangePill";
@@ -22,6 +23,7 @@ export function NavBar({
   cta = { label: "Hire", href: "mailto:info@danieltremer.com" },
   code = "DT // REV.01",
 }: Props) {
+  const isMobile = useIsMobile();
   return (
     <header
       style={{
@@ -36,49 +38,68 @@ export function NavBar({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "auto 1fr auto auto",
+          gridTemplateColumns: isMobile ? "auto 1fr auto" : "auto 1fr auto auto",
           alignItems: "center",
-          gap: 20,
-          padding: "10px 32px",
+          gap: isMobile ? 12 : 20,
+          padding: isMobile ? "10px 16px" : "10px 32px",
           maxWidth: 1440,
           margin: "0 auto",
         }}
       >
         <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: colors.ink }}>
-          <Monogram size={32} />
-          <span style={{ fontFamily: fonts.display, fontWeight: 900, letterSpacing: "0.02em" }}>
+          <Monogram size={isMobile ? 28 : 32} />
+          {!isMobile && (
+            <span style={{ fontFamily: fonts.display, fontWeight: 900, letterSpacing: "0.02em" }}>
+              DANIEL TREMER
+            </span>
+          )}
+        </a>
+        {!isMobile && (
+          <nav style={{ display: "flex", justifyContent: "center", gap: 28, flexWrap: "wrap" }}>
+            {items.map((it) => (
+              <a
+                key={it.href}
+                href={it.href}
+                style={{
+                  fontFamily: fonts.mono,
+                  fontSize: 11,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: colors.ink,
+                  textDecoration: "none",
+                }}
+              >
+                {it.label}
+              </a>
+            ))}
+          </nav>
+        )}
+        {isMobile && (
+          <span
+            style={{
+              fontFamily: fonts.display,
+              fontWeight: 900,
+              fontSize: 14,
+              letterSpacing: "0.02em",
+              color: colors.ink,
+            }}
+          >
             DANIEL TREMER
           </span>
-        </a>
-        <nav style={{ display: "flex", justifyContent: "center", gap: 28 }}>
-          {items.map((it) => (
-            <a
-              key={it.href}
-              href={it.href}
-              style={{
-                fontFamily: fonts.mono,
-                fontSize: 11,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: colors.ink,
-                textDecoration: "none",
-              }}
-            >
-              {it.label}
-            </a>
-          ))}
-        </nav>
-        <span
-          style={{
-            fontFamily: fonts.mono,
-            fontSize: 10,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: colors.inkMute,
-          }}
-        >
-          {code}
-        </span>
+        )}
+        {!isMobile && (
+          <span
+            style={{
+              fontFamily: fonts.mono,
+              fontSize: 10,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: colors.inkMute,
+            }}
+          >
+            {code}
+          </span>
+        )}
         <OrangePill href={cta.href}>{cta.label}</OrangePill>
       </div>
     </header>
