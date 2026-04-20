@@ -36,7 +36,7 @@ Open `daniel_tremer_profile.html` in your browser to view the interactive CV pro
 ### 💼 Professional Highlights
 - **10+ years** in Data Science & AI
 - **Managing Director** at control-f GmbH
-- **Multiple startups** founded (RoboWork, uipilot.ai)
+- **Multiple startups** founded (control-f GmbH, RoboWork)
 - **7 LinkedIn recommendations** from industry leaders
 - **Major companies** worked with: Porsche AG, Mercedes-Benz, MBition GmbH
 
@@ -68,7 +68,6 @@ Open `daniel_tremer_profile.html` in your browser to view the interactive CV pro
 ## 🎯 Current Focus
 
 - **AI Product Development** at control-f GmbH
-- **No-Code Testing Solutions** at uipilot.ai
 - **Custom AI Solutions** through RoboWork
 - **Automotive AI** and data analytics expertise
 

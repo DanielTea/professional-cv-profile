@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="36" viewBox="0 0 160 36" fill="#141518" font-family="Orbitron, Rajdhani, Space Grotesk, sans-serif" font-weight="800" font-size="22">
+  <!-- { LABEL } techwear curly-brace tag -->
+  <path d="M10 4 Q4 4 4 10 V16 Q4 18 2 18 Q4 18 4 20 V26 Q4 32 10 32" stroke="#141518" stroke-width="2" fill="none"/>
+  <text x="18" y="25">RX-09</text>
+  <path d="M150 4 Q156 4 156 10 V16 Q156 18 158 18 Q156 18 156 20 V26 Q156 32 150 32" stroke="#141518" stroke-width="2" fill="none"/>
+</svg>

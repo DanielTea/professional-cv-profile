@@ -1,3 +1,9 @@
 .history/
 *.JPG
 daniel_cv_2025.pdf
+
+# Local-only
+.claude/
+.DS_Store
+inspiration/
+

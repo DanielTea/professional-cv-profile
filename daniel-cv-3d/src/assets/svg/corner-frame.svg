@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none" stroke="#141518" stroke-width="2" stroke-linecap="square">
+  <!-- rounded-rect techwear frame (inspired by ChainGPT / Studio Innate) -->
+  <path d="M14 2 H4 Q2 2 2 4 V14"/>
+  <path d="M146 2 H156 Q158 2 158 4 V14"/>
+  <path d="M158 106 V116 Q158 118 156 118 H146"/>
+  <path d="M14 118 H4 Q2 118 2 116 V106"/>
+  <!-- tick marks -->
+  <path d="M80 2 V8 M80 118 V112 M2 60 H8 M158 60 H152" stroke-width="1.5"/>
+</svg>

@@ -105,7 +105,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${orbitron.variable} ${rajdhani.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="antialiased bg-[var(--color-background)] text-[var(--color-text-main)] font-sans selection:bg-[var(--color-volt)] selection:text-black">
+      <body className="antialiased" style={{ background: "#EDEEF0", color: "#141518" }}>
         {children}
       </body>
     </html>

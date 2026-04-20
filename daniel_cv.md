@@ -51,20 +51,6 @@ proprietary products, models, and AI systems that redefine what's possible.
 ```
 https://controlf.io
 ```
-#### uipilot.ai
-
-#### Builder
-
-```
-Februar 2025 - Present (6 Monate)
-Berlin, Germany
-UIPilot.ai is a no-code UI testing solution that eliminates repetitive test code. It
-enables anyone on your team—developers, project managers, or designers—
-to create and run automated tests for web applications and prototypes. Save
-development time, improve collaboration, and maintain quality assurance
-without writing a single line of code. Testing UI shouldn't be boring or time-
-consuming.
-```
 #### RoboWork
 
 #### Founder

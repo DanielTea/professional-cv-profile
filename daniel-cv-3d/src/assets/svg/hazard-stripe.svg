@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="18" viewBox="0 0 240 18">
+  <defs>
+    <pattern id="haz" width="20" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <rect width="10" height="18" fill="#141518"/>
+      <rect x="10" width="10" height="18" fill="transparent"/>
+    </pattern>
+  </defs>
+  <rect width="240" height="18" fill="url(#haz)"/>
+</svg>

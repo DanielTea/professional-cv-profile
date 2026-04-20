@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="120" viewBox="0 0 320 120" fill="none" stroke="#141518" stroke-width="1.25" stroke-linecap="square">
+  <!-- PCB-style traces bleeding off an orange block (inspired by BLACKBOX) -->
+  <rect x="0" y="0" width="120" height="120" fill="#FF5A1F" stroke="none"/>
+  <path d="M120 20 H180 L190 30 H240 M240 30 H270 L280 40 H318"/>
+  <path d="M120 48 H150 L160 58 H210 L220 68 H260"/>
+  <path d="M120 80 H170 M175 80 H200 L210 90 H300"/>
+  <path d="M120 100 H140 L150 110 H220"/>
+  <circle cx="190" cy="30" r="2.5" fill="#141518" stroke="none"/>
+  <circle cx="280" cy="40" r="2.5" fill="#141518" stroke="none"/>
+  <circle cx="220" cy="68" r="2.5" fill="#141518" stroke="none"/>
+  <circle cx="210" cy="90" r="2.5" fill="#141518" stroke="none"/>
+  <rect x="298" y="36" width="8" height="8" fill="#141518" stroke="none"/>
+  <rect x="254" y="76" width="8" height="8" fill="#141518" stroke="none"/>
+</svg>
