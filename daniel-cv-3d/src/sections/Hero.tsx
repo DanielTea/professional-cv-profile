@@ -11,6 +11,8 @@ import {
   Timestamp,
   colors,
   fonts,
+  space,
+  displayType,
 } from "@/assets";
 
 export function Hero() {
@@ -20,7 +22,7 @@ export function Hero() {
       id="top"
       style={{
         position: "relative",
-        padding: isMobile ? "32px 16px 16px" : "48px 48px 24px",
+        padding: isMobile ? `${space.xl}px ${space.md}px ${space.md}px` : `${space.xl}px ${space.xl}px ${space.lg}px`,
         maxWidth: 1440,
         margin: "0 auto",
       }}
@@ -30,11 +32,11 @@ export function Hero() {
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
           alignItems: "end",
-          gap: isMobile ? 20 : 32,
+          gap: isMobile ? space.lg : space.xl,
         }}
       >
         <div>
-          <div style={{ display: "flex", gap: isMobile ? 10 : 20, alignItems: "center", marginBottom: isMobile ? 14 : 20, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: isMobile ? space.sm : space.lg, alignItems: "center", marginBottom: isMobile ? space.md : space.lg, flexWrap: "wrap" }}>
             <BracesTag tone="ink">DT-01 / PROFILE</BracesTag>
             {!isMobile && <KatakanaTag jp="レトロフューチャー" en="Retro Future" />}
             <FileTag tone="mute">REV.2026-04</FileTag>
@@ -47,7 +49,7 @@ export function Hero() {
           </StencilTitle>
           <p
             style={{
-              marginTop: 20,
+              marginTop: space.lg,
               fontFamily: fonts.mono,
               fontSize: 14,
               lineHeight: 1.55,
@@ -60,7 +62,7 @@ export function Hero() {
             Machine learning engineer with 10+ years of data science and AI
             shipped at Porsche, Daimler, and Mercedes-Benz.
           </p>
-          <div style={{ marginTop: 24, display: "flex", gap: 14 }}>
+          <div style={{ marginTop: space.lg, display: "flex", gap: space.md }}>
             <OrangePill href="mailto:info@danieltremer.com">Open channel</OrangePill>
             <OrangePill href="https://www.linkedin.com/in/daniel-tremer/" variant="outline">
               LinkedIn
@@ -68,7 +70,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", alignItems: isMobile ? "flex-start" : "flex-end", gap: 14 }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: isMobile ? "flex-start" : "flex-end", gap: space.md }}>
           <MetaLine
             align={isMobile ? "left" : "right"}
             items={[
@@ -86,10 +88,10 @@ export function Hero() {
       {/* Portrait + side annotations */}
       <div
         style={{
-          marginTop: isMobile ? 24 : 40,
+          marginTop: isMobile ? space.lg : space.xl,
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "auto 1fr",
-          gap: isMobile ? 20 : 40,
+          gap: isMobile ? space.lg : space.xl,
           alignItems: "start",
         }}
       >
@@ -118,7 +120,7 @@ export function Hero() {
             <div
               key={s.k}
               style={{
-                padding: isMobile ? "14px 14px" : "18px 20px",
+                padding: isMobile ? `${space.md}px` : `${space.lg}px`,
                 borderRight: isMobile
                   ? i % 2 === 0
                     ? `1px solid ${colors.ink}`
@@ -131,12 +133,12 @@ export function Hero() {
                 color: colors.ink,
               }}
             >
-              <div style={{ fontFamily: fonts.display, fontWeight: 900, fontSize: isMobile ? 28 : 42, lineHeight: 1 }}>
+              <div style={{ fontFamily: fonts.display, fontWeight: 900, fontSize: isMobile ? displayType.sm : displayType.md, lineHeight: 1 }}>
                 {s.v}
               </div>
               <div
                 style={{
-                  marginTop: 6,
+                  marginTop: space.xs,
                   fontFamily: fonts.mono,
                   fontSize: 10,
                   letterSpacing: "0.18em",

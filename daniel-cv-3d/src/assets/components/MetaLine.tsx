@@ -1,4 +1,4 @@
-import { colors, fonts } from "../tokens";
+import { colors, fonts, space } from "../tokens";
 
 type Item = { k: string; v: string };
 type Props = {
@@ -14,7 +14,7 @@ export function MetaLine({ items, align = "left" }: Props) {
         margin: 0,
         display: "grid",
         gridTemplateColumns: "auto 1fr",
-        gap: "4px 18px",
+        gap: `${space.xs}px ${space.lg}px`,
         fontFamily: fonts.mono,
         fontSize: 10,
         letterSpacing: "0.08em",

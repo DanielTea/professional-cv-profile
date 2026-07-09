@@ -8,6 +8,7 @@ import {
   StencilTitle,
   colors,
   fonts,
+  space,
 } from "@/assets";
 
 type Skill = { name: string; level: number };
@@ -77,8 +78,8 @@ const GROUPS: Group[] = [
 export function Competencies() {
   const isMobile = useIsMobile();
   return (
-    <section id="skills" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24, gap: 16, flexWrap: "wrap" }}>
+    <section id="skills" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_02 / CORE CAPABILITIES</FileTag>
           <StencilTitle size={96}>COMPETENCIES</StencilTitle>
@@ -113,18 +114,18 @@ export function Competencies() {
           <article
             key={g.code}
             style={{
-              padding: isMobile ? "20px 18px 22px" : "24px 24px 28px",
+              padding: isMobile ? `${space.lg}px` : `${space.lg}px ${space.lg}px ${space.xl}px`,
               borderRight: !isMobile && i % 2 === 0 ? `1px solid ${colors.ink}` : undefined,
               borderTop: isMobile ? (i > 0 ? `1px solid ${colors.ink}` : undefined) : i >= 2 ? `1px solid ${colors.ink}` : undefined,
               display: "flex",
               flexDirection: "column",
-              gap: 18,
+              gap: space.lg,
               background: colors.paper,
             }}
           >
-            <header style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
-              <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                <Pictogram name={g.icon} size={48} />
+            <header style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: space.md }}>
+              <div style={{ display: "flex", gap: space.md, alignItems: "flex-start" }}>
+                <Pictogram name={g.icon} size={space.xxl} />
                 <div>
                   <div
                     style={{
@@ -150,7 +151,7 @@ export function Competencies() {
                   </h3>
                   <p
                     style={{
-                      margin: "6px 0 0",
+                      margin: `${space.xs}px 0 0`,
                       fontFamily: fonts.mono,
                       fontSize: 11,
                       color: colors.inkMute,
@@ -173,7 +174,7 @@ export function Competencies() {
               </span>
             </header>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: space.sm }}>
               {g.skills.map((s) => (
                 <StatBar key={s.name} label={s.name} value={s.level} />
               ))}

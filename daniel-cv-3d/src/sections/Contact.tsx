@@ -8,6 +8,7 @@ import {
   StencilTitle,
   colors,
   fonts,
+  space,
 } from "@/assets";
 
 export function Contact() {
@@ -16,7 +17,7 @@ export function Contact() {
     <section
       id="contact"
       style={{
-        padding: isMobile ? "48px 16px" : "72px 48px",
+        padding: isMobile ? `${space.xxl}px ${space.md}px` : `${space.xxxl}px ${space.xl}px`,
         maxWidth: 1440,
         margin: "0 auto",
       }}
@@ -26,7 +27,7 @@ export function Contact() {
           position: "relative",
           background: colors.orange,
           color: colors.ink,
-          padding: isMobile ? "32px 20px 28px" : "48px 48px 40px",
+          padding: isMobile ? `${space.xl}px ${space.lg}px ${space.lg}px` : `${space.xxl}px ${space.xxl}px ${space.xl}px`,
           borderRadius: 14,
           border: `1.5px solid ${colors.ink}`,
           overflow: "hidden",
@@ -36,8 +37,8 @@ export function Contact() {
         <span
           style={{
             position: "absolute",
-            top: 14,
-            left: 14,
+            top: space.md,
+            left: space.md,
             fontFamily: fonts.mono,
             fontSize: 10,
             letterSpacing: "0.22em",
@@ -48,8 +49,8 @@ export function Contact() {
         <span
           style={{
             position: "absolute",
-            top: 14,
-            right: 14,
+            top: space.md,
+            right: space.md,
             fontFamily: fonts.mono,
             fontSize: 10,
             letterSpacing: "0.22em",
@@ -58,13 +59,13 @@ export function Contact() {
           LAT 08ms · SECURE
         </span>
 
-        <div style={{ marginBottom: 12 }}>
+        <div style={{ marginBottom: space.md }}>
           <BracesTag tone="ink">HANDSHAKE</BracesTag>
         </div>
         <StencilTitle size={isMobile ? 64 : 140}>LET&apos;S BUILD</StencilTitle>
         <p
           style={{
-            marginTop: 16,
+            marginTop: space.md,
             maxWidth: 640,
             fontFamily: fonts.mono,
             fontSize: 14,
@@ -76,25 +77,25 @@ export function Contact() {
           hands-on product builds. Typical lead time: two weeks.
         </p>
 
-        <div style={{ marginTop: 28, display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <OrangePill href="mailto:info@danieltremer.com" variant="outline">
+        <div style={{ marginTop: space.xl, display: "flex", gap: space.md, flexWrap: "wrap" }}>
+          <OrangePill href="mailto:info@danieltremer.com">
             info@danieltremer.com
           </OrangePill>
-          <OrangePill href="https://www.linkedin.com/in/daniel-tremer/" variant="outline">
+          <OrangePill href="https://www.linkedin.com/in/daniel-tremer/">
             LinkedIn
           </OrangePill>
-          <OrangePill href="https://github.com/DanielTea" variant="outline">
+          <OrangePill href="https://github.com/DanielTea">
             GitHub
           </OrangePill>
         </div>
 
         <div
           style={{
-            marginTop: 36,
+            marginTop: space.xl,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            gap: 20,
+            gap: space.lg,
           }}
         >
           <FileTag tone="ink">STATUS · READY</FileTag>

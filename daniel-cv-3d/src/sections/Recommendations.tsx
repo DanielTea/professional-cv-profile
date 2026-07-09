@@ -1,6 +1,6 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { FileTag, QuoteCard, SectionRule, StencilTitle } from "@/assets";
+import { FileTag, QuoteCard, SectionRule, StencilTitle, space } from "@/assets";
 
 const QUOTES = [
   {
@@ -64,18 +64,18 @@ const QUOTES = [
 export function Recommendations() {
   const isMobile = useIsMobile();
   return (
-    <section id="recs" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ marginBottom: 20 }}>
+    <section id="recs" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ marginBottom: space.lg }}>
         <FileTag>SEC_05 / PEER FEEDBACK</FileTag>
         <StencilTitle size={96}>RECOMMENDATIONS</StencilTitle>
       </div>
       <SectionRule label="SAMPLE" code={`${QUOTES.length.toString().padStart(2, "0")} QUOTES`} />
       <div
         style={{
-          marginTop: 28,
+          marginTop: space.xl,
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
-          gap: isMobile ? 20 : 28,
+          gap: isMobile ? space.lg : space.xl,
         }}
       >
         {QUOTES.map((q) => (
