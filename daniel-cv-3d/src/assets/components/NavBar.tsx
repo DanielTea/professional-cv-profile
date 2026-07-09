@@ -1,6 +1,6 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { colors, fonts } from "../tokens";
+import { colors, fonts, space } from "../tokens";
 import { Monogram } from "./Monogram";
 import { OrangePill } from "./OrangePill";
 
@@ -40,8 +40,8 @@ export function NavBar({
           display: "grid",
           gridTemplateColumns: isMobile ? "auto 1fr auto" : "auto 1fr auto auto",
           alignItems: "center",
-          gap: isMobile ? 12 : 20,
-          padding: isMobile ? "10px 16px" : "10px 32px",
+          gap: isMobile ? space.md : space.lg,
+          padding: isMobile ? `${space.sm}px ${space.md}px` : `${space.sm}px ${space.xl}px`,
           maxWidth: 1440,
           margin: "0 auto",
         }}
@@ -55,7 +55,7 @@ export function NavBar({
           )}
         </a>
         {!isMobile && (
-          <nav style={{ display: "flex", justifyContent: "center", gap: 28, flexWrap: "wrap" }}>
+          <nav style={{ display: "flex", justifyContent: "center", gap: space.xl, flexWrap: "wrap" }}>
             {items.map((it) => (
               <a
                 key={it.href}

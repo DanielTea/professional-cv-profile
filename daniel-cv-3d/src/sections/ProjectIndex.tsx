@@ -9,6 +9,7 @@ import {
   asset,
   colors,
   fonts,
+  space,
   type ProjectStat,
 } from "@/assets";
 
@@ -157,8 +158,8 @@ export function ProjectIndex() {
   );
 
   return (
-    <section id="work" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24, gap: 16, flexWrap: "wrap" }}>
+    <section id="work" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_03 / PORTFOLIO</FileTag>
           <StencilTitle size={96} underscore>PROJECT_INDEX</StencilTitle>
@@ -196,7 +197,7 @@ export function ProjectIndex() {
           gap: 0,
           border: `1px solid ${colors.ink}`,
           width: "fit-content",
-          marginBottom: 28,
+          marginBottom: space.xl,
         }}
       >
         {TABS.map((t, i) => {
@@ -206,7 +207,7 @@ export function ProjectIndex() {
               key={t}
               onClick={() => setTab(t)}
               style={{
-                padding: "8px 18px",
+                padding: `${space.sm}px ${space.lg}px`,
                 background: active ? colors.ink : "transparent",
                 color: active ? colors.paper : colors.ink,
                 fontFamily: fonts.mono,
@@ -226,7 +227,7 @@ export function ProjectIndex() {
 
       <SectionRule label="GRID" code={`${filtered.length} / ${PROJECTS.length}`} />
 
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: isMobile ? 20 : 28, marginTop: 28 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: isMobile ? space.lg : space.xl, marginTop: space.xl }}>
         {filtered.map((p) => (
           <ProjectCard
             key={p.id}

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { FileTag, MetaLine, SectionRule, StencilTitle, colors, fonts } from "@/assets";
+import { FileTag, MetaLine, SectionRule, StencilTitle, colors, fonts, space } from "@/assets";
 
 const WorldMap3D = dynamic(() => import("@/components/WorldMap3D"), {
   ssr: false,
@@ -29,8 +29,8 @@ const WorldMap3D = dynamic(() => import("@/components/WorldMap3D"), {
 export function GlobeSection() {
   const isMobile = useIsMobile();
   return (
-    <section id="world" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20, gap: 16, flexWrap: "wrap" }}>
+    <section id="world" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_07 / FIELD PRESENCE</FileTag>
           <StencilTitle size={96} underscore>GLOBAL_MAP</StencilTitle>
@@ -49,7 +49,7 @@ export function GlobeSection() {
 
       <div
         style={{
-          marginTop: 16,
+          marginTop: space.md,
           position: "relative",
           border: `1.5px solid ${colors.ink}`,
           background: colors.ink,

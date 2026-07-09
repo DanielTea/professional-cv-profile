@@ -10,6 +10,7 @@ import {
   StencilTitle,
   colors,
   fonts,
+  space,
 } from "@/assets";
 
 type GhEvent = {
@@ -93,13 +94,13 @@ export function GithubActivity() {
   });
 
   return (
-    <section id="github" style={{ padding: isMobile ? "40px 16px" : "56px 48px", maxWidth: 1440, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20, gap: 16, flexWrap: "wrap" }}>
+    <section id="github" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>SEC_06 / GITHUB TELEMETRY</FileTag>
           <StencilTitle size={96} underscore>BUILD_LOG</StencilTitle>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: space.sm }}>
           <span
             aria-hidden
             style={{
@@ -133,7 +134,7 @@ export function GithubActivity() {
           display: "grid",
           gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
           border: `1px solid ${colors.ink}`,
-          marginTop: 16,
+          marginTop: space.md,
         }}
       >
         {[
@@ -145,7 +146,7 @@ export function GithubActivity() {
           <div
             key={s.k}
             style={{
-              padding: isMobile ? "14px 16px" : "18px 22px",
+              padding: isMobile ? `${space.md}px` : `${space.lg}px`,
               borderRight: isMobile
                 ? i % 2 === 0
                   ? `1px solid ${colors.ink}`
@@ -164,10 +165,10 @@ export function GithubActivity() {
       {/* Heatmap + live commits */}
       <div
         style={{
-          marginTop: 20,
+          marginTop: space.lg,
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr",
-          gap: 20,
+          gap: space.lg,
           alignItems: "stretch",
         }}
       >
@@ -175,7 +176,7 @@ export function GithubActivity() {
         <div
           style={{
             border: `1px solid ${colors.ink}`,
-            padding: "16px 18px 18px",
+            padding: `${space.md}px ${space.lg}px ${space.lg}px`,
             background: colors.paper,
             position: "relative",
           }}
@@ -185,7 +186,7 @@ export function GithubActivity() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 10,
+              marginBottom: space.sm,
             }}
           >
             <span
@@ -212,7 +213,7 @@ export function GithubActivity() {
           </div>
           <div
             style={{
-              marginTop: 10,
+              marginTop: space.sm,
               display: "flex",
               justifyContent: "space-between",
               fontFamily: fonts.mono,
@@ -234,7 +235,7 @@ export function GithubActivity() {
             border: `1px solid ${colors.ink}`,
             background: colors.ink,
             color: colors.paper,
-            padding: "14px 16px",
+            padding: `${space.md}px`,
             display: "flex",
             flexDirection: "column",
             minHeight: 220,
@@ -245,8 +246,8 @@ export function GithubActivity() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 10,
-              paddingBottom: 8,
+              marginBottom: space.sm,
+              paddingBottom: space.sm,
               borderBottom: `1px dashed ${colors.paperDim}`,
             }}
           >
@@ -279,7 +280,7 @@ export function GithubActivity() {
               lineHeight: 1.55,
               display: "flex",
               flexDirection: "column",
-              gap: 6,
+              gap: space.xs,
               overflow: "hidden",
             }}
           >
@@ -294,7 +295,7 @@ export function GithubActivity() {
               </span>
             )}
             {liveEntries.map((e, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 10 }}>
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: space.sm }}>
                 <span style={{ color: colors.orange }}>{e.when.slice(5, 16)}</span>
                 <span style={{ color: colors.paper }}>
                   <span style={{ color: colors.paperDim }}>{e.repo}</span>{" "}
@@ -307,7 +308,7 @@ export function GithubActivity() {
           <div
             style={{
               marginTop: "auto",
-              paddingTop: 10,
+              paddingTop: space.sm,
               fontFamily: fonts.mono,
               fontSize: 9,
               letterSpacing: "0.22em",

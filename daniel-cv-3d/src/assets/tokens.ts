@@ -47,3 +47,30 @@ export const stroke = {
   std: "1.5px",
   bold: "2.5px",
 } as const;
+
+// Golden ratio (φ). Fibonacci numbers converge on φ as consecutive-term
+// ratios (55/34 ≈ 1.618, 34/21 ≈ 1.619, ...), so the Fibonacci sequence
+// gives a whole-pixel spacing rhythm that's genuinely golden throughout
+// the layout — every step is ~φ× the previous one.
+export const PHI = 1.6180339887;
+
+export const space = {
+  xxs: 3,
+  xs: 5,
+  sm: 8,
+  md: 13,
+  lg: 21,
+  xl: 34,
+  xxl: 55,
+  xxxl: 89,
+  xxxxl: 144,
+} as const;
+
+// Display-type scale: each step is the 24px base × φ, rounded to whole px.
+export const displayType = {
+  sm: 24,
+  md: 39,
+  lg: 63,
+  xl: 102,
+  xxl: 165,
+} as const;

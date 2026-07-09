@@ -29,6 +29,18 @@
 :root {
   --background: #EDEEF0;
   --foreground: #141518;
+
+  /* Golden-ratio spacing scale — Fibonacci steps, ratio -> φ ≈ 1.618 */
+  --phi: 1.6180339887;
+  --space-xxs: 3px;
+  --space-xs: 5px;
+  --space-sm: 8px;
+  --space-md: 13px;
+  --space-lg: 21px;
+  --space-xl: 34px;
+  --space-2xl: 55px;
+  --space-3xl: 89px;
+  --space-4xl: 144px;
 }
 
 html, body {
