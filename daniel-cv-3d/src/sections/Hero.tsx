@@ -11,6 +11,7 @@ import {
   Timestamp,
   colors,
   fonts,
+  gradients,
   space,
   displayType,
 } from "@/assets";
@@ -27,8 +28,20 @@ export function Hero() {
         margin: "0 auto",
       }}
     >
+      {/* Layered mesh backdrop — kept behind content and translucent so ink stays legible */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: gradients.mesh,
+          pointerEvents: "none",
+        }}
+      />
       <div
         style={{
+          position: "relative",
+          zIndex: 1,
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
           alignItems: "end",
@@ -44,7 +57,7 @@ export function Hero() {
           <StencilTitle size={isMobile ? 88 : 180}>
             DANIEL
           </StencilTitle>
-          <StencilTitle size={isMobile ? 88 : 180} tone="orange">
+          <StencilTitle size={isMobile ? 88 : 180} tone="gradient">
             TREMER
           </StencilTitle>
           <p
@@ -88,6 +101,8 @@ export function Hero() {
       {/* Portrait + side annotations */}
       <div
         style={{
+          position: "relative",
+          zIndex: 1,
           marginTop: isMobile ? space.lg : space.xl,
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "auto 1fr",

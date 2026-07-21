@@ -8,6 +8,7 @@ import { Experience } from "@/sections/Experience";
 import { GithubActivity } from "@/sections/GithubActivity";
 import { GlobeSection } from "@/sections/GlobeSection";
 import { Recommendations } from "@/sections/Recommendations";
+import { Press } from "@/sections/Press";
 import { Contact } from "@/sections/Contact";
 import { FooterBlock } from "@/sections/FooterBlock";
 
@@ -27,6 +28,7 @@ export default function Home() {
           { label: "Experience", href: "#experience" },
           { label: "Build Log", href: "#github" },
           { label: "Globe", href: "#world" },
+          { label: "News", href: "#news" },
           { label: "Contact", href: "#contact" },
         ]}
       />
@@ -40,6 +42,7 @@ export default function Home() {
       <GithubActivity />
       <GlobeSection />
       <Recommendations />
+      <Press />
       <Contact />
       <FooterBlock />
     </main>
