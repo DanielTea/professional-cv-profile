@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import {
   FileTag,
@@ -42,6 +42,12 @@ const ITEMS = (pressData as PressItem[])
 
 function PressImage({ src, source }: { src?: string; source: string }) {
   const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  // Catch images that already failed before hydration (onError won't re-fire).
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+  }, []);
   if (!src || failed) {
     // Fallback: gradient field with the publication's initial stamped on it.
     return (
@@ -77,6 +83,7 @@ function PressImage({ src, source }: { src?: string; source: string }) {
   return (
     <div style={{ position: "relative", borderBottom: `1px solid ${colors.ink}` }}>
       <img
+        ref={imgRef}
         src={src}
         alt={`${source} — article preview`}
         loading="lazy"
