@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Orbitron, Rajdhani, JetBrains_Mono } from "next/font/google";
+import { basePath } from "@/assets/asset";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -86,22 +87,23 @@ export const metadata: Metadata = {
     },
   },
   
-  // Favicon and app icons
+  // Favicon and app icons — Next's basePath does not prefix metadata URLs,
+  // so under the GitHub Pages sub-path these must carry it explicitly.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: `${basePath}/favicon.ico`, sizes: "any" },
+      { url: `${basePath}/favicon.svg`, type: "image/svg+xml" },
+      { url: `${basePath}/favicon.png`, type: "image/png", sizes: "32x32" },
+      { url: `${basePath}/favicon-16x16.png`, type: "image/png", sizes: "16x16" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: `${basePath}/favicon.ico`,
     apple: [
-      { url: "/favicon.png", sizes: "180x180", type: "image/png" },
+      { url: `${basePath}/favicon.png`, sizes: "180x180", type: "image/png" },
     ],
   },
-  
+
   // Web App Manifest
-  manifest: "/site.webmanifest",
+  manifest: `${basePath}/site.webmanifest`,
 };
 
 export default function RootLayout({
