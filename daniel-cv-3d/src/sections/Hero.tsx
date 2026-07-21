@@ -51,7 +51,7 @@ export function Hero() {
         <div>
           <div style={{ display: "flex", gap: isMobile ? space.sm : space.lg, alignItems: "center", marginBottom: isMobile ? space.md : space.lg, flexWrap: "wrap" }}>
             <BracesTag tone="ink">DT-01 / PROFILE</BracesTag>
-            {!isMobile && <KatakanaTag jp="レトロフューチャー" en="Retro Future" />}
+            {!isMobile && <KatakanaTag text="ปัญญาประดิษฐ์" en="Artificial Intelligence" />}
             <FileTag tone="mute">REV.2026-04</FileTag>
           </div>
           <StencilTitle size={isMobile ? 88 : 180}>

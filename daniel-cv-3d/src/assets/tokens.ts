@@ -46,7 +46,7 @@ export const fonts = {
   display:
     '"Orbitron", "Rajdhani", "Space Grotesk", "Helvetica Neue", Arial, sans-serif',
   // Japanese decorative tag (optional; system fallback chain)
-  kana: '"Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif',
+  kana: '"Noto Sans Thai", "Thonburi", "Leelawadee UI", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif',
 } as const;
 
 export const radii = {
