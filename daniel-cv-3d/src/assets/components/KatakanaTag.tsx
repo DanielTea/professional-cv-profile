@@ -1,12 +1,12 @@
 import { colors, fonts } from "../tokens";
 
 type Props = {
-  jp: string;
+  text: string;
   en?: string;
 };
 
-/** Decorative JP caption stacked over EN translation (Studio Innate). */
-export function KatakanaTag({ jp, en }: Props) {
+/** Decorative non-Latin caption stacked over EN translation (Studio Innate). */
+export function KatakanaTag({ text, en }: Props) {
   return (
     <div style={{ display: "inline-flex", flexDirection: "column", lineHeight: 1.15 }}>
       <span
@@ -17,7 +17,7 @@ export function KatakanaTag({ jp, en }: Props) {
           letterSpacing: "0.08em",
         }}
       >
-        {jp}
+        {text}
       </span>
       {en && (
         <span

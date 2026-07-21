@@ -28,7 +28,7 @@ export default function AssetsDemoPage() {
         <div>
           <div style={{ display: "flex", gap: 18, alignItems: "center", marginBottom: 14 }}>
             <BracesTag>DT-CV / REDESIGN</BracesTag>
-            <KatakanaTag jp="レトロフューチャー" en="Retro Future" />
+            <KatakanaTag text="ปัญญาประดิษฐ์" en="Artificial Intelligence" />
           </div>
           <StencilTitle size={140} underscore>
             ASSET LIBRARY
@@ -70,7 +70,7 @@ export default function AssetsDemoPage() {
         <Chevrons count={5} size={18} />
         <BracesTag tone="orange">RX-09</BracesTag>
         <Barcode seed="DT-2026-ALPHA" caption="DT 2026 ALPHA" />
-        <KatakanaTag jp="テックウェア" en="Techwear" />
+        <KatakanaTag text="テックウェア" en="Techwear" />
         <div style={{ color: colors.orange, fontFamily: fonts.display, fontWeight: 900, fontSize: 34 }}>↗</div>
       </section>
 
