@@ -24,6 +24,22 @@ export const colors = {
   cobalt: "#1B3BE0",     // occasional contrast
 } as const;
 
+// Gradient layer — the art direction is evolving toward richer, layered
+// color fields. Every gradient stays translucent over paper (or clips to
+// display type) so ink contrast and legibility are never compromised.
+export const gradients = {
+  // Layered mesh backdrop for hero-scale surfaces; sits behind content.
+  mesh: [
+    "radial-gradient(42% 36% at 10% 6%, rgba(255, 90, 31, 0.13), transparent 70%)",
+    "radial-gradient(38% 32% at 90% 16%, rgba(27, 59, 224, 0.09), transparent 70%)",
+    "radial-gradient(30% 26% at 68% 92%, rgba(201, 240, 74, 0.14), transparent 70%)",
+  ].join(", "),
+  // Signature accent sweep: orange burning into cobalt, for display type.
+  accent: `linear-gradient(100deg, ${colors.orange} 0%, ${colors.orangeDeep} 55%, ${colors.cobalt} 135%)`,
+  // Hairline edge for card rules and borders.
+  edge: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.cobalt} 100%)`,
+} as const;
+
 export const fonts = {
   // Pair a technical mono with a heavy cyber-stencil display
   mono: '"JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, monospace',
