@@ -21,7 +21,8 @@ jobs:
       run:
         working-directory: daniel-cv-3d
     env:
-      NEXT_PUBLIC_BASE_PATH: /professional-cv-profile
+      # Site is served at the domain root (danieltremer.com), no base path
+      NEXT_PUBLIC_BASE_PATH: ""
     steps:
       - uses: actions/checkout@v4
 
