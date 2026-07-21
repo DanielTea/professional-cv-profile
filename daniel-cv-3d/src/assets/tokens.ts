@@ -17,6 +17,7 @@ export const colors = {
   // Signature accent
   orange: "#FF5A1F",     // primary accent (buttons, blocks)
   orangeDeep: "#E04A10",
+  orangeEmber: "#B93B0B", // darkest end of the accent sweep
   orangeTint: "#FFD9C8",
 
   // Support
@@ -29,15 +30,17 @@ export const colors = {
 // display type) so ink contrast and legibility are never compromised.
 export const gradients = {
   // Layered mesh backdrop for hero-scale surfaces; sits behind content.
+  // Each field fades all the way out (stop at 100%) so no disc edges show.
   mesh: [
-    "radial-gradient(42% 36% at 10% 6%, rgba(255, 90, 31, 0.13), transparent 70%)",
-    "radial-gradient(38% 32% at 90% 16%, rgba(27, 59, 224, 0.09), transparent 70%)",
-    "radial-gradient(30% 26% at 68% 92%, rgba(201, 240, 74, 0.14), transparent 70%)",
+    "radial-gradient(50% 44% at 10% 6%, rgba(255, 90, 31, 0.12), transparent 100%)",
+    "radial-gradient(48% 42% at 90% 16%, rgba(27, 59, 224, 0.06), transparent 100%)",
+    "radial-gradient(40% 36% at 68% 92%, rgba(201, 240, 74, 0.10), transparent 100%)",
   ].join(", "),
-  // Signature accent sweep: orange burning into cobalt, for display type.
-  accent: `linear-gradient(100deg, ${colors.orange} 0%, ${colors.orangeDeep} 55%, ${colors.cobalt} 135%)`,
+  // Signature accent sweep: orange burning down to ember. Stays in one hue
+  // family — orange blended into cobalt turns muddy purple in sRGB.
+  accent: `linear-gradient(100deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
   // Hairline edge for card rules and borders.
-  edge: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.cobalt} 100%)`,
+  edge: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
 } as const;
 
 export const fonts = {
