@@ -1,6 +1,7 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { colors, fonts, space } from "../tokens";
+import { colors, fonts, gradients, space } from "../tokens";
 import { Monogram } from "./Monogram";
 import { OrangePill } from "./OrangePill";
 
@@ -24,6 +25,21 @@ export function NavBar({
   code = "DT // REV.01",
 }: Props) {
   const isMobile = useIsMobile();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Escape closes the menu; a viewport change to desktop discards it.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+  useEffect(() => {
+    if (!isMobile) setMenuOpen(false);
+  }, [isMobile]);
+
   return (
     <header
       style={{
@@ -38,7 +54,7 @@ export function NavBar({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: isMobile ? "auto 1fr auto" : "auto 1fr auto auto",
+          gridTemplateColumns: isMobile ? "auto 1fr auto auto" : "auto 1fr auto auto",
           alignItems: "center",
           gap: isMobile ? space.md : space.lg,
           padding: isMobile ? `${space.sm}px ${space.md}px` : `${space.sm}px ${space.xl}px`,
@@ -88,6 +104,35 @@ export function NavBar({
             DANIEL TREMER
           </span>
         )}
+        {isMobile && (
+          <button
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="dt-mobile-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((open) => !open)}
+            style={{
+              width: 36,
+              height: 36,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+              background: menuOpen ? colors.ink : "transparent",
+              border: `1.5px solid ${colors.ink}`,
+              borderRadius: 4,
+              cursor: "pointer",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
+              {menuOpen ? (
+                <path d="M3 3l10 10M13 3L3 13" stroke={colors.paper} strokeWidth="1.5" />
+              ) : (
+                <path d="M2 4h12M2 8h12M2 12h8" stroke={colors.ink} strokeWidth="1.5" />
+              )}
+            </svg>
+          </button>
+        )}
         {!isMobile && (
           <span
             style={{
@@ -103,6 +148,45 @@ export function NavBar({
         )}
         <OrangePill href={cta.href}>{cta.label}</OrangePill>
       </div>
+      {isMobile && menuOpen && (
+        <nav
+          id="dt-mobile-menu"
+          aria-label="Primary"
+          style={{
+            borderTop: `1px solid ${colors.ink}`,
+            background: `${gradients.mesh}, ${colors.paper}`,
+          }}
+        >
+          {/* Gradient signature edge, matching the site's card language */}
+          <div aria-hidden style={{ height: 3, background: gradients.edge }} />
+          {items.map((it, i) => (
+            <a
+              key={it.href}
+              href={it.href}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: space.md,
+                minHeight: 44,
+                padding: `${space.md}px ${space.lg}px`,
+                borderBottom: i < items.length - 1 ? `1px solid ${colors.grid}` : "none",
+                fontFamily: fonts.mono,
+                fontSize: 12,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: colors.ink,
+                textDecoration: "none",
+              }}
+            >
+              <span aria-hidden style={{ fontSize: 10, color: colors.inkMute }}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              {it.label}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
