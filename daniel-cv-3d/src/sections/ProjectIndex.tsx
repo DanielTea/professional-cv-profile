@@ -313,6 +313,22 @@ export function ProjectIndex() {
             </a>
           ))}
         </div>
+        <p
+          style={{
+            marginTop: space.sm,
+            fontFamily: fonts.mono,
+            fontSize: 9,
+            letterSpacing: "0.08em",
+            lineHeight: 1.5,
+            color: colors.inkMute,
+            textTransform: "uppercase",
+            maxWidth: 640,
+          }}
+        >
+          Not financial advice. For informational purposes only — data and
+          signals are provided as-is, with no guarantee of correctness,
+          completeness, or timeliness.
+        </p>
       </div>
     </section>
   );

@@ -3,7 +3,6 @@ import { useIsMobile } from "@/lib/useIsMobile";
 import {
   BracesTag,
   FileTag,
-  KatakanaTag,
   MetaLine,
   OrangePill,
   PhotoFrame,
@@ -58,7 +57,6 @@ export function Hero() {
         <div>
           <div style={{ display: "flex", gap: isMobile ? space.sm : space.lg, alignItems: "center", marginBottom: isMobile ? space.md : space.lg, flexWrap: "wrap" }}>
             <BracesTag tone="ink">DT-01 / PROFILE</BracesTag>
-            {!isMobile && <KatakanaTag text="ปัญญาประดิษฐ์" en="Artificial Intelligence" />}
             <FileTag tone="mute">REV.2026-04</FileTag>
           </div>
           <StencilTitle size={isMobile ? 88 : 180}>
@@ -276,6 +274,22 @@ export function Hero() {
                 </div>
               </a>
             ))}
+          </div>
+          <div
+            style={{
+              padding: `${space.sm}px ${space.md}px`,
+              borderTop: `1px solid ${colors.ink}`,
+              fontFamily: fonts.mono,
+              fontSize: 9,
+              letterSpacing: "0.08em",
+              lineHeight: 1.5,
+              color: colors.inkMute,
+              textTransform: "uppercase",
+            }}
+          >
+            Not financial advice. For informational purposes only — data and
+            signals are provided as-is, with no guarantee of correctness,
+            completeness, or timeliness.
           </div>
         </div>
         </div>
