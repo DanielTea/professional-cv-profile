@@ -16,6 +16,13 @@ import {
   displayType,
 } from "@/assets";
 
+const DASHBOARDS = [
+  { label: "Indicators", sub: "Market signals", href: "https://danieltremer.com/alpaca-autotrader/" },
+  { label: "History", sub: "Signal timeline", href: "https://danieltremer.com/alpaca-autotrader/history.html" },
+  { label: "Account", sub: "P&L · positions", href: "https://danieltremer.com/alpaca-autotrader/account.html" },
+  { label: "World", sub: "Global macro", href: "https://danieltremer.com/alpaca-autotrader/world.html" },
+];
+
 export function Hero() {
   const isMobile = useIsMobile();
   return (
@@ -118,6 +125,7 @@ export function Hero() {
           width={isMobile ? 220 : 300}
           height={isMobile ? 280 : 380}
         />
+        <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? space.lg : space.xl }}>
         <div
           style={{
             display: "grid",
@@ -165,6 +173,111 @@ export function Hero() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Live trading dashboards — published by the alpaca-autotrader pipeline */}
+        <div style={{ border: `1.5px solid ${colors.ink}` }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: space.md,
+              padding: `${space.sm}px ${space.md}px`,
+              background: colors.ink,
+              color: colors.paper,
+            }}
+          >
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: fonts.mono,
+                fontSize: 11,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: colors.orange,
+                }}
+              />
+              Live trading dashboards
+            </span>
+            {!isMobile && (
+              <span
+                style={{
+                  fontFamily: fonts.mono,
+                  fontSize: 10,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  opacity: 0.6,
+                }}
+              >
+                ALPACA_AUTOTRADER
+              </span>
+            )}
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+            }}
+          >
+            {DASHBOARDS.map((d, i) => (
+              <a
+                key={d.label}
+                href={d.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "block",
+                  padding: isMobile ? `${space.md}px` : `${space.md}px ${space.lg}px`,
+                  background: colors.paper,
+                  color: colors.ink,
+                  textDecoration: "none",
+                  borderRight: isMobile
+                    ? i % 2 === 0
+                      ? `1px solid ${colors.ink}`
+                      : undefined
+                    : i < 3
+                      ? `1px solid ${colors.ink}`
+                      : undefined,
+                  borderTop: isMobile && i >= 2 ? `1px solid ${colors.ink}` : undefined,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: fonts.display,
+                    fontWeight: 900,
+                    fontSize: isMobile ? 16 : 20,
+                    lineHeight: 1,
+                  }}
+                >
+                  {d.label} <span style={{ color: colors.orange }}>↗</span>
+                </div>
+                <div
+                  style={{
+                    marginTop: space.xs,
+                    fontFamily: fonts.mono,
+                    fontSize: 10,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: colors.inkMute,
+                  }}
+                >
+                  {d.sub}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
         </div>
       </div>
     </section>
