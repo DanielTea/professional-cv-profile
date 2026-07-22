@@ -60,3 +60,20 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      # The root domain (danieltremer.com) is served by DanielTea.github.io,
+      # which rebuilds this repo on a daily cron. Fire its deploy workflow
+      # now so the root picks up this merge immediately.
+      - name: Trigger root-domain deploy (danieltremer.com)
+        env:
+          TOKEN: ${{ secrets.USER_SITE_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::USER_SITE_DEPLOY_TOKEN secret not set; the root domain will sync on DanielTea.github.io's daily cron instead."
+            exit 0
+          fi
+          curl -sS --fail -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/DanielTea/DanielTea.github.io/actions/workflows/deploy-pages.yml/dispatches \
+            --data '{"ref":"main"}'
