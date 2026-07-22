@@ -143,6 +143,56 @@ html, body {
   }
 }
 
+/* CTA pills: the accent sweep is drawn at double width so hover and keyboard
+   focus slide it toward its ember end — a darker "pressed" read in the same
+   hue family. Outline pills fill with the identical sweep so both variants
+   answer interaction in one voice. */
+.dt-pill {
+  border: 1.5px solid var(--color-orange);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-position 160ms ease, color 160ms ease;
+}
+.dt-pill--solid {
+  background-image: linear-gradient(100deg, #FF5A1F 0%, #E04A10 30%, #B93B0B 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0;
+  color: var(--color-paper);
+}
+.dt-pill--solid:hover,
+.dt-pill--solid:focus-visible {
+  background-position: 100% 0;
+}
+.dt-pill--outline {
+  background-color: transparent;
+  color: var(--color-orange);
+}
+.dt-pill--outline:hover,
+.dt-pill--outline:focus-visible {
+  background-image: linear-gradient(100deg, #FF5A1F 0%, #E04A10 30%, #B93B0B 100%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  color: var(--color-paper);
+}
+.dt-pill .dt-pill-arrow {
+  transition: transform 160ms ease;
+}
+.dt-pill:hover .dt-pill-arrow,
+.dt-pill:focus-visible .dt-pill-arrow {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dt-pill,
+  .dt-pill .dt-pill-arrow {
+    transition: none;
+  }
+  /* Keep the color/fill state change (instant), drop the movement */
+  .dt-pill:hover .dt-pill-arrow,
+  .dt-pill:focus-visible .dt-pill-arrow {
+    transform: none;
+  }
+}
+
 /* Skip link: hidden until keyboard focus, then a techwear tag under the nav */
 .dt-skip {
   position: fixed;
