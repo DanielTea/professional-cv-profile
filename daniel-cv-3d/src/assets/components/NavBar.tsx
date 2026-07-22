@@ -55,11 +55,12 @@ export function NavBar({
           )}
         </a>
         {!isMobile && (
-          <nav style={{ display: "flex", justifyContent: "center", gap: space.xl, flexWrap: "wrap" }}>
+          <nav aria-label="Primary" style={{ display: "flex", justifyContent: "center", gap: space.xl, flexWrap: "wrap" }}>
             {items.map((it) => (
               <a
                 key={it.href}
                 href={it.href}
+                className="dt-navlink"
                 style={{
                   fontFamily: fonts.mono,
                   fontSize: 11,
