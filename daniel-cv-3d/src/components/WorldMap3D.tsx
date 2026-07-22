@@ -127,7 +127,7 @@ const Globe = ({
 
   useFrame(() => {
     if (globeRef.current) {
-      globeRef.current.rotation.y += 0.001
+      globeRef.current.rotation.y += 0.0004
     }
   })
 
@@ -326,8 +326,9 @@ const HUDOverlay = ({ markerCount, activeId }: { markerCount: number; activeId: 
         <span style={hud}>AXIS · PRIME MERIDIAN</span>
       </div>
 
-      {/* Bottom-right meta */}
+      {/* Bottom-right meta — hidden on small screens to avoid colliding with axis label */}
       <div
+        className="hidden md:block"
         style={{
           position: 'absolute',
           bottom: 20,
@@ -365,8 +366,9 @@ export default function WorldMap3D() {
   return (
     <section
       className="relative w-full overflow-hidden my-10"
-      style={{ background: INK, height: isMobile ? 460 : 600 }}
+      style={{ background: INK }}
     >
+      <div style={{ position: 'relative', height: isMobile ? 420 : 600 }}>
         {/* Subtle dot grid */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -389,13 +391,55 @@ export default function WorldMap3D() {
           }}
         />
 
+
+        <div className="absolute inset-0 z-0 cursor-move"
+             onMouseEnter={() => setHover(true)}
+             onMouseLeave={() => setHover(false)}
+        >
+            <Canvas
+              key={canvasKey}
+              camera={{ position: [0, 3, 5.2], fov: 45 }}
+              onCreated={({ gl }) => {
+                const canvasEl = gl.domElement
+                const handleLost = (event: Event) => {
+                  event.preventDefault()
+                  setCanvasKey((k) => k + 1)
+                }
+                canvasEl.addEventListener('webglcontextlost', handleLost, false)
+              }}
+            >
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={1} />
+                <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
+                <Globe
+                  onMarkerHover={setHoveredMarker}
+                  onMarkerSelect={(marker) => {
+                    setActiveMarker(marker)
+                    setHoveredMarker(null)
+                  }}
+                  activeMarkerId={displayMarker?.id ?? null}
+                />
+                <OrbitControls
+                    enableZoom={false}
+                    enablePan={false}
+                    autoRotate={!hovered}
+                    autoRotateSpeed={0.2}
+                    maxPolarAngle={Math.PI / 1.5}
+                    minPolarAngle={Math.PI / 3}
+                />
+            </Canvas>
+        </div>
+
+        <HUDOverlay markerCount={MARKERS.length} activeId={displayMarker?.id ?? ''} />
+      </div>
+
         {displayMarker && (
           <div
-            className="absolute z-20 pointer-events-auto"
+            className="z-20 pointer-events-auto"
             style={
               isMobile
-                ? { left: 12, right: 12, bottom: 12, width: 'auto' }
-                : { top: 56, right: 32, width: 340 }
+                ? { position: 'relative', margin: 12 }
+                : { position: 'absolute', top: 56, right: 32, width: 340 }
             }
           >
             <motion.article
@@ -629,46 +673,6 @@ export default function WorldMap3D() {
             </motion.article>
           </div>
         )}
-
-        <div className="absolute inset-0 z-0 cursor-move"
-             onMouseEnter={() => setHover(true)}
-             onMouseLeave={() => setHover(false)}
-        >
-            <Canvas
-              key={canvasKey}
-              camera={{ position: [0, 0, 6], fov: 45 }}
-              onCreated={({ gl }) => {
-                const canvasEl = gl.domElement
-                const handleLost = (event: Event) => {
-                  event.preventDefault()
-                  setCanvasKey((k) => k + 1)
-                }
-                canvasEl.addEventListener('webglcontextlost', handleLost, false)
-              }}
-            >
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} />
-                <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
-                <Globe
-                  onMarkerHover={setHoveredMarker}
-                  onMarkerSelect={(marker) => {
-                    setActiveMarker(marker)
-                    setHoveredMarker(null)
-                  }}
-                  activeMarkerId={displayMarker?.id ?? null}
-                />
-                <OrbitControls
-                    enableZoom={false}
-                    enablePan={false}
-                    autoRotate={!hovered}
-                    autoRotateSpeed={0.5}
-                    maxPolarAngle={Math.PI / 1.5}
-                    minPolarAngle={Math.PI / 3}
-                />
-            </Canvas>
-        </div>
-
-        <HUDOverlay markerCount={MARKERS.length} activeId={displayMarker?.id ?? ''} />
     </section>
   )
 }
