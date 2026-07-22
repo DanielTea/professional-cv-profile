@@ -112,14 +112,12 @@ function PressImage({ src, source }: { src?: string; source: string }) {
 }
 
 function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
-  const [hover, setHover] = useState(false);
   return (
     <a
       href={item.url}
       target="_blank"
       rel="noreferrer"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      className="dt-card"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -129,9 +127,6 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
         background: colors.paper,
         color: colors.ink,
         textDecoration: "none",
-        boxShadow: hover ? `4px 4px 0 ${colors.orange}` : "none",
-        transform: hover ? "translate(-2px, -2px)" : "none",
-        transition: "transform 120ms ease, box-shadow 120ms ease",
       }}
     >
       {/* Gradient signature edge */}
@@ -197,12 +192,11 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
             Source: {item.source}
           </span>
           <span
+            className="dt-card-arrow"
             style={{
               fontFamily: fonts.display,
               fontWeight: 900,
               fontSize: 18,
-              color: hover ? colors.orange : colors.ink,
-              transition: "color 120ms ease",
             }}
             aria-hidden
           >
