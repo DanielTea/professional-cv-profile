@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { colors, fonts, gradients, space } from "../tokens";
 import { Monogram } from "./Monogram";
@@ -26,6 +26,32 @@ export function NavBar({
 }: Props) {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  // Scroll progress drives the gradient bar via scaleX on the ref directly —
+  // no state, so scrolling never re-renders the header.
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const el = progressRef.current;
+      if (!el) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      el.style.transform = `scaleX(${p})`;
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
 
   // Escape closes the menu; a viewport change to desktop discards it.
   useEffect(() => {
@@ -148,6 +174,18 @@ export function NavBar({
         )}
         <OrangePill href={cta.href}>{cta.label}</OrangePill>
       </div>
+      {/* Reading-progress bar: signature gradient fills left-to-right as the page scrolls */}
+      <div
+        ref={progressRef}
+        aria-hidden
+        style={{
+          height: 2,
+          background: gradients.edge,
+          transform: "scaleX(0)",
+          transformOrigin: "left",
+          pointerEvents: "none",
+        }}
+      />
       {isMobile && menuOpen && (
         <nav
           id="dt-mobile-menu"
