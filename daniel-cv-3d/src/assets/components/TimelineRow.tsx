@@ -2,7 +2,7 @@
 import type { ReactNode } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { asset } from "../asset";
-import { colors, fonts } from "../tokens";
+import { colors, fonts, gradients } from "../tokens";
 
 type Props = {
   period: string; // "2024 —"
@@ -25,7 +25,11 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
         gridTemplateColumns: isMobile ? "1fr" : "96px 1fr 1fr 40px",
         gap: isMobile ? 12 : 24,
         padding: isMobile ? "18px 0" : "22px 0",
-        borderTop: `1px solid ${colors.ink}`,
+        // Fuse-rule separator: ember tip cooling into ink, same motif as
+        // SectionRule. border-image keeps the grid row a single element.
+        borderTop: "1px solid",
+        borderImageSource: gradients.rule,
+        borderImageSlice: 1,
         alignItems: "start",
       }}
     >
@@ -155,7 +159,13 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
             fontFamily: fonts.display,
             fontWeight: 900,
             fontSize: 22,
+            // Accent sweep clipped to the glyph; orange stays as the
+            // fallback for engines without background-clip: text.
             color: colors.orange,
+            background: gradients.accent,
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           →
