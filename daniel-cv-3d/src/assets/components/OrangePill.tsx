@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { colors, fonts, gradients, radii } from "../tokens";
+import { fonts, radii } from "../tokens";
 
 type Props = {
   children: ReactNode;
@@ -11,6 +11,8 @@ type Props = {
 /** Apply-now style orange pill button (ChainGPT). */
 export function OrangePill({ children, href, onClick, variant = "solid" }: Props) {
   const Tag = href ? "a" : "button";
+  // Color, border, and hover/focus feedback live in globals.css (.dt-pill)
+  // so :hover / :focus-visible states can restyle the gradient fill.
   const style = {
     display: "inline-flex",
     alignItems: "center",
@@ -21,16 +23,18 @@ export function OrangePill({ children, href, onClick, variant = "solid" }: Props
     fontSize: 11,
     letterSpacing: "0.18em",
     textTransform: "uppercase" as const,
-    background: variant === "solid" ? gradients.accent : "transparent",
-    color: variant === "solid" ? colors.paper : colors.orange,
-    border: `1.5px solid ${colors.orange}`,
-    cursor: "pointer",
-    textDecoration: "none",
   };
   return (
-    <Tag href={href} onClick={onClick} style={style}>
+    <Tag
+      href={href}
+      onClick={onClick}
+      className={`dt-pill dt-pill--${variant}`}
+      style={style}
+    >
       {children}
-      <span aria-hidden>→</span>
+      <span className="dt-pill-arrow" aria-hidden>
+        →
+      </span>
     </Tag>
   );
 }
