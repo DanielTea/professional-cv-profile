@@ -1,4 +1,4 @@
-import { colors, fonts, radii } from "../tokens";
+import { colors, fonts, gradients, radii } from "../tokens";
 
 type Props = {
   quote: string;
@@ -33,7 +33,13 @@ export function QuoteCard({ quote, author, role, org, code }: Props) {
           fontWeight: 900,
           fontSize: 72,
           lineHeight: 1,
+          // Accent sweep clipped to the glyph; solid orange stays as the
+          // fallback for engines without background-clip: text.
           color: colors.orange,
+          background: gradients.accent,
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          WebkitTextFillColor: "transparent",
         }}
       >
         &ldquo;
@@ -73,10 +79,18 @@ export function QuoteCard({ quote, author, role, org, code }: Props) {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          paddingTop: 12,
-          borderTop: `1px solid ${colors.ink}`,
         }}
       >
+        <span
+          aria-hidden
+          style={{
+            display: "block",
+            height: 1,
+            background: gradients.rule,
+            // 11px + the column's 2px gap = 13px (space.md) above the author.
+            marginBottom: 11,
+          }}
+        />
         <span style={{ fontFamily: fonts.display, fontWeight: 800, fontSize: 14 }}>
           {author}
         </span>

@@ -1,4 +1,4 @@
-import { colors, fonts } from "../tokens";
+import { colors, fonts, gradients } from "../tokens";
 
 type Props = {
   label?: string;
@@ -22,7 +22,7 @@ export function SectionRule({ label, code }: Props) {
       }}
     >
       {label && <span>{label}</span>}
-      <span style={{ flex: 1, height: 1, background: colors.ink }} />
+      <span style={{ flex: 1, height: 1, background: gradients.rule }} />
       {code && <span>{code}</span>}
     </div>
   );
