@@ -59,12 +59,15 @@ export function Hero() {
             <BracesTag tone="ink">DT-01 / PROFILE</BracesTag>
             <FileTag tone="mute">REV.2026-04</FileTag>
           </div>
-          <StencilTitle size={isMobile ? 88 : 180}>
-            DANIEL
-          </StencilTitle>
-          <StencilTitle size={isMobile ? 88 : 180} tone="gradient">
-            TREMER
-          </StencilTitle>
+          {/* One h1 for the full name; the styled lines are spans inside it */}
+          <h1 style={{ margin: 0 }}>
+            <StencilTitle as="span" size={isMobile ? 88 : 180}>
+              DANIEL
+            </StencilTitle>{" "}
+            <StencilTitle as="span" size={isMobile ? 88 : 180} tone="gradient">
+              TREMER
+            </StencilTitle>
+          </h1>
           <p
             style={{
               marginTop: space.lg,
@@ -259,7 +262,8 @@ export function Hero() {
                     lineHeight: 1,
                   }}
                 >
-                  {d.label} <span style={{ color: colors.orange }}>↗</span>
+                  {d.label}{" "}
+                  <span aria-hidden style={{ color: colors.orange }}>↗</span>
                 </div>
                 <div
                   style={{

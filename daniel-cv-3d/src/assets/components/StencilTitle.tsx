@@ -5,10 +5,16 @@ type Props = {
   size?: number;
   underscore?: boolean;
   tone?: "ink" | "orange" | "gradient";
+  /**
+   * Semantic element. Defaults to h2: section titles are subordinate to the
+   * single page h1 (the hero name). Use "span" for lines composed inside a
+   * heading rendered by the caller, or for purely decorative display type.
+   */
+  as?: "h1" | "h2" | "h3" | "span";
 };
 
 /** "PORT_FOLIO" style stencil display headline. Fluid-scales to mobile. */
-export function StencilTitle({ children, size = 96, underscore, tone = "ink" }: Props) {
+export function StencilTitle({ children, size = 96, underscore, tone = "ink", as: Tag = "h2" }: Props) {
   const color = tone === "orange" ? colors.orange : colors.ink;
   // Fluid font: shrink to ~44% on narrow viewports, cap at the desktop `size`.
   const minSize = Math.max(32, Math.round(size * 0.36));
@@ -25,8 +31,9 @@ export function StencilTitle({ children, size = 96, underscore, tone = "ink" }: 
         }
       : undefined;
   return (
-    <h1
+    <Tag
       style={{
+        display: "block",
         margin: 0,
         fontFamily: fonts.display,
         fontWeight: 900,
@@ -41,6 +48,6 @@ export function StencilTitle({ children, size = 96, underscore, tone = "ink" }: 
       }}
     >
       {underscore ? children.replace(" ", "_") : children}
-    </h1>
+    </Tag>
   );
 }

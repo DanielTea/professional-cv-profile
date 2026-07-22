@@ -309,7 +309,7 @@ export function ProjectIndex() {
                 textTransform: "uppercase",
               }}
             >
-              {d.label} ↗
+              {d.label} <span aria-hidden>↗</span>
             </a>
           ))}
         </div>
