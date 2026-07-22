@@ -41,6 +41,10 @@ export const gradients = {
   accent: `linear-gradient(100deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
   // Hairline edge for card rules and borders.
   edge: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
+  // Editorial hairline: an ember tip cooling into the ink rule. Fixed-px
+  // Fibonacci stops (89/233) keep the glowing tip the same length on every
+  // rule regardless of its width, like a fuse lit from the left.
+  rule: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeEmber} 89px, ${colors.ink} 233px)`,
   // Translucent duotone wash that keys photography into the palette.
   wash: "linear-gradient(160deg, rgba(255, 90, 31, 0.14), rgba(27, 59, 224, 0.10))",
   // Depth field for the signature orange slab: ember pools in the lower-right
