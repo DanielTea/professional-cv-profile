@@ -78,8 +78,9 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
           </span>
         ) : null}
         <div style={{ minWidth: 0 }}>
-          <div
+          <h3
             style={{
+              margin: 0,
               fontFamily: fonts.display,
               fontWeight: 900,
               fontSize: 24,
@@ -88,7 +89,7 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
             }}
           >
             {org}
-          </div>
+          </h3>
           <div
             style={{
               marginTop: 4,
@@ -147,6 +148,7 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
       </div>
       {!isMobile && (
         <div
+          aria-hidden
           style={{
             alignSelf: "center",
             textAlign: "right",
