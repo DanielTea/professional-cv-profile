@@ -66,7 +66,8 @@ export function ProjectCard({
             top: -10,
             right: 14,
             background: colors.orange,
-            color: colors.paper,
+            // Ink, not paper: 10px paper-on-orange sits below AA contrast
+            color: colors.ink,
             padding: "1px 8px",
             borderRadius: radii.xs,
             fontFamily: fonts.mono,

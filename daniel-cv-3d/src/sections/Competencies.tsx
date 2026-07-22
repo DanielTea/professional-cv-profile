@@ -142,7 +142,9 @@ export function Competencies() {
                       margin: 0,
                       fontFamily: fonts.display,
                       fontWeight: 900,
-                      fontSize: 28,
+                      // 28px "ENGINEERING" can't wrap and paints over the index
+                      // numeral inside a 375px card; 22px keeps clear of it
+                      fontSize: isMobile ? 22 : 28,
                       letterSpacing: "-0.01em",
                       lineHeight: 1,
                     }}
@@ -168,6 +170,7 @@ export function Competencies() {
                   fontSize: 38,
                   color: colors.orange,
                   lineHeight: 1,
+                  flexShrink: 0,
                 }}
               >
                 {String(i + 1).padStart(2, "0")}
