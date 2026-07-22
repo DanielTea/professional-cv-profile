@@ -21,6 +21,9 @@ export default function Home() {
         minHeight: "100vh",
       }}
     >
+      <a href="#top" className="dt-skip">
+        Skip to content
+      </a>
       <NavBar
         items={[
           { label: "Work", href: "#work" },
