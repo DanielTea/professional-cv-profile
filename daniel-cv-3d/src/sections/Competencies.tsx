@@ -8,6 +8,7 @@ import {
   StencilTitle,
   colors,
   fonts,
+  gradients,
   space,
 } from "@/assets";
 
@@ -168,9 +169,15 @@ export function Competencies() {
                   fontFamily: fonts.display,
                   fontWeight: 900,
                   fontSize: 38,
-                  color: colors.orange,
                   lineHeight: 1,
                   flexShrink: 0,
+                  // Accent sweep clipped to the glyphs; orange stays as the
+                  // fallback for engines without background-clip: text.
+                  color: colors.orange,
+                  background: gradients.accent,
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
                 {String(i + 1).padStart(2, "0")}
