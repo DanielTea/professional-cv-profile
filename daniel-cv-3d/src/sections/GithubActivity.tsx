@@ -10,6 +10,7 @@ import {
   StencilTitle,
   colors,
   fonts,
+  gradients,
   space,
 } from "@/assets";
 
@@ -39,6 +40,7 @@ export function GithubActivity() {
   const [events, setEvents] = useState<GhEvent[] | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [chartKey, setChartKey] = useState<number>(0);
+  const [chartFailed, setChartFailed] = useState<boolean>(false);
   const [pulse, setPulse] = useState<boolean>(true);
   const isMobile = useIsMobile();
 
@@ -202,15 +204,65 @@ export function GithubActivity() {
             </span>
             <Chevrons count={3} size={12} />
           </div>
-          <div style={{ mixBlendMode: "multiply" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              key={chartKey}
-              src={`https://ghchart.rshah.org/141518/${USER}?c=${chartKey}`}
-              alt="GitHub contribution heatmap"
-              style={{ width: "100%", height: "auto", display: "block" }}
-            />
-          </div>
+          {chartKey !== 0 && !chartFailed ? (
+            // Aspect-ratio box reserves the chart's footprint while it loads,
+            // so the card doesn't collapse and re-expand on slow connections.
+            <div style={{ aspectRatio: "722 / 112", mixBlendMode: "multiply" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`https://ghchart.rshah.org/141518/${USER}?c=${chartKey}`}
+                alt="GitHub contribution heatmap"
+                onError={() => setChartFailed(true)}
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+            </div>
+          ) : (
+            // Pre-mount placeholder / offline fallback: gradient field at the
+            // chart's aspect ratio so the card never shows a broken image.
+            <div
+              style={{
+                aspectRatio: "722 / 112",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: `${gradients.mesh}, ${colors.paperDim}`,
+                border: `1px dashed ${colors.grid}`,
+              }}
+            >
+              {chartFailed ? (
+                <a
+                  href={`https://github.com/${USER}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    fontFamily: fonts.mono,
+                    fontSize: 10,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: colors.inkSoft,
+                    textDecoration: "none",
+                    padding: space.sm,
+                    textAlign: "center",
+                  }}
+                >
+                  ＞ matrix feed offline · view on github.com/{USER} →
+                </a>
+              ) : (
+                <span
+                  aria-hidden
+                  style={{
+                    fontFamily: fonts.mono,
+                    fontSize: 10,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: colors.inkMute,
+                  }}
+                >
+                  ＞ syncing matrix …
+                </span>
+              )}
+            </div>
+          )}
           <div
             style={{
               marginTop: space.sm,
