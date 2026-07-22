@@ -28,6 +28,7 @@ export function ProjectCard({
       href={href}
       target={href?.startsWith("http") ? "_blank" : undefined}
       rel="noreferrer"
+      className={href ? "dt-card" : undefined}
       style={{
         position: "relative",
         display: "flex",
@@ -151,6 +152,7 @@ export function ProjectCard({
           ))}
           {/* arrow cell */}
           <div
+            className="dt-card-arrow"
             style={{
               gridRow: "1 / span 2",
               gridColumn: "3",

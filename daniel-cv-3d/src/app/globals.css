@@ -112,6 +112,34 @@ html, body {
   transform: scaleX(1);
 }
 
+/* Interactive cards: identical lift + hard orange shadow on mouse hover and
+   keyboard focus, so pointer and keyboard users get the same feedback */
+.dt-card {
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.dt-card:hover,
+.dt-card:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--color-orange);
+}
+.dt-card .dt-card-arrow {
+  transition: color 120ms ease;
+}
+.dt-card:hover .dt-card-arrow,
+.dt-card:focus-visible .dt-card-arrow {
+  color: var(--color-orange);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dt-card {
+    transition: none;
+  }
+  /* Keep the shadow + arrow cues, drop the movement */
+  .dt-card:hover,
+  .dt-card:focus-visible {
+    transform: none;
+  }
+}
+
 /* Skip link: hidden until keyboard focus, then a techwear tag under the nav */
 .dt-skip {
   position: fixed;
