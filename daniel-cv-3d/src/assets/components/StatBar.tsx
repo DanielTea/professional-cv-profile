@@ -1,4 +1,4 @@
-import { colors, fonts } from "../tokens";
+import { colors, fonts, gradients } from "../tokens";
 
 type Props = {
   label: string;
@@ -37,7 +37,7 @@ export function StatBar({ label, value, code }: Props) {
             left: 0,
             bottom: 0,
             width: `${clamped}%`,
-            background: colors.ink,
+            background: gradients.meter,
           }}
         />
         {/* notch marks every 10% */}

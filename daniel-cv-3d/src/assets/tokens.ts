@@ -45,6 +45,10 @@ export const gradients = {
   // Fibonacci stops (89/233) keep the glowing tip the same length on every
   // rule regardless of its width, like a fuse lit from the left.
   rule: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeEmber} 89px, ${colors.ink} 233px)`,
+  // Capability-meter fill: ink body heating through ember to an orange tip at
+  // the leading edge — the `rule` fuse motif read from the other end. Stops
+  // are percentages of the fill, so every bar glows at its value mark.
+  meter: `linear-gradient(90deg, ${colors.ink} 0%, ${colors.ink} 55%, ${colors.orangeEmber} 82%, ${colors.orange} 100%)`,
   // Translucent duotone wash that keys photography into the palette.
   wash: "linear-gradient(160deg, rgba(255, 90, 31, 0.14), rgba(27, 59, 224, 0.10))",
   // Depth field for the signature orange slab: ember pools in the lower-right
