@@ -41,6 +41,15 @@ export const gradients = {
   accent: `linear-gradient(100deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
   // Hairline edge for card rules and borders.
   edge: `linear-gradient(90deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
+  // Translucent duotone wash that keys photography into the palette.
+  wash: "linear-gradient(160deg, rgba(255, 90, 31, 0.14), rgba(27, 59, 224, 0.10))",
+  // Depth field for the signature orange slab: ember pools in the lower-right
+  // corner, a warm tint lifts the upper-left where the copy sits. Kept
+  // translucent over solid orange so ink stays ≥4.5:1 everywhere.
+  slab: [
+    "radial-gradient(120% 100% at 88% 100%, rgba(185, 59, 11, 0.40), transparent 72%)",
+    "radial-gradient(80% 70% at 6% 0%, rgba(255, 217, 200, 0.30), transparent 70%)",
+  ].join(", "),
 } as const;
 
 export const fonts = {

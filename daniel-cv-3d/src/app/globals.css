@@ -127,7 +127,8 @@ html, body {
   text-transform: uppercase;
   text-decoration: none;
   border: 1.5px solid var(--color-orange);
-  transform: translateY(-200%);
+  /* Clear the 55px top offset too, or the tag's lower edge stays on screen */
+  transform: translateY(calc(-100% - 60px));
 }
 .dt-skip:focus-visible {
   transform: translateY(0);
