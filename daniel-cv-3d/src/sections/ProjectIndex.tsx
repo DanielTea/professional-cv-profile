@@ -26,6 +26,21 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
+    id: "alpaca-autotrader",
+    category: "Product",
+    title: "Alpaca Autotrader",
+    description:
+      "Automated trading system on Alpaca Markets running 24/7: multi-head ETF strategy, short-straddle options sleeve, and an autonomous LLM trader. Publishes live dashboards.",
+    stats: [
+      { k: "Books", v: "3" },
+      { k: "BT Sharpe", v: "1.65" },
+      { k: "Stack", v: "Py · Actions" },
+      { k: "Mode", v: "24/7" },
+    ],
+    href: "https://danieltremer.com/alpaca-autotrader/",
+    status: "LIVE",
+  },
+  {
     id: "control-f",
     category: "Startup",
     title: "control-f",
@@ -149,6 +164,13 @@ const PROJECTS: Project[] = [
 
 const TABS = ["All", "Enterprise", "Startup", "Product", "Research"] as const;
 
+const DASHBOARDS = [
+  { label: "Indicators", href: "https://danieltremer.com/alpaca-autotrader/" },
+  { label: "Signal History", href: "https://danieltremer.com/alpaca-autotrader/history.html" },
+  { label: "Account", href: "https://danieltremer.com/alpaca-autotrader/account.html" },
+  { label: "World Macro", href: "https://danieltremer.com/alpaca-autotrader/world.html" },
+];
+
 export function ProjectIndex() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("All");
   const isMobile = useIsMobile();
@@ -250,6 +272,41 @@ export function ProjectIndex() {
             }
           />
         ))}
+      </div>
+
+      {/* live trading dashboards */}
+      <div style={{ marginTop: space.xl }}>
+        <SectionRule label="LIVE_DASHBOARDS" code="ALPACA_AUTOTRADER" />
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            border: `1px solid ${colors.ink}`,
+            width: "fit-content",
+            marginTop: space.lg,
+          }}
+        >
+          {DASHBOARDS.map((d, i) => (
+            <a
+              key={d.label}
+              href={d.href}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                padding: `${space.sm}px ${space.lg}px`,
+                color: colors.ink,
+                textDecoration: "none",
+                fontFamily: fonts.mono,
+                fontSize: 11,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                borderRight: i < DASHBOARDS.length - 1 ? `1px solid ${colors.ink}` : undefined,
+              }}
+            >
+              {d.label} ↗
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
