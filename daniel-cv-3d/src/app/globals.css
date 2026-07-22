@@ -67,8 +67,11 @@ html, body {
   outline-offset: 3px;
 }
 
+/* Clip (not hidden): overflow-x hidden makes body a scroll container, which
+   silently disables the sticky nav. clip guards against sideways scroll
+   without breaking position: sticky. */
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
 }
 
