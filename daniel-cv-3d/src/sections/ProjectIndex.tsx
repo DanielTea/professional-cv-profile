@@ -212,32 +212,36 @@ export function ProjectIndex() {
         </div>
       </div>
 
-      {/* filter tabs */}
+      {/* filter tabs — ink shows through the 1px gaps as hairline dividers,
+          so the strip can wrap into rows on narrow screens without losing
+          its segmented-control look. */}
       <div
         style={{
           display: "flex",
-          gap: 0,
+          flexWrap: "wrap",
+          gap: 1,
+          background: colors.ink,
           border: `1px solid ${colors.ink}`,
           width: "fit-content",
           marginBottom: space.xl,
         }}
       >
-        {TABS.map((t, i) => {
+        {TABS.map((t) => {
           const active = t === tab;
           return (
             <button
               key={t}
               onClick={() => setTab(t)}
+              aria-pressed={active}
               style={{
                 padding: `${space.sm}px ${space.lg}px`,
-                background: active ? colors.ink : "transparent",
+                background: active ? colors.ink : colors.paper,
                 color: active ? colors.paper : colors.ink,
                 fontFamily: fonts.mono,
                 fontSize: 11,
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
                 border: "none",
-                borderRight: i < TABS.length - 1 ? `1px solid ${colors.ink}` : undefined,
                 cursor: "pointer",
               }}
             >
@@ -281,12 +285,14 @@ export function ProjectIndex() {
           style={{
             display: "flex",
             flexWrap: "wrap",
+            gap: 1,
+            background: colors.ink,
             border: `1px solid ${colors.ink}`,
             width: "fit-content",
             marginTop: space.lg,
           }}
         >
-          {DASHBOARDS.map((d, i) => (
+          {DASHBOARDS.map((d) => (
             <a
               key={d.label}
               href={d.href}
@@ -294,13 +300,13 @@ export function ProjectIndex() {
               rel="noreferrer"
               style={{
                 padding: `${space.sm}px ${space.lg}px`,
+                background: colors.paper,
                 color: colors.ink,
                 textDecoration: "none",
                 fontFamily: fonts.mono,
                 fontSize: 11,
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
-                borderRight: i < DASHBOARDS.length - 1 ? `1px solid ${colors.ink}` : undefined,
               }}
             >
               {d.label} ↗
