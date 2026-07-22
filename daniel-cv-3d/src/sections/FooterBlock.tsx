@@ -1,11 +1,14 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { Barcode, MetaLine, Monogram, TickerLine, Timestamp, colors, fonts, space } from "@/assets";
+import { Barcode, MetaLine, Monogram, TickerLine, Timestamp, colors, fonts, gradients, space } from "@/assets";
 
 export function FooterBlock() {
   const isMobile = useIsMobile();
   return (
-    <footer style={{ borderTop: `1px solid ${colors.ink}` }}>
+    <footer>
+      {/* Signature edge — same 3px accent strip that tops the press/project cards,
+          so the footer reads as the page's closing card. */}
+      <div aria-hidden style={{ height: 3, background: gradients.edge }} />
       <TickerLine
         items={[
           "DANIEL TREMER",
@@ -17,21 +20,47 @@ export function FooterBlock() {
         ]}
         speed={60}
       />
-      <div
-        style={{
-          maxWidth: 1440,
-          margin: "0 auto",
-          padding: isMobile ? `${space.lg}px ${space.md}px` : `${space.xl}px ${space.xxl}px`,
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "auto 1fr auto",
-          alignItems: isMobile ? "stretch" : "center",
-          gap: isMobile ? space.lg : space.xl,
-        }}
-      >
+      <div style={{ position: "relative" }}>
+        {/* Mesh field behind the sign-off — the page closes on the same
+            layered backdrop it opens with in the hero. */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: gradients.mesh,
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "relative",
+            maxWidth: 1440,
+            margin: "0 auto",
+            padding: isMobile ? `${space.lg}px ${space.md}px` : `${space.xl}px ${space.xxl}px`,
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "auto 1fr auto",
+            alignItems: isMobile ? "stretch" : "center",
+            gap: isMobile ? space.lg : space.xl,
+          }}
+        >
         <div style={{ display: "flex", gap: space.md, alignItems: "center" }}>
           <Monogram size={32} />
           <span style={{ fontFamily: fonts.display, fontWeight: 900 }}>
-            DANIEL TREMER
+            DANIEL{" "}
+            <span
+              style={{
+                // Echo of the hero wordmark: surname carries the accent sweep,
+                // solid orange stays as the no-background-clip fallback.
+                color: colors.orange,
+                background: gradients.accent,
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              TREMER
+            </span>
           </span>
         </div>
 
@@ -47,6 +76,7 @@ export function FooterBlock() {
         <div style={{ display: "flex", flexDirection: "column", alignItems: isMobile ? "flex-start" : "flex-end", gap: space.xs }}>
           <Barcode seed="DT-FOOTER-2026" caption="DT · CONTROL-F · 2026" width={isMobile ? 180 : 220} />
           <Timestamp />
+        </div>
         </div>
       </div>
     </footer>
