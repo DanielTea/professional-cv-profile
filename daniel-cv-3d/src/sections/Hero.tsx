@@ -164,7 +164,8 @@ export function Hero() {
                   fontSize: 10,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: colors.inkMute,
+                  // Mute gray fails contrast on the orange tile; use full ink there
+                  color: i === 1 ? colors.ink : colors.inkMute,
                 }}
               >
                 {s.k}
