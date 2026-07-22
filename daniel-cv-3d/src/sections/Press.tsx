@@ -103,7 +103,7 @@ function PressImage({ src, source }: { src?: string; source: string }) {
         style={{
           position: "absolute",
           inset: 0,
-          background: `linear-gradient(160deg, rgba(255, 90, 31, 0.14), rgba(27, 59, 224, 0.10))`,
+          background: gradients.wash,
           pointerEvents: "none",
         }}
       />

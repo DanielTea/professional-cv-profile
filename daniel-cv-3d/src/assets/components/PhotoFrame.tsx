@@ -1,5 +1,5 @@
 import { asset } from "../asset";
-import { colors, fonts } from "../tokens";
+import { colors, fonts, gradients } from "../tokens";
 
 type Props = {
   src: string;
@@ -44,17 +44,29 @@ export function PhotoFrame({ src, alt = "", code, caption, width = 320, height =
         </svg>
       ))}
 
-      <img
-        src={asset(src)}
-        alt={alt}
-        style={{
-          display: "block",
-          width: "100%",
-          height,
-          objectFit: "cover",
-          filter: "grayscale(1) contrast(1.08)",
-        }}
-      />
+      <div style={{ position: "relative" }}>
+        <img
+          src={asset(src)}
+          alt={alt}
+          style={{
+            display: "block",
+            width: "100%",
+            height,
+            objectFit: "cover",
+            filter: "grayscale(1) contrast(1.08)",
+          }}
+        />
+        {/* Gradient wash keys the grayscale portrait into the site's palette */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: gradients.wash,
+            pointerEvents: "none",
+          }}
+        />
+      </div>
 
       <figcaption
         style={{

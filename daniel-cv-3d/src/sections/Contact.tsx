@@ -8,6 +8,7 @@ import {
   StencilTitle,
   colors,
   fonts,
+  gradients,
   space,
 } from "@/assets";
 
@@ -25,7 +26,7 @@ export function Contact() {
       <div
         style={{
           position: "relative",
-          background: colors.orange,
+          background: `${gradients.slab}, ${colors.orange}`,
           color: colors.ink,
           padding: isMobile ? `${space.xl}px ${space.lg}px ${space.lg}px` : `${space.xxl}px ${space.xxl}px ${space.xl}px`,
           borderRadius: 14,

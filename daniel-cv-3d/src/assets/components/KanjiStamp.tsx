@@ -36,7 +36,7 @@ export function KanjiStamp({ jp, en, code = "™ ®" }: Props) {
           fontSize: 10,
           letterSpacing: "0.22em",
           textTransform: "uppercase",
-          color: colors.inkMute,
+          color: colors.ink,
         }}
       >
         {en}
@@ -47,7 +47,7 @@ export function KanjiStamp({ jp, en, code = "™ ®" }: Props) {
           fontFamily: fonts.mono,
           fontSize: 9,
           letterSpacing: "0.2em",
-          color: colors.inkMute,
+          color: colors.ink,
         }}
       >
         {code}

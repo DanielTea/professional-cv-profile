@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { colors, fonts, radii } from "../tokens";
+import { colors, fonts, gradients, radii } from "../tokens";
 
 type Props = {
   children: ReactNode;
@@ -21,7 +21,7 @@ export function OrangePill({ children, href, onClick, variant = "solid" }: Props
     fontSize: 11,
     letterSpacing: "0.18em",
     textTransform: "uppercase" as const,
-    background: variant === "solid" ? colors.orange : "transparent",
+    background: variant === "solid" ? gradients.accent : "transparent",
     color: variant === "solid" ? colors.paper : colors.orange,
     border: `1.5px solid ${colors.orange}`,
     cursor: "pointer",
