@@ -114,6 +114,10 @@ html, body {
 .dt-navlink:focus-visible::after {
   transform: scaleX(1);
 }
+/* Scroll-spy: the current section's link keeps its gradient underline lit */
+.dt-navlink--active::after {
+  transform: scaleX(1);
+}
 
 /* Interactive cards: identical lift + hard orange shadow on mouse hover and
    keyboard focus, so pointer and keyboard users get the same feedback */
