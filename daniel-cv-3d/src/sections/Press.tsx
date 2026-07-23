@@ -127,6 +127,7 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
         background: colors.paper,
         color: colors.ink,
         textDecoration: "none",
+        flex: 1, // fill the <li> grid cell so cards in a row equalize height
       }}
     >
       {/* Gradient signature edge */}
@@ -232,18 +233,32 @@ export function Press() {
         label="COVERAGE"
         code={`${ITEMS.length.toString().padStart(2, "0")} ${ITEMS.length === 1 ? "ENTRY" : "ENTRIES"}`}
       />
-      <div
+      {/* A curated list — real <ul>/<li> semantics so assistive tech announces
+          "list, N items" instead of a bag of anonymous links. */}
+      <ul
         style={{
+          listStyle: "none",
+          margin: 0,
+          padding: 0,
           marginTop: space.xl,
           display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(340px, 1fr))",
+          // auto-fit (not auto-fill) collapses empty trailing tracks, and the
+          // 460px cap stops a sparse row from stretching cards to full width.
+          // justify-center then balances the group so a handful of entries reads
+          // as intentional instead of clumping left over an empty void.
+          gridTemplateColumns: isMobile
+            ? "1fr"
+            : "repeat(auto-fit, minmax(340px, 460px))",
+          justifyContent: "center",
           gap: isMobile ? space.lg : space.xl,
         }}
       >
         {ITEMS.map((item) => (
-          <PressCard key={item.id} item={item} isMobile={isMobile} />
+          <li key={item.id} style={{ display: "flex" }}>
+            <PressCard item={item} isMobile={isMobile} />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
