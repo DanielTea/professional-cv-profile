@@ -11,6 +11,11 @@ type Props = {
 /** Apply-now style orange pill button (ChainGPT). */
 export function OrangePill({ children, href, onClick, variant = "solid" }: Props) {
   const Tag = href ? "a" : "button";
+  // Off-site links (LinkedIn, GitHub, …) open in a new tab so the CV stays put,
+  // matching every other outbound link on the page. mailto:/tel:/in-page anchors
+  // stay in the same tab. rel guards the new window; a visually-hidden note tells
+  // assistive tech the link opens a new tab.
+  const isExternal = !!href && /^https?:\/\//i.test(href);
   // Color, border, and hover/focus feedback live in globals.css (.dt-pill)
   // so :hover / :focus-visible states can restyle the gradient fill.
   const style = {
@@ -30,11 +35,13 @@ export function OrangePill({ children, href, onClick, variant = "solid" }: Props
       onClick={onClick}
       className={`dt-pill dt-pill--${variant}`}
       style={style}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children}
       <span className="dt-pill-arrow" aria-hidden>
-        →
+        {isExternal ? "↗" : "→"}
       </span>
+      {isExternal && <span className="dt-sr-only"> (opens in new tab)</span>}
     </Tag>
   );
 }
