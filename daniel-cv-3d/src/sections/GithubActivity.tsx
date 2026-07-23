@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import {
+  ArrowUpRight,
   Chevrons,
   DataStat,
   FileTag,
@@ -255,7 +256,8 @@ export function GithubActivity() {
                     textAlign: "center",
                   }}
                 >
-                  ＞ matrix feed offline · view on github.com/{USER} →
+                  ＞ matrix feed offline · view on github.com/{USER}{" "}
+                  <ArrowUpRight />
                   <span className="dt-sr-only"> (opens in new tab)</span>
                 </a>
               ) : (

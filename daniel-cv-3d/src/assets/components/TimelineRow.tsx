@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { asset } from "../asset";
 import { colors, fonts, gradients } from "../tokens";
+import { ArrowRight } from "./ArrowRight";
 
 type Props = {
   period: string; // "2024 —"
@@ -155,20 +156,14 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
           aria-hidden
           style={{
             alignSelf: "center",
-            textAlign: "right",
-            fontFamily: fonts.display,
-            fontWeight: 900,
+            display: "flex",
+            justifyContent: "flex-end",
             fontSize: 22,
-            // Accent sweep clipped to the glyph; orange stays as the
-            // fallback for engines without background-clip: text.
-            color: colors.orange,
-            background: gradients.accent,
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            WebkitTextFillColor: "transparent",
           }}
         >
-          →
+          {/* Accent sweep now rides the SVG stroke (see ArrowRight), so it can
+              never be substituted by an emoji arrow glyph on mobile. */}
+          <ArrowRight size="1em" weight={2.25} gradient />
         </div>
       )}
     </div>
