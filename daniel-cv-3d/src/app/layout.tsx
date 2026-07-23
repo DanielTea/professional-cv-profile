@@ -106,6 +106,56 @@ export const metadata: Metadata = {
   manifest: `${basePath}/site.webmanifest`,
 };
 
+// Schema.org structured data (JSON-LD). Absolute URLs are pinned to the
+// canonical production domain so search engines and AI crawlers resolve the
+// Person → Organization graph regardless of where the static bundle is hosted.
+// Every field here is asserted elsewhere on the page (Hero, Contact, metadata),
+// so nothing is claimed that the visible CV doesn't already state.
+const CANONICAL = "https://danieltremer.com";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${CANONICAL}/#daniel-tremer`,
+      name: "Daniel Tremer",
+      url: CANONICAL,
+      image: `${CANONICAL}/social_preview.png`,
+      jobTitle: "CEO & Managing Partner",
+      description:
+        "Machine learning engineer with 10+ years of data science and AI shipped at Porsche, Daimler, and Mercedes-Benz. CEO & Managing Partner at control-f GmbH.",
+      email: "mailto:info@danieltremer.com",
+      worksFor: {
+        "@type": "Organization",
+        name: "control-f GmbH",
+        url: "https://www.controlf.io",
+      },
+      knowsAbout: [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Data Science",
+        "Software Engineering",
+        "Large Language Models",
+      ],
+      sameAs: [
+        "https://www.linkedin.com/in/daniel-tremer/",
+        "https://github.com/DanielTea",
+        "https://x.com/TremerDaniel",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${CANONICAL}/#website`,
+      url: CANONICAL,
+      name: "Daniel Tremer Portfolio",
+      description:
+        "Professional portfolio showcasing AI, data science, and software engineering expertise.",
+      inLanguage: "en",
+      about: { "@id": `${CANONICAL}/#daniel-tremer` },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -114,6 +164,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${orbitron.variable} ${rajdhani.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="antialiased" style={{ background: "#EDEEF0", color: "#141518" }}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         {children}
       </body>
     </html>
