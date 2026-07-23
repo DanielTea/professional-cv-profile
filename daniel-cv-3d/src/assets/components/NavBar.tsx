@@ -26,7 +26,34 @@ export function NavBar({
 }: Props) {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string>("");
   const progressRef = useRef<HTMLDivElement>(null);
+
+  // Scroll-spy: light up the nav link for whichever section owns the viewport.
+  // A thin trigger band near the top third decides the "current" section; the
+  // last-known intersecting states persist in a map so the active link never
+  // flickers to nothing between sections. Sets aria-current for assistive tech.
+  useEffect(() => {
+    const ids = items
+      .map((it) => it.href)
+      .filter((h) => h.startsWith("#"))
+      .map((h) => h.slice(1));
+    const els = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (els.length === 0) return;
+    const visible = new Map<string, boolean>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) visible.set(e.target.id, e.isIntersecting);
+        const current = ids.find((id) => visible.get(id));
+        if (current) setActiveId(current);
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [items]);
 
   // Scroll progress drives the gradient bar via scaleX on the ref directly —
   // no state, so scrolling never re-renders the header.
@@ -98,23 +125,27 @@ export function NavBar({
         </a>
         {!isMobile && (
           <nav aria-label="Primary" style={{ display: "flex", justifyContent: "center", gap: space.xl, flexWrap: "wrap" }}>
-            {items.map((it) => (
-              <a
-                key={it.href}
-                href={it.href}
-                className="dt-navlink"
-                style={{
-                  fontFamily: fonts.mono,
-                  fontSize: 11,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: colors.ink,
-                  textDecoration: "none",
-                }}
-              >
-                {it.label}
-              </a>
-            ))}
+            {items.map((it) => {
+              const isActive = it.href === `#${activeId}`;
+              return (
+                <a
+                  key={it.href}
+                  href={it.href}
+                  className={isActive ? "dt-navlink dt-navlink--active" : "dt-navlink"}
+                  aria-current={isActive ? "true" : undefined}
+                  style={{
+                    fontFamily: fonts.mono,
+                    fontSize: 11,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: colors.ink,
+                    textDecoration: "none",
+                  }}
+                >
+                  {it.label}
+                </a>
+              );
+            })}
           </nav>
         )}
         {isMobile && (
@@ -197,32 +228,37 @@ export function NavBar({
         >
           {/* Gradient signature edge, matching the site's card language */}
           <div aria-hidden style={{ height: 3, background: gradients.edge }} />
-          {items.map((it, i) => (
-            <a
-              key={it.href}
-              href={it.href}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                gap: space.md,
-                minHeight: 44,
-                padding: `${space.md}px ${space.lg}px`,
-                borderBottom: i < items.length - 1 ? `1px solid ${colors.grid}` : "none",
-                fontFamily: fonts.mono,
-                fontSize: 12,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: colors.ink,
-                textDecoration: "none",
-              }}
-            >
-              <span aria-hidden style={{ fontSize: 10, color: colors.inkMute }}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              {it.label}
-            </a>
-          ))}
+          {items.map((it, i) => {
+            const isActive = it.href === `#${activeId}`;
+            return (
+              <a
+                key={it.href}
+                href={it.href}
+                aria-current={isActive ? "true" : undefined}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: space.md,
+                  minHeight: 44,
+                  padding: `${space.md}px ${space.lg}px`,
+                  borderLeft: `3px solid ${isActive ? colors.orange : "transparent"}`,
+                  borderBottom: i < items.length - 1 ? `1px solid ${colors.grid}` : "none",
+                  fontFamily: fonts.mono,
+                  fontSize: 12,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: colors.ink,
+                  textDecoration: "none",
+                }}
+              >
+                <span aria-hidden style={{ fontSize: 10, color: isActive ? colors.orange : colors.inkMute }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {it.label}
+              </a>
+            );
+          })}
         </nav>
       )}
     </header>
