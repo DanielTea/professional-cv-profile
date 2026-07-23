@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import {
+  ArrowUpRight,
   FileTag,
   ProjectCard,
   SectionRule,
@@ -310,7 +311,7 @@ export function ProjectIndex() {
                 textTransform: "uppercase",
               }}
             >
-              {d.label} <span aria-hidden>↗</span>
+              {d.label} <ArrowUpRight color={colors.orange} />
               <span className="dt-sr-only"> (opens in new tab)</span>
             </a>
           ))}

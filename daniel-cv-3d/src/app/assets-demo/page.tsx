@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowUpRight,
   Frame,
   HazardTape,
   Barcode,
@@ -71,7 +72,7 @@ export default function AssetsDemoPage() {
         <BracesTag tone="orange">RX-09</BracesTag>
         <Barcode seed="DT-2026-ALPHA" caption="DT 2026 ALPHA" />
         <KatakanaTag text="テックウェア" en="Techwear" />
-        <div style={{ color: colors.orange, fontFamily: fonts.display, fontWeight: 900, fontSize: 34 }}>↗</div>
+        <div style={{ color: colors.orange, fontFamily: fonts.display, fontWeight: 900, fontSize: 34 }}><ArrowUpRight size={34} color={colors.orange} /></div>
       </section>
 
       <SectionRule label="03 — Feature Block" code="SEC_03" />

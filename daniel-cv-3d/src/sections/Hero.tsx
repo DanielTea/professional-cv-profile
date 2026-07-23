@@ -1,6 +1,7 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
 import {
+  ArrowUpRight,
   BracesTag,
   FileTag,
   MetaLine,
@@ -256,7 +257,7 @@ export function Hero() {
                   }}
                 >
                   {d.label}{" "}
-                  <span aria-hidden style={{ color: colors.orange }}>↗</span>
+                  <ArrowUpRight color={colors.orange} />
                 </div>
                 <div
                   style={{

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { fonts, radii } from "../tokens";
+import { ArrowUpRight } from "./ArrowUpRight";
 
 type Props = {
   children: ReactNode;
@@ -39,7 +40,7 @@ export function OrangePill({ children, href, onClick, variant = "solid" }: Props
     >
       {children}
       <span className="dt-pill-arrow" aria-hidden>
-        {isExternal ? "↗" : "→"}
+        {isExternal ? <ArrowUpRight size="1em" /> : "→"}
       </span>
       {isExternal && <span className="dt-sr-only"> (opens in new tab)</span>}
     </Tag>
