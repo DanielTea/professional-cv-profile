@@ -136,7 +136,8 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
       <div style={{ padding: isMobile ? space.md : space.lg, display: "flex", flexDirection: "column", gap: space.sm, flex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: space.md, flexWrap: "wrap" }}>
           <FileTag tone="orange">{item.kind ?? "Press"}</FileTag>
-          <span
+          <time
+            dateTime={item.date}
             style={{
               fontFamily: fonts.mono,
               fontSize: 10,
@@ -145,7 +146,7 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
             }}
           >
             {formatDate(item.date)}
-          </span>
+          </time>
         </div>
         <h3
           style={{

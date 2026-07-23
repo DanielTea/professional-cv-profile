@@ -61,19 +61,23 @@ export function QuoteCard({ quote, author, role, org, code }: Props) {
           {code}
         </span>
       )}
-      <p
-        style={{
-          margin: "10px 0 0",
-          fontFamily: fonts.display,
-          fontWeight: 500,
-          fontSize: 16,
-          lineHeight: 1.45,
-          color: colors.ink,
-        }}
-      >
-        {quote}
-      </p>
-      <div
+      {/* A real <blockquote> so assistive tech announces this as a quotation
+          rather than an anonymous run of text. */}
+      <blockquote style={{ margin: "10px 0 0" }}>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: fonts.display,
+            fontWeight: 500,
+            fontSize: 16,
+            lineHeight: 1.45,
+            color: colors.ink,
+          }}
+        >
+          {quote}
+        </p>
+      </blockquote>
+      <footer
         style={{
           marginTop: "auto",
           display: "flex",
@@ -91,9 +95,18 @@ export function QuoteCard({ quote, author, role, org, code }: Props) {
             marginBottom: 11,
           }}
         />
-        <span style={{ fontFamily: fonts.display, fontWeight: 800, fontSize: 14 }}>
+        {/* <cite> names the source of the quote; reset the UA italic so it keeps
+            the display face. */}
+        <cite
+          style={{
+            fontFamily: fonts.display,
+            fontWeight: 800,
+            fontSize: 14,
+            fontStyle: "normal",
+          }}
+        >
           {author}
-        </span>
+        </cite>
         <span
           style={{
             fontFamily: fonts.mono,
@@ -106,7 +119,7 @@ export function QuoteCard({ quote, author, role, org, code }: Props) {
           {role}
           {org ? ` · ${org}` : ""}
         </span>
-      </div>
+      </footer>
     </article>
   );
 }
