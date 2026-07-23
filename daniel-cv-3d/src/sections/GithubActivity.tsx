@@ -36,6 +36,16 @@ type Stats = {
 
 const USER = "DanielTea";
 
+// The live commit stream renders raw commit-message text from GitHub, which can
+// carry emoji (🚀, ✅, 🤖 …). Strip emoji/pictographs so none render on the CV,
+// then tidy the whitespace they leave behind.
+const EMOJI_RE =
+  /[\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{2300}-\u{23FF}\u{2122}\u{2139}\u{203C}\u{2049}\u{20E3}\u{FE00}-\u{FE0F}\u{200D}]/gu;
+
+function stripEmoji(s: string): string {
+  return s.replace(EMOJI_RE, "").replace(/\s{2,}/g, " ").trim();
+}
+
 export function GithubActivity() {
   const [events, setEvents] = useState<GhEvent[] | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -80,7 +90,7 @@ export function GithubActivity() {
       return ev.payload.commits.slice(0, 1).map((c) => ({
         when,
         repo: ev.repo.name,
-        line: `${c.sha.slice(0, 7)}  ${c.message.split("\n")[0]}`,
+        line: `${c.sha.slice(0, 7)}  ${stripEmoji(c.message.split("\n")[0])}`,
       }));
     }
     if (ev.type === "CreateEvent") {

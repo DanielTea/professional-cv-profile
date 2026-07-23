@@ -169,6 +169,7 @@ const DASHBOARDS = [
   { label: "Signal History", href: "https://danieltremer.com/alpaca-autotrader/history.html" },
   { label: "Account", href: "https://danieltremer.com/alpaca-autotrader/account.html" },
   { label: "World Macro", href: "https://danieltremer.com/alpaca-autotrader/world.html" },
+  { label: "Company Filings", href: "https://danieltremer.com/alpaca-autotrader/filings.html" },
 ];
 
 export function ProjectIndex() {
