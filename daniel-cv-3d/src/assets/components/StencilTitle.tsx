@@ -39,6 +39,9 @@ export function StencilTitle({ children, size = 96, underscore, tone = "ink", as
       : undefined;
   return (
     <Tag
+      // Gradient headings carry a class that (motion permitting) gently drifts
+      // the clipped accent sweep — see .dt-stencil-gradient in globals.css.
+      className={tone === "gradient" ? "dt-stencil-gradient" : undefined}
       style={{
         display: "block",
         margin: 0,
