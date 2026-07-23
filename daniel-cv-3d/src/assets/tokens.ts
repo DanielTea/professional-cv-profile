@@ -36,6 +36,17 @@ export const gradients = {
     "radial-gradient(48% 42% at 90% 16%, rgba(27, 59, 224, 0.06), transparent 100%)",
     "radial-gradient(40% 36% at 68% 92%, rgba(201, 240, 74, 0.10), transparent 100%)",
   ].join(", "),
+  // Page-scale ambient field — a single translucent atmosphere anchored to the
+  // viewport (rendered position: fixed) so the whole scroll shares one cohesive
+  // gradient wash instead of flat paper. Four soft pools pin to the corners:
+  // orange + cobalt lift the top, ember + a whisper of lime settle the bottom.
+  // Every alpha stays ≤0.10 over paper, so ink contrast is untouched.
+  field: [
+    "radial-gradient(40% 34% at 6% 2%, rgba(255, 90, 31, 0.10), transparent 100%)",
+    "radial-gradient(44% 40% at 94% 10%, rgba(27, 59, 224, 0.055), transparent 100%)",
+    "radial-gradient(48% 46% at 86% 96%, rgba(185, 59, 11, 0.075), transparent 100%)",
+    "radial-gradient(42% 42% at 10% 90%, rgba(201, 240, 74, 0.05), transparent 100%)",
+  ].join(", "),
   // Signature accent sweep: orange burning down to ember. Stays in one hue
   // family — orange blended into cobalt turns muddy purple in sRGB.
   accent: `linear-gradient(100deg, ${colors.orange} 0%, ${colors.orangeDeep} 60%, ${colors.orangeEmber} 100%)`,
