@@ -219,6 +219,24 @@ html, body {
   transform: translateY(0);
 }
 
+/* Signature gradient headings — the hero surname and the "IN THE NEWS" title
+   (StencilTitle tone="gradient"). The clipped accent sweep is drawn at double
+   width and drifts slowly along its own orange→ember hue family: a low-key
+   warmth that breathes through the glyphs like a material catching light,
+   never leaving the accent palette, so the large display type keeps exactly
+   the contrast it ships with today. The static clip is the baseline — motion
+   is added only when the visitor hasn't asked to reduce it. */
+@media (prefers-reduced-motion: no-preference) {
+  .dt-stencil-gradient {
+    background-size: 220% 100% !important;
+    animation: dt-stencil-warmth 15s ease-in-out infinite alternate;
+  }
+}
+@keyframes dt-stencil-warmth {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
 /* Visually hidden, but announced by assistive tech (e.g. "opens in new tab") */
 .dt-sr-only {
   position: absolute;
