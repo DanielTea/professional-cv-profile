@@ -226,3 +226,94 @@ html, body {
     linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px) 0 0 / 100% 48px,
     var(--color-paper);
 }
+
+/* Footer "Save as PDF" trigger: quiet mono tag that fills with the accent
+   sweep on hover / keyboard focus, matching the outline-pill interaction. */
+.dt-printbtn {
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.dt-printbtn:hover,
+.dt-printbtn:focus-visible {
+  background-color: var(--color-orange) !important;
+  border-color: var(--color-orange) !important;
+  color: var(--color-paper) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dt-printbtn { transition: none; }
+}
+
+/* ============================================================================
+   Print — render the interactive CV as a clean paper / PDF document.
+   It's a CV: recruiters routinely "Save as PDF" or print, and the screen build
+   (fixed nav, 3D globe canvas, full-bleed gradient field, hazard-tape rules,
+   one-screen-per-section heights) prints badly. This keeps the editorial layout
+   and the brand's ink + ember accents, but flattens it into a paginated sheet.
+   ============================================================================ */
+@media print {
+  /* Keep the brand's colours in the PDF rather than letting the engine strip
+     backgrounds — otherwise the gradient-clipped display headings (which paint
+     with a transparent text-fill) would print invisible. The sheet itself goes
+     white to save ink; accents and photography ride on top. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  html, body {
+    background: #fff !important;
+    overflow: visible !important;
+  }
+  main { background: #fff !important; }
+
+  /* Drop interactive + full-bleed decorative chrome that has no place on paper:
+     the WebGL globe canvas, the sticky nav (and its scroll-progress bar), the
+     keyboard skip link, and the two page-level aria-hidden layers that are
+     direct children of <main> — the fixed ambient gradient field and the
+     hazard-stripe section dividers. */
+  canvas,
+  header,
+  .dt-skip,
+  .dt-globe,
+  .dt-printbtn,
+  main > div[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  /* Collapse full-viewport section heights and the heavy vertical padding so
+     content flows as one continuous document instead of a screen per section. */
+  section {
+    min-height: 0 !important;
+    padding-top: 18pt !important;
+    padding-bottom: 18pt !important;
+    max-width: 100% !important;
+    break-inside: auto;
+  }
+
+  /* The display headings scale with viewport width (clamp + vw); pin them to
+     page-relative sizes so brand titles like "IN THE NEWS" fit the sheet, and
+     keep a heading with the block it introduces. */
+  h1 { font-size: 26pt !important; }
+  h2 { font-size: 18pt !important; }
+  h3 { font-size: 12pt !important; }
+  h1, h2, h3 { line-height: 1.06 !important; break-after: avoid; }
+
+  /* Keep cards and quote blocks intact across a page break, and freeze out the
+     interactive hover lift so nothing is captured mid-transform. */
+  .dt-card { break-inside: avoid; }
+  .dt-card:hover,
+  .dt-card:focus-visible {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Spell out the destination of in-body links so the paper CV keeps its
+     references. Cards and CTA pills are skipped — their visible label already
+     names the target, and a raw URL after them just adds noise. */
+  a[href^="http"]:not(.dt-card):not(.dt-pill)::after {
+    content: " <" attr(href) ">";
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 8pt;
+    color: var(--color-ink-mute);
+    word-break: break-all;
+  }
+}

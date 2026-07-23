@@ -48,6 +48,7 @@ export function GlobeSection() {
       <SectionRule label="TERRA" code="SPHERE · LIVE" />
 
       <div
+        className="dt-globe"
         style={{
           marginTop: space.md,
           position: "relative",
