@@ -10,7 +10,6 @@ import {
   Timestamp,
   colors,
   fonts,
-  gradients,
   space,
   displayType,
 } from "@/assets";
@@ -34,16 +33,9 @@ export function Hero() {
         margin: "0 auto",
       }}
     >
-      {/* Layered mesh backdrop — kept behind content and translucent so ink stays legible */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: gradients.mesh,
-          pointerEvents: "none",
-        }}
-      />
+      {/* The hero's ambient gradient now comes from the page-scale field in
+          page.tsx (fixed, behind all content), so the top no longer carries a
+          second local mesh — one cohesive wash spans the whole scroll. */}
       <div
         style={{
           position: "relative",
