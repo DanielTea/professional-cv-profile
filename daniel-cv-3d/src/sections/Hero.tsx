@@ -19,6 +19,7 @@ const DASHBOARDS = [
   { label: "History", sub: "Signal timeline", href: "https://danieltremer.com/alpaca-autotrader/history.html" },
   { label: "Account", sub: "P&L · positions", href: "https://danieltremer.com/alpaca-autotrader/account.html" },
   { label: "World", sub: "Global macro", href: "https://danieltremer.com/alpaca-autotrader/world.html" },
+  { label: "Filings", sub: "SEC EDGAR", href: "https://danieltremer.com/alpaca-autotrader/filings.html" },
 ];
 
 export function Hero() {
@@ -221,7 +222,7 @@ export function Hero() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+              gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(5, 1fr)",
             }}
           >
             {DASHBOARDS.map((d, i) => (
