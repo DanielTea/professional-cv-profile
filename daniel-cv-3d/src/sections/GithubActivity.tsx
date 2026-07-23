@@ -233,7 +233,7 @@ export function GithubActivity() {
                 <a
                   href={`https://github.com/${USER}`}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   style={{
                     fontFamily: fonts.mono,
                     fontSize: 10,
@@ -246,6 +246,7 @@ export function GithubActivity() {
                   }}
                 >
                   ＞ matrix feed offline · view on github.com/{USER} →
+                  <span className="dt-sr-only"> (opens in new tab)</span>
                 </a>
               ) : (
                 <span

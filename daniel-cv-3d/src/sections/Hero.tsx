@@ -229,7 +229,7 @@ export function Hero() {
                 key={d.label}
                 href={d.href}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 style={{
                   display: "block",
                   padding: isMobile ? `${space.md}px` : `${space.md}px ${space.lg}px`,
@@ -269,6 +269,7 @@ export function Hero() {
                 >
                   {d.sub}
                 </div>
+                <span className="dt-sr-only"> (opens in new tab)</span>
               </a>
             ))}
           </div>

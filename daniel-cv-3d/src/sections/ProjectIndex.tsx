@@ -297,7 +297,7 @@ export function ProjectIndex() {
               key={d.label}
               href={d.href}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               style={{
                 padding: `${space.sm}px ${space.lg}px`,
                 background: colors.paper,
@@ -310,6 +310,7 @@ export function ProjectIndex() {
               }}
             >
               {d.label} <span aria-hidden>↗</span>
+              <span className="dt-sr-only"> (opens in new tab)</span>
             </a>
           ))}
         </div>
