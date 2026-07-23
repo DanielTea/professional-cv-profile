@@ -116,7 +116,7 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
     <a
       href={item.url}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       className="dt-card"
       style={{
         display: "flex",
@@ -204,6 +204,7 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
           </span>
         </div>
       </div>
+      <span className="dt-sr-only"> (opens in new tab)</span>
     </a>
   );
 }
