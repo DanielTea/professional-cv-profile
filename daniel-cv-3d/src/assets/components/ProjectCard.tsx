@@ -23,11 +23,12 @@ export function ProjectCard({
   href,
   status,
 }: Props) {
+  const isExternal = href?.startsWith("http") ?? false;
   return (
     <a
       href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel="noreferrer"
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       className={href ? "dt-card" : undefined}
       style={{
         position: "relative",
@@ -187,6 +188,7 @@ export function ProjectCard({
           {description}
         </div>
       )}
+      {isExternal && <span className="dt-sr-only"> (opens in new tab)</span>}
     </a>
   );
 }
