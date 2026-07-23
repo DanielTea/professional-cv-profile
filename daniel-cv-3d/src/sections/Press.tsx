@@ -40,6 +40,47 @@ const ITEMS = (pressData as PressItem[])
   .slice()
   .sort((a, b) => b.date.localeCompare(a.date));
 
+// A publication's own favicon, referenced by URL from the article's origin —
+// nothing copyrighted is committed to the repo. Renders a small credibility
+// mark next to the source line; if the icon is missing or blocked it simply
+// removes itself, leaving the text-only attribution untouched (no regression).
+function SourceFavicon({ url }: { url: string }) {
+  const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  let favicon: string | null = null;
+  try {
+    favicon = `${new URL(url).origin}/favicon.ico`;
+  } catch {
+    favicon = null;
+  }
+  // Catch icons that already failed before hydration (onError won't re-fire).
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+  }, []);
+  if (!favicon || failed) return null;
+  return (
+    <img
+      ref={imgRef}
+      src={favicon}
+      alt=""
+      aria-hidden
+      width={14}
+      height={14}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+      onError={() => setFailed(true)}
+      style={{
+        width: 14,
+        height: 14,
+        objectFit: "contain",
+        flexShrink: 0,
+        borderRadius: 2,
+      }}
+    />
+  );
+}
+
 function PressImage({ src, source }: { src?: string; source: string }) {
   const [failed, setFailed] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -184,6 +225,10 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
         >
           <span
             style={{
+              display: "flex",
+              alignItems: "center",
+              gap: space.xs,
+              minWidth: 0,
               fontFamily: fonts.mono,
               fontSize: 10,
               letterSpacing: "0.16em",
@@ -191,7 +236,16 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
               color: colors.inkMute,
             }}
           >
-            Source: {item.source}
+            <SourceFavicon url={item.url} />
+            <span
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Source: {item.source}
+            </span>
           </span>
           <span
             className="dt-card-arrow"
