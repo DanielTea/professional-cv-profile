@@ -44,24 +44,51 @@ export function FooterBlock() {
             gap: isMobile ? space.lg : space.xl,
           }}
         >
-        <div style={{ display: "flex", gap: space.md, alignItems: "center" }}>
-          <Monogram size={32} />
-          <span style={{ fontFamily: fonts.display, fontWeight: 900 }}>
-            DANIEL{" "}
-            <span
-              style={{
-                // Echo of the hero wordmark: surname carries the accent sweep,
-                // solid orange stays as the no-background-clip fallback.
-                color: colors.orange,
-                background: gradients.accent,
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              TREMER
+        <div style={{ display: "flex", flexDirection: "column", gap: space.md, alignItems: "flex-start" }}>
+          <div style={{ display: "flex", gap: space.md, alignItems: "center" }}>
+            <Monogram size={32} />
+            <span style={{ fontFamily: fonts.display, fontWeight: 900 }}>
+              DANIEL{" "}
+              <span
+                style={{
+                  // Echo of the hero wordmark: surname carries the accent sweep,
+                  // solid orange stays as the no-background-clip fallback.
+                  color: colors.orange,
+                  background: gradients.accent,
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                TREMER
+              </span>
             </span>
-          </span>
+          </div>
+          {/* On-brand trigger for the print stylesheet — recruiters can save a
+              clean PDF of the CV. Native print already works via Ctrl/Cmd+P;
+              this just makes it discoverable. Hidden from the printout itself. */}
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="dt-printbtn"
+            style={{
+              fontFamily: fonts.mono,
+              fontSize: 10,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: colors.ink,
+              background: "transparent",
+              border: `1px solid ${colors.ink}`,
+              padding: `${space.xs}px ${space.md}px`,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: space.xs,
+            }}
+          >
+            <span aria-hidden style={{ fontSize: 12, lineHeight: 1 }}>⎙</span>
+            Save as PDF
+          </button>
         </div>
 
         <MetaLine
