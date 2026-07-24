@@ -14,10 +14,21 @@ export const colors = {
   inkSoft: "#2A2C30",
   inkMute: "#595E62",    // secondary/meta text — WCAG AA (≥4.5:1) on paper/paperDim/paperWarm
 
-  // Signature accent
-  orange: "#FF5A1F",     // primary accent (buttons, blocks)
+  // Signature accent.
+  //
+  // The sweep splits by job, and the split is a contrast rule rather than a
+  // stylistic preference:
+  //   · `orange` is a FILL. It is only 2.7:1 against paper, so it can never
+  //     carry small text itself, and text sitting on it must be `ink`
+  //     (5.9:1) — never `paper` (2.7:1). See OrangeSlab / ProjectCard.
+  //   · `orangeEmber` is the accent's INK. At 4.9:1 on paper it is the one
+  //     end of the sweep that clears WCAG AA for small text, so accent-toned
+  //     labels and accent-toned UI boundaries use it.
+  // Large gradient-clipped display type is exempt (AA large-text threshold)
+  // and keeps the full orange→ember sweep.
+  orange: "#FF5A1F",     // primary accent fill (buttons, blocks) — pairs with ink
   orangeDeep: "#E04A10",
-  orangeEmber: "#B93B0B", // darkest end of the accent sweep
+  orangeEmber: "#B93B0B", // darkest end of the sweep — AA-safe accent text on paper
   orangeTint: "#FFD9C8",
 
   // Support
