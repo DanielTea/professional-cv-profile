@@ -32,6 +32,7 @@ export { RatingDots } from "./components/RatingDots";
 export { NavBar } from "./components/NavBar";
 export { OrangePill } from "./components/OrangePill";
 export { ArrowUpRight } from "./components/ArrowUpRight";
+export { ArrowRight } from "./components/ArrowRight";
 export { ProjectCard } from "./components/ProjectCard";
 export type { ProjectStat } from "./components/ProjectCard";
 export { TimelineRow } from "./components/TimelineRow";

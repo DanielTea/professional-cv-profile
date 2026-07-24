@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import {
+  ArrowRight,
   FileTag,
   SectionRule,
   StencilTitle,
@@ -253,10 +254,11 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
               fontFamily: fonts.display,
               fontWeight: 900,
               fontSize: 18,
+              display: "inline-flex",
             }}
             aria-hidden
           >
-            →
+            <ArrowRight size="1em" weight={2.25} />
           </span>
         </div>
       </div>

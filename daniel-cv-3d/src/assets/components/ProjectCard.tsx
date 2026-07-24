@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { colors, fonts, radii } from "../tokens";
+import { ArrowRight } from "./ArrowRight";
 
 export type ProjectStat = { k: string; v: string };
 
@@ -169,7 +170,7 @@ export function ProjectCard({
               fontSize: 22,
             }}
           >
-            →
+            <ArrowRight size="1em" weight={2.25} />
           </div>
         </div>
       )}
