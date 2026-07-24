@@ -255,7 +255,25 @@ export function ProjectIndex() {
 
       <SectionRule label="GRID" code={`${filtered.length} / ${PROJECTS.length}`} />
 
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: isMobile ? space.lg : space.xl, marginTop: space.xl }}>
+      {/* Cards size themselves, the grid counts the columns. A hard
+          `repeat(3, 1fr)` above the mobile breakpoint squeezed cards down to
+          ~197px at 769px and ~307px at 1100px, which collapsed the stat cells
+          inside them (values like "Infotainment" ran into the next column).
+          A 360px floor is the narrowest a card can be and still lay its stat
+          grid out cleanly, so the track count now steps 1 → 2 → 3 with the
+          viewport. auto-fill (not auto-fit) keeps empty trailing tracks, so a
+          filtered single result stays card-sized instead of stretching wide.
+          Above 1280px this still resolves to the same 3-up it does today. */}
+      <div
+        style={{
+          display: "grid",
+          // min(360px, 100%) so the floor can never exceed the container —
+          // a bare 360px minimum would overflow a 375px phone sideways.
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(360px, 100%), 1fr))",
+          gap: isMobile ? space.lg : space.xl,
+          marginTop: space.xl,
+        }}
+      >
         {filtered.map((p) => (
           <ProjectCard
             key={p.id}
