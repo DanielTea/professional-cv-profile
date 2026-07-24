@@ -1,9 +1,71 @@
 "use client";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { asset } from "../asset";
 import { colors, fonts, gradients } from "../tokens";
 import { ArrowRight } from "./ArrowRight";
+
+// Fixed 64×64 org tile so every timeline row aligns on the same left rail —
+// logo'd or not. When a row has no logo (or the logo file 404s), the tile
+// degrades to the org's initials, clipped from the signature accent sweep over
+// a soft mesh, matching the fallbacks the site already uses for press images
+// and company badges. Same footprint either way, so the org name never shifts.
+function LogoTile({ logo, org }: { logo?: string; org: string }) {
+  const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  // Catch logos that already failed before hydration (onError won't re-fire).
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+  }, []);
+  const showImg = logo && !failed;
+  return (
+    <span
+      style={{
+        flex: "0 0 auto",
+        width: 64,
+        height: 64,
+        marginTop: 2,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: `1px solid ${colors.ink}`,
+        background: showImg ? colors.paper : `${gradients.mesh}, ${colors.paper}`,
+        overflow: "hidden",
+      }}
+    >
+      {showImg ? (
+        <img
+          ref={imgRef}
+          src={asset(logo)}
+          alt=""
+          width={48}
+          height={48}
+          style={{ objectFit: "contain", filter: "grayscale(1)" }}
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <span
+          aria-hidden
+          style={{
+            fontFamily: fonts.display,
+            fontWeight: 900,
+            fontSize: 22,
+            lineHeight: 1,
+            letterSpacing: "0.02em",
+            background: gradients.accent,
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: colors.orange,
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          {org.slice(0, 2).toUpperCase()}
+        </span>
+      )}
+    </span>
+  );
+}
 
 type Props = {
   period: string; // "2024 —"
@@ -59,29 +121,7 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
         </span>
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-        {logo ? (
-          <span
-            style={{
-              flex: "0 0 auto",
-              width: 64,
-              height: 64,
-              marginTop: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: `1px solid ${colors.ink}`,
-              background: colors.paper,
-            }}
-          >
-            <img
-              src={asset(logo)}
-              alt=""
-              width={48}
-              height={48}
-              style={{ objectFit: "contain", filter: "grayscale(1)" }}
-            />
-          </span>
-        ) : null}
+        <LogoTile logo={logo} org={org} />
         <div style={{ minWidth: 0 }}>
           <h3
             style={{
