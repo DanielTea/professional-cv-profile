@@ -37,6 +37,16 @@ type Stats = {
 
 const USER = "DanielTea";
 
+// Curated baseline shown when the live GitHub numbers can't be trusted (see the
+// rate-limit note in the effect below). Never render a zero we don't believe —
+// on a CV, "0 Public Repos / 0 Stars" reads as an empty profile, not an outage.
+const FALLBACK_STATS: Stats = {
+  publicRepos: 77,
+  followers: 17,
+  following: 20,
+  totalStars: 50,
+};
+
 // The live commit stream renders raw commit-message text from GitHub, which can
 // carry emoji (🚀, ✅, 🤖 …). Strip emoji/pictographs so none render on the CV,
 // then tidy the whitespace they leave behind.
@@ -60,23 +70,37 @@ export function GithubActivity() {
 
     (async () => {
       try {
-        const [u, r, e] = await Promise.all([
-          fetch(`https://api.github.com/users/${USER}`).then((x) => x.json()),
-          fetch(`https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`).then((x) => x.json()),
-          fetch(`https://api.github.com/users/${USER}/events/public?per_page=30`).then((x) => x.json()),
+        const [uRes, rRes, eRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${USER}`),
+          fetch(`https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`),
+          fetch(`https://api.github.com/users/${USER}/events/public?per_page=30`),
         ]);
+        // Unauthenticated api.github.com allows only 60 requests/hour per IP, and
+        // answers over-limit requests with HTTP 403 + a JSON *error* body — that
+        // resolves, it doesn't throw, so the catch below never sees it. Gate on
+        // res.ok (and the expected shape) or a rate-limited visitor gets 0/0/0/0.
+        const u = uRes.ok ? await uRes.json() : null;
+        const r = rRes.ok ? await rRes.json() : null;
+        const e = eRes.ok ? await eRes.json() : null;
+
+        // Only overwrite the curated baseline with numbers we actually received.
+        const gotUser = u && typeof u.public_repos === "number";
         const totalStars = Array.isArray(r)
           ? r.reduce((s: number, repo: { stargazers_count?: number }) => s + (repo.stargazers_count ?? 0), 0)
-          : 0;
-        setStats({
-          publicRepos: u?.public_repos ?? 0,
-          followers: u?.followers ?? 0,
-          following: u?.following ?? 0,
-          totalStars,
-        });
+          : null;
+        setStats(
+          gotUser
+            ? {
+                publicRepos: u.public_repos,
+                followers: u.followers ?? FALLBACK_STATS.followers,
+                following: u.following ?? FALLBACK_STATS.following,
+                totalStars: totalStars ?? FALLBACK_STATS.totalStars,
+              }
+            : FALLBACK_STATS
+        );
         setEvents(Array.isArray(e) ? e.slice(0, 8) : []);
       } catch {
-        setStats({ publicRepos: 77, followers: 17, following: 20, totalStars: 50 });
+        setStats(FALLBACK_STATS);
         setEvents([]);
       }
     })();
