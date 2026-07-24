@@ -24,6 +24,30 @@ const DASHBOARDS = [
   { label: "Filings", sub: "SEC EDGAR", href: "https://danieltremer.com/alpaca-autotrader/filings.html" },
 ];
 
+const STATS = [
+  { v: "10+", k: "Years AI/ML" },
+  { v: "07", k: "Active projects" },
+  { v: "500k+", k: "Cars touched" },
+  { v: "700+", k: "Network" },
+];
+
+// Interior dividers for an N-up cell grid (gap:0, so the cell borders *are* the
+// grid lines): a right border on every cell except the last in its row, and a
+// top border on every row after the first. Derived from the live item and
+// column counts rather than a hardcoded index — a fixed `i < 3` test was
+// written when both grids were 4-up, and silently dropped the 4th|5th divider
+// (and left a stray edge on the lone mobile tile) once the dashboards row grew
+// to five boards.
+function cellBorders(index: number, count: number, cols: number) {
+  const line = `1px solid ${colors.ink}`;
+  const lastInRow = index % cols === cols - 1;
+  const isLast = index === count - 1;
+  return {
+    borderRight: lastInRow || isLast ? undefined : line,
+    borderTop: index >= cols ? line : undefined,
+  };
+}
+
 export function Hero() {
   const isMobile = useIsMobile();
   return (
@@ -134,24 +158,12 @@ export function Hero() {
               gap: 0,
             }}
           >
-          {[
-            { v: "10+", k: "Years AI/ML" },
-            { v: "07", k: "Active projects" },
-            { v: "500k+", k: "Cars touched" },
-            { v: "700+", k: "Network" },
-          ].map((s, i) => (
+          {STATS.map((s, i) => (
             <div
               key={s.k}
               style={{
                 padding: isMobile ? `${space.md}px` : `${space.lg}px`,
-                borderRight: isMobile
-                  ? i % 2 === 0
-                    ? `1px solid ${colors.ink}`
-                    : undefined
-                  : i < 3
-                    ? `1px solid ${colors.ink}`
-                    : undefined,
-                borderTop: isMobile && i >= 2 ? `1px solid ${colors.ink}` : undefined,
+                ...cellBorders(i, STATS.length, isMobile ? 2 : 4),
                 // The accent tile gains the same translucent ember/tint depth
                 // the Contact CTA slab carries — richer than flat orange, and
                 // documented to keep ink ≥4.5:1 over solid orange.
@@ -249,14 +261,7 @@ export function Hero() {
                   background: colors.paper,
                   color: colors.ink,
                   textDecoration: "none",
-                  borderRight: isMobile
-                    ? i % 2 === 0
-                      ? `1px solid ${colors.ink}`
-                      : undefined
-                    : i < 3
-                      ? `1px solid ${colors.ink}`
-                      : undefined,
-                  borderTop: isMobile && i >= 2 ? `1px solid ${colors.ink}` : undefined,
+                  ...cellBorders(i, DASHBOARDS.length, isMobile ? 2 : 5),
                 }}
               >
                 <div
