@@ -20,7 +20,12 @@ type Marker = {
 }
 
 const INK = '#141518'
+// Two greys, because they do different jobs. The wireframe, orbit dashes and
+// dot grid are decoration and stay at the lighter value; anything that is
+// read as text uses the palette's `inkMute`, which is held to AA on paper
+// (the lighter grey lands at 4.1:1, just under).
 const INK_MUTE = '#6E7378'
+const INK_MUTE_TEXT = '#595E62'
 const PAPER = '#EDEEF0'
 const ORANGE = '#FF5A1F'
 
@@ -483,7 +488,9 @@ export default function WorldMap3D() {
                   top: -10,
                   right: 16,
                   background: ORANGE,
-                  color: PAPER,
+                  // Ink, not paper: 10px paper-on-orange sits below AA
+                  // contrast (matches the ProjectCard status chip).
+                  color: INK,
                   padding: '1px 8px',
                   borderRadius: 2,
                   fontFamily: '"JetBrains Mono", ui-monospace, monospace',
@@ -501,7 +508,7 @@ export default function WorldMap3D() {
                   fontSize: 10,
                   letterSpacing: '0.22em',
                   textTransform: 'uppercase',
-                  color: INK_MUTE,
+                  color: INK_MUTE_TEXT,
                   marginBottom: 6,
                 }}
               >
@@ -526,7 +533,7 @@ export default function WorldMap3D() {
                   marginTop: 4,
                   fontFamily: '"JetBrains Mono", ui-monospace, monospace',
                   fontSize: 11,
-                  color: INK_MUTE,
+                  color: INK_MUTE_TEXT,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                 }}
@@ -586,7 +593,7 @@ export default function WorldMap3D() {
                         fontSize: 9,
                         letterSpacing: '0.22em',
                         textTransform: 'uppercase',
-                        color: INK_MUTE,
+                        color: INK_MUTE_TEXT,
                       }}
                     >
                       {s.k}

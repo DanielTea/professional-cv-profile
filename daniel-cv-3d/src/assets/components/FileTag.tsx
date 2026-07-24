@@ -8,8 +8,10 @@ type Props = {
 
 /** `// SA/CT_II` style mono stencil ID tag. */
 export function FileTag({ children, prefix = "//", tone = "ink" }: Props) {
+  // 10px accent-toned label: `orangeEmber`, not `orange` — the tag is small
+  // text on paper, and only the ember end of the sweep clears AA there.
   const color =
-    tone === "orange" ? colors.orange : tone === "mute" ? colors.inkMute : colors.ink;
+    tone === "orange" ? colors.orangeEmber : tone === "mute" ? colors.inkMute : colors.ink;
   return (
     <span
       style={{
