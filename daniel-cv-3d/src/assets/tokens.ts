@@ -12,7 +12,7 @@ export const colors = {
   // Ink
   ink: "#141518",        // body text / near-black
   inkSoft: "#2A2C30",
-  inkMute: "#6E7378",    // secondary/meta text
+  inkMute: "#595E62",    // secondary/meta text — WCAG AA (≥4.5:1) on paper/paperDim/paperWarm
 
   // Signature accent
   orange: "#FF5A1F",     // primary accent (buttons, blocks)
