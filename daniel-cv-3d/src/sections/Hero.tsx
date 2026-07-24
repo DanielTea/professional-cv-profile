@@ -11,6 +11,7 @@ import {
   Timestamp,
   colors,
   fonts,
+  gradients,
   space,
   displayType,
 } from "@/assets";
@@ -121,14 +122,18 @@ export function Hero() {
           height={isMobile ? 280 : 380}
         />
         <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? space.lg : space.xl }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
-            gap: 0,
-            border: `1px solid ${colors.ink}`,
-          }}
-        >
+        <div style={{ border: `1px solid ${colors.ink}` }}>
+          {/* Gradient signature edge — joins the Hero's stat module to the
+              site's card family (Press cards, mobile menu carry the same 3px
+              accent sweep). */}
+          <div aria-hidden style={{ height: 3, background: gradients.edge }} />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+              gap: 0,
+            }}
+          >
           {[
             { v: "10+", k: "Years AI/ML" },
             { v: "07", k: "Active projects" },
@@ -147,7 +152,10 @@ export function Hero() {
                     ? `1px solid ${colors.ink}`
                     : undefined,
                 borderTop: isMobile && i >= 2 ? `1px solid ${colors.ink}` : undefined,
-                background: i === 1 ? colors.orange : colors.paper,
+                // The accent tile gains the same translucent ember/tint depth
+                // the Contact CTA slab carries — richer than flat orange, and
+                // documented to keep ink ≥4.5:1 over solid orange.
+                background: i === 1 ? `${gradients.slab}, ${colors.orange}` : colors.paper,
                 color: colors.ink,
               }}
             >
@@ -169,10 +177,13 @@ export function Hero() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Live trading dashboards — published by the alpaca-autotrader pipeline */}
         <div style={{ border: `1.5px solid ${colors.ink}` }}>
+          {/* Gradient signature edge — same accent sweep the site's cards carry */}
+          <div aria-hidden style={{ height: 3, background: gradients.edge }} />
           <div
             style={{
               display: "flex",
