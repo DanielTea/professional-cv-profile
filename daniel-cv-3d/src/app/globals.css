@@ -10,6 +10,9 @@
   --color-ink-mute: #595E62;
   --color-orange: #FF5A1F;
   --color-orange-deep: #E04A10;
+  /* The accent's ink: the one end of the sweep that clears AA (4.9:1) as
+     small text or as a UI boundary on paper. See tokens.ts. */
+  --color-orange-ember: #B93B0B;
   --color-grid: #C7CACD;
 
   /* Back-compat aliases (old code may still reference these) */
@@ -61,10 +64,18 @@ html, body {
   scroll-margin-top: 76px;
 }
 
-/* Keyboard focus — signature orange, offset so the ring reads on any surface */
+/* Keyboard focus — an accent glow wrapped in an ink rim.
+   A bare orange ring is only 2.7:1 against paper, under the 3:1 WCAG asks of
+   a focus indicator, and it disappears outright on the orange contact slab.
+   Two bands fix both without losing the accent: the orange fills the 3px gap
+   hugging the element, and the ink ring sits outside it. One of the two
+   always has contrast to spare — the ink rim carries paper (15.9:1) and the
+   orange slab (5.9:1); the orange band carries the ink-dark panels, where
+   the rim itself goes quiet. */
 :focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-ink);
   outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--color-orange);
 }
 
 /* Clip (not hidden): overflow-x hidden makes body a scroll container, which
@@ -79,10 +90,11 @@ html, body {
   min-width: 0;
 }
 
-/* Selection */
+/* Selection — ink on the accent fill (5.9:1). Paper on orange is 2.7:1, i.e.
+   highlighting a line would have made it harder to read, not easier. */
 ::selection {
-  background: #FF5A1F;
-  color: #EDEEF0;
+  background: var(--color-orange);
+  color: var(--color-ink);
 }
 
 /* Scrollbar — quiet, techwear */
@@ -151,17 +163,27 @@ html, body {
    focus slide it toward its ember end — a darker "pressed" read in the same
    hue family. Outline pills fill with the identical sweep so both variants
    answer interaction in one voice. */
+/* The pill is the site's primary CTA (nav "Hire", hero "Open channel", the
+   contact links), so its 11px label is exactly the text that must not be the
+   least legible thing on the page. It carries `ink` on the accent fill, the
+   same pairing OrangeSlab and ProjectCard already use: light text on this
+   orange tops out at 2.7:1, and no lightening fixes that — only the fill's
+   own darkness or the text's does.
+   The sweep is held to the orange→deep half so every position of the hover
+   slide stays ≥4.6:1 with ink; the ember end (3.3:1 with ink) is left to the
+   large display type it was made for. The ember rim gives the pill a 4.9:1
+   boundary against paper, which the fill alone (2.7:1) never had. */
 .dt-pill {
-  border: 1.5px solid var(--color-orange);
+  border: 1.5px solid var(--color-orange-ember);
   cursor: pointer;
   text-decoration: none;
   transition: background-position 160ms ease, color 160ms ease;
 }
 .dt-pill--solid {
-  background-image: linear-gradient(100deg, #FF5A1F 0%, #E04A10 30%, #B93B0B 100%);
+  background-image: linear-gradient(100deg, #FF5A1F 0%, #F05314 45%, #E04A10 100%);
   background-size: 200% 100%;
   background-position: 0% 0;
-  color: var(--color-paper);
+  color: var(--color-ink);
 }
 .dt-pill--solid:hover,
 .dt-pill--solid:focus-visible {
@@ -169,14 +191,14 @@ html, body {
 }
 .dt-pill--outline {
   background-color: transparent;
-  color: var(--color-orange);
+  color: var(--color-orange-ember);
 }
 .dt-pill--outline:hover,
 .dt-pill--outline:focus-visible {
-  background-image: linear-gradient(100deg, #FF5A1F 0%, #E04A10 30%, #B93B0B 100%);
+  background-image: linear-gradient(100deg, #FF5A1F 0%, #F05314 45%, #E04A10 100%);
   background-size: 200% 100%;
   background-position: 100% 0;
-  color: var(--color-paper);
+  color: var(--color-ink);
 }
 .dt-pill .dt-pill-arrow {
   transition: transform 160ms ease;
@@ -267,7 +289,8 @@ html, body {
 .dt-printbtn:focus-visible {
   background-color: var(--color-orange) !important;
   border-color: var(--color-orange) !important;
-  color: var(--color-paper) !important;
+  /* Ink on the accent fill, matching the pill — see .dt-pill above. */
+  color: var(--color-ink) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   .dt-printbtn { transition: none; }
