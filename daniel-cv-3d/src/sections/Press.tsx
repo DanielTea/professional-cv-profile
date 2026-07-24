@@ -280,11 +280,40 @@ export function Press() {
         margin: "0 auto",
       }}
     >
-      <div style={{ marginBottom: space.lg }}>
-        <FileTag>SEC_08 / PRESS SIGNAL</FileTag>
-        <StencilTitle size={96} tone="gradient">
-          IN THE NEWS
-        </StencilTitle>
+      {/* Header follows the site's section pattern (Competencies / Project
+          Index): stencil title left, an editorial dek right that states what
+          the list is and the standard it's held to. */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          marginBottom: space.lg,
+          gap: space.md,
+          flexWrap: "wrap",
+        }}
+      >
+        <div>
+          <FileTag>SEC_08 / PRESS SIGNAL</FileTag>
+          <StencilTitle size={96} tone="gradient">
+            IN THE NEWS
+          </StencilTitle>
+        </div>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: fonts.mono,
+            fontSize: 12,
+            lineHeight: 1.55,
+            color: colors.inkMute,
+            maxWidth: 420,
+            textAlign: isMobile ? "left" : "right",
+          }}
+        >
+          Third-party signal — talks, guest articles, panels. Every entry links
+          a real, currently-reachable source, quoted straight and never
+          paraphrased.
+        </p>
       </div>
       <SectionRule
         label="COVERAGE"
