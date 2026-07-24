@@ -134,7 +134,12 @@ export function ProjectCard({
                   fontFamily: fonts.display,
                   fontWeight: 800,
                   fontSize: 18,
-                  lineHeight: 1,
+                  lineHeight: 1.1,
+                  // Backstop for the narrowest cards (small phones): a value
+                  // longer than its cell wraps instead of running across the
+                  // hairline into the next column. The row is minmax(52px,
+                  // auto), so a second line just grows the row.
+                  overflowWrap: "anywhere",
                 }}
               >
                 {s.v}

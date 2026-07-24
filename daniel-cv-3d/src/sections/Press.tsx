@@ -84,71 +84,87 @@ function SourceFavicon({ url }: { url: string }) {
 
 function PressImage({ src, source }: { src?: string; source: string }) {
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
-  // Catch images that already failed before hydration (onError won't re-fire).
+  // Catch images that resolved either way before hydration (the events won't
+  // re-fire on an already-settled <img>).
   useEffect(() => {
     const el = imgRef.current;
-    if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+    if (!el || !el.complete) return;
+    if (el.naturalWidth === 0) setFailed(true);
+    else setLoaded(true);
   }, []);
-  if (!src || failed) {
-    // Fallback: gradient field with the publication's initial stamped on it.
-    return (
-      <div
+  return (
+    // The gradient plate is the plinth, not a fallback branch: it is always
+    // painted, and the article image (when there is one, and once it actually
+    // decodes) fades in on top of it. Waiting on onError alone left a blank
+    // 150px void whenever a third-party host merely *stalled* — an offline
+    // visitor, a blocked tracker domain, a slow CDN — because a request that
+    // never settles never fires an error. Now the card always reads complete.
+    <div
+      style={{
+        position: "relative",
+        height: 150,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        background: `${gradients.mesh}, ${colors.paperDim}`,
+        borderBottom: `1px solid ${colors.ink}`,
+      }}
+    >
+      <span
         aria-hidden
         style={{
-          height: 150,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: `${gradients.mesh}, ${colors.paperDim}`,
-          borderBottom: `1px solid ${colors.ink}`,
+          fontFamily: fonts.display,
+          fontWeight: 900,
+          fontSize: 63,
+          lineHeight: 1,
+          background: gradients.accent,
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: colors.orange,
+          WebkitTextFillColor: "transparent",
         }}
       >
-        <span
-          style={{
-            fontFamily: fonts.display,
-            fontWeight: 900,
-            fontSize: 63,
-            lineHeight: 1,
-            background: gradients.accent,
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: colors.orange,
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          {source.charAt(0).toUpperCase()}
-        </span>
-      </div>
-    );
-  }
-  return (
-    <div style={{ position: "relative", borderBottom: `1px solid ${colors.ink}` }}>
-      <img
-        ref={imgRef}
-        src={src}
-        alt={`${source} — article preview`}
-        loading="lazy"
-        referrerPolicy="no-referrer"
-        onError={() => setFailed(true)}
-        style={{
-          width: "100%",
-          height: 150,
-          objectFit: "cover",
-          display: "block",
-          filter: "saturate(0.92)",
-        }}
-      />
-      {/* Gradient wash keys external imagery into the site's palette */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: gradients.wash,
-          pointerEvents: "none",
-        }}
-      />
+        {source.charAt(0).toUpperCase()}
+      </span>
+      {src && !failed && (
+        <>
+          <img
+            ref={imgRef}
+            src={src}
+            alt={`${source} — article preview`}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onLoad={() => setLoaded(true)}
+            onError={() => setFailed(true)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              filter: "saturate(0.92)",
+              opacity: loaded ? 1 : 0,
+              transition: "opacity 200ms ease",
+            }}
+          />
+          {/* Gradient wash keys external imagery into the site's palette */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: gradients.wash,
+              pointerEvents: "none",
+              opacity: loaded ? 1 : 0,
+              transition: "opacity 200ms ease",
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
