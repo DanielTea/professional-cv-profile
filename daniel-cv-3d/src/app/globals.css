@@ -59,7 +59,12 @@ html, body {
   }
 }
 
-/* Anchor targets stop short of the sticky nav bar (space-2xl + space-lg). */
+/* Anchor targets stop short of the sticky nav bar (space-2xl + space-lg).
+   This budget assumes the bar stays ONE row tall (58px) at every width — see
+   the `isCompact` breakpoint in NavBar.tsx, which swaps the link row for the
+   menu button as soon as the links would wrap. If the bar is ever allowed to
+   wrap again, it outgrows this offset and every jumped-to heading lands
+   behind it. */
 [id] {
   scroll-margin-top: 76px;
 }
