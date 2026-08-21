@@ -1,5 +1,6 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import { FileTag, QuoteCard, SectionRule, StencilTitle, space } from "@/assets";
 
 const QUOTES = [
@@ -66,7 +67,7 @@ export function Recommendations() {
   return (
     <section id="recs" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ marginBottom: space.lg }}>
-        <FileTag>SEC_05 / PEER FEEDBACK</FileTag>
+        <FileTag>{sectionTag("recs")}</FileTag>
         <StencilTitle size={96}>RECOMMENDATIONS</StencilTitle>
       </div>
       <SectionRule label="SAMPLE" code={`${QUOTES.length.toString().padStart(2, "0")} QUOTES`} />

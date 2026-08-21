@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import {
   ArrowUpRight,
   FileTag,
@@ -185,7 +186,7 @@ export function ProjectIndex() {
     <section id="work" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
-          <FileTag>SEC_03 / PORTFOLIO</FileTag>
+          <FileTag>{sectionTag("work")}</FileTag>
           <StencilTitle size={96} underscore>PROJECT_INDEX</StencilTitle>
         </div>
         <div style={{ textAlign: "right" }}>
