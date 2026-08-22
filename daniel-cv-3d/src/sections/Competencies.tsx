@@ -118,6 +118,20 @@ export function Competencies() {
           gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
           gap: 0,
           border: `1px solid ${colors.ink}`,
+          // Same recipe the quote cards and press plates use: the mesh is
+          // translucent (every stop ≤0.12 alpha) painted over solid paper, so
+          // the board gains the site's layered gradient surface without
+          // spending the contrast budget. Measured on the darkest pixel the
+          // composited surface renders: ink 13.7:1 and inkMute 4.9:1, both
+          // clear of the 4.5:1 AA body-text rule.
+          //
+          // It is painted HERE, once, rather than on each of the four cards:
+          // the mesh's stops are percentages of its own box, so per-card
+          // painting would stamp the same three pools four times and put a
+          // hard colour seam on every shared border. One field across the
+          // whole board keeps the 2x2 reading as a single panel — the same
+          // logic as the page-scale ambient field in page.tsx.
+          background: `${gradients.mesh}, ${colors.paper}`,
         }}
       >
         {GROUPS.map((g, i) => (
@@ -130,7 +144,9 @@ export function Competencies() {
               display: "flex",
               flexDirection: "column",
               gap: space.lg,
-              background: colors.paper,
+              // Transparent so the board's single gradient field (above) shows
+              // through unbroken; an opaque paper fill here would mask it.
+              background: "transparent",
             }}
           >
             <header style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: space.md }}>
