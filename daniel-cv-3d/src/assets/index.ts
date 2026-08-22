@@ -10,6 +10,7 @@ export { Crosshair } from "./components/Crosshair";
 export { GridBackdrop } from "./components/GridBackdrop";
 export { SectionRule } from "./components/SectionRule";
 export { Pictogram } from "./components/Pictogram";
+export { Printer } from "./components/Printer";
 export { OrangeSlab } from "./components/OrangeSlab";
 export { CircuitBlock } from "./components/CircuitBlock";
 

@@ -1,6 +1,6 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { Barcode, MetaLine, Monogram, TickerLine, Timestamp, colors, fonts, gradients, space } from "@/assets";
+import { Barcode, MetaLine, Monogram, Printer, TickerLine, Timestamp, colors, fonts, gradients, space } from "@/assets";
 
 export function FooterBlock() {
   const isMobile = useIsMobile();
@@ -86,7 +86,7 @@ export function FooterBlock() {
               gap: space.xs,
             }}
           >
-            <span aria-hidden style={{ fontSize: 12, lineHeight: 1 }}>⎙</span>
+            <Printer size={13} weight={2.25} />
             Save as PDF
           </button>
         </div>
