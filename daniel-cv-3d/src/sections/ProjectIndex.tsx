@@ -189,7 +189,10 @@ export function ProjectIndex() {
           <FileTag>{sectionTag("work")}</FileTag>
           <StencilTitle size={96} underscore>PROJECT_INDEX</StencilTitle>
         </div>
-        <div style={{ textAlign: "right" }}>
+        {/* Record counter. Same rule as the press / competencies deks: a
+            right-aligned rail keeps its right anchor when the header wraps,
+            which here happens at phone widths. */}
+        <div style={{ textAlign: "right", marginLeft: "auto" }}>
           <div
             style={{
               fontFamily: fonts.display,
