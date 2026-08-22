@@ -58,8 +58,15 @@ function stripEmoji(s: string): string {
   return s.replace(EMOJI_RE, "").replace(/\s{2,}/g, " ").trim();
 }
 
+// Three genuinely different things the events feed can be, kept apart because
+// they warrant three different sentences. Collapsing "offline" into "loaded,
+// but empty" is what made this card claim "no recent public events — private
+// org work only" at a visitor whose request never actually landed.
+type FeedState = "loading" | "live" | "offline";
+
 export function GithubActivity() {
-  const [events, setEvents] = useState<GhEvent[] | null>(null);
+  const [events, setEvents] = useState<GhEvent[]>([]);
+  const [feed, setFeed] = useState<FeedState>("loading");
   const [stats, setStats] = useState<Stats | null>(null);
   const [chartKey, setChartKey] = useState<number>(0);
   const [chartFailed, setChartFailed] = useState<boolean>(false);
@@ -99,18 +106,38 @@ export function GithubActivity() {
               }
             : FALLBACK_STATS
         );
+        // An array is the only answer that tells us anything about the stream.
+        // A 403 body, a shape we don't recognise, anything else — we simply
+        // don't know what Daniel has been pushing, and we say exactly that.
         setEvents(Array.isArray(e) ? e.slice(0, 8) : []);
+        setFeed(Array.isArray(e) ? "live" : "offline");
       } catch {
         setStats(FALLBACK_STATS);
         setEvents([]);
+        setFeed("offline");
       }
     })();
-
-    const blink = setInterval(() => setPulse((p) => !p), 900);
-    return () => clearInterval(blink);
   }, []);
 
-  const liveEntries = (events ?? []).flatMap((ev): { when: string; repo: string; line: string }[] => {
+  // The blinking status dot is a liveness cue, so it only runs while there is
+  // liveness to signal — an offline card holds a steady muted dot rather than
+  // winking at a stream that isn't arriving. Stopping the interval outright
+  // also ends a twice-a-second re-render of the whole section that previously
+  // ran for the life of the page, on- or off-screen.
+  useEffect(() => {
+    if (feed !== "live") {
+      setPulse(false);
+      return;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPulse(true);
+      return;
+    }
+    const blink = setInterval(() => setPulse((p) => !p), 900);
+    return () => clearInterval(blink);
+  }, [feed]);
+
+  const liveEntries = events.flatMap((ev): { when: string; repo: string; line: string }[] => {
     const when = new Date(ev.created_at).toISOString().replace("T", " ").slice(0, 19);
     if (ev.type === "PushEvent" && ev.payload.commits?.length) {
       return ev.payload.commits.slice(0, 1).map((c) => ({
@@ -138,6 +165,9 @@ export function GithubActivity() {
           <FileTag>{sectionTag("github")}</FileTag>
           <StencilTitle size={96} underscore>BUILD_LOG</StencilTitle>
         </div>
+        {/* Status reads from the feed, not from hope: the header only claims
+            "live" once the events API has actually answered. aria-live lets a
+            screen reader hear it settle instead of being stuck on "syncing". */}
         <div style={{ display: "flex", alignItems: "center", gap: space.sm }}>
           <span
             aria-hidden
@@ -145,12 +175,13 @@ export function GithubActivity() {
               width: 8,
               height: 8,
               borderRadius: "50%",
-              background: colors.orange,
+              background: feed === "live" ? colors.orange : colors.inkMute,
               opacity: pulse ? 1 : 0.25,
               transition: "opacity 120ms linear",
             }}
           />
           <span
+            aria-live="polite"
             style={{
               fontFamily: fonts.mono,
               fontSize: 11,
@@ -159,7 +190,7 @@ export function GithubActivity() {
               color: colors.inkMute,
             }}
           >
-            Live · @{USER}
+            {feed === "live" ? "Live" : feed === "offline" ? "Offline" : "Syncing"} · @{USER}
           </span>
         </div>
       </div>
@@ -356,10 +387,10 @@ export function GithubActivity() {
                 fontFamily: fonts.mono,
                 fontSize: 10,
                 letterSpacing: "0.2em",
-                color: colors.orange,
+                color: feed === "live" ? colors.orange : colors.paperDim,
               }}
             >
-              ● REC
+              {feed === "live" ? "● REC" : "○ STANDBY"}
             </span>
           </div>
 
@@ -374,12 +405,33 @@ export function GithubActivity() {
               overflow: "hidden",
             }}
           >
-            {events === null && (
+            {feed === "loading" && (
               <span style={{ color: colors.inkMute }}>
                 ＞ connecting to github.com/api/v3 …
               </span>
             )}
-            {events && liveEntries.length === 0 && (
+            {/* Offline is not evidence of an empty week. When the request
+                never landed — a rate-limited IP (60/hr unauthenticated), a
+                blocked host, no network — say the stream is unreachable and
+                hand the visitor the same escape hatch the matrix card offers,
+                rather than narrating Daniel's working habits from a failure. */}
+            {feed === "offline" && (
+              <a
+                href={`https://github.com/${USER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: colors.paperDim, textDecoration: "none" }}
+              >
+                ＞ stream offline · view on{" "}
+                {/* Keep the host and its arrow on one line — at 375px the
+                    glyph otherwise wraps alone onto a line of its own. */}
+                <span style={{ whiteSpace: "nowrap" }}>
+                  github.com/{USER} <ArrowUpRight />
+                </span>
+                <span className="dt-sr-only"> (opens in new tab)</span>
+              </a>
+            )}
+            {feed === "live" && liveEntries.length === 0 && (
               <span style={{ color: colors.paperDim }}>
                 ＞ no recent public events — private org work only.
               </span>
