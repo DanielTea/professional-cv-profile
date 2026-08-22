@@ -72,6 +72,7 @@ export function Recommendations() {
       </div>
       <SectionRule label="SAMPLE" code={`${QUOTES.length.toString().padStart(2, "0")} QUOTES`} />
       <ul
+        role="list"
         style={{
           listStyle: "none",
           margin: 0,
@@ -88,7 +89,9 @@ export function Recommendations() {
       >
         {/* Real <ul>/<li> semantics, as the press wall already uses: assistive
             tech announces "list, 7 items" instead of a run of anonymous
-            articles, and the count matches the "07 QUOTES" rule above. */}
+            articles, and the count matches the "07 QUOTES" rule above. The
+            explicit role="list" above is what makes that true in Safari —
+            WebKit drops list semantics from a list-style: none <ul>. */}
         {QUOTES.map((q) => (
           <li key={q.code} style={{ display: "flex" }}>
             <QuoteCard {...q} />
