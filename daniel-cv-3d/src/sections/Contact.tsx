@@ -90,17 +90,30 @@ export function Contact() {
           </OrangePill>
         </div>
 
+        {/* Sign-off row. At 375px the slab's inner width is 305px and the two
+            marks measure 137 + 150; a φ-step `lg` gap put them 3px over, which
+            squeezed the status tag into a two-line "// STATUS · / READY". The
+            gap steps down to `md` so the pair clears its narrowest supported
+            width on one line, and the row is wrap-safe below that: the stamp
+            drops to its own line, still pinned right by the auto margin, rather
+            than either mark shrinking into a wrap. */}
         <div
           style={{
             marginTop: space.xl,
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            gap: space.lg,
+            columnGap: space.md,
+            rowGap: space.lg,
           }}
         >
-          <FileTag tone="ink">STATUS · READY</FileTag>
-          <KanjiStamp jp="接続可能" en="Connection Open" code="™ · 2026" />
+          <div style={{ flex: "none" }}>
+            <FileTag tone="ink">STATUS · READY</FileTag>
+          </div>
+          <div style={{ flex: "none", marginLeft: "auto" }}>
+            <KanjiStamp jp="接続可能" en="Connection Open" code="™ · 2026" />
+          </div>
         </div>
       </div>
     </section>
