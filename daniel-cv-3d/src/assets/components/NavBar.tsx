@@ -24,7 +24,17 @@ export function NavBar({
   cta = { label: "Hire", href: "mailto:info@danieltremer.com" },
   code = "DT // REV.01",
 }: Props) {
+  // Two independent breakpoints, because the bar answers two different
+  // questions. `isMobile` (768) is the site-wide one and drives sizing —
+  // padding, monogram scale. `isCompact` asks whether the seven links can
+  // actually sit on one row, and they cannot until ~1150px: brand + links +
+  // code + CTA measure ~1140px with the standard φ gaps. Below that the row
+  // used to wrap to two or three lines, growing the sticky header from 58px
+  // to 137px — which then broke anchor navigation outright, since the fixed
+  // `scroll-margin-top: 76px` in globals.css budgets for a one-row bar and
+  // left every jumped-to heading sitting up to 60px behind the nav.
   const isMobile = useIsMobile();
+  const isCompact = useIsMobile(1149);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
   const progressRef = useRef<HTMLDivElement>(null);
@@ -80,7 +90,7 @@ export function NavBar({
     };
   }, []);
 
-  // Escape closes the menu; a viewport change to desktop discards it.
+  // Escape closes the menu; a viewport change to the one-row bar discards it.
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -90,8 +100,8 @@ export function NavBar({
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen]);
   useEffect(() => {
-    if (!isMobile) setMenuOpen(false);
-  }, [isMobile]);
+    if (!isCompact) setMenuOpen(false);
+  }, [isCompact]);
 
   return (
     <header
@@ -107,7 +117,8 @@ export function NavBar({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: isMobile ? "auto 1fr auto auto" : "auto 1fr auto auto",
+          // Same four tracks either way: brand · flexible middle · meta · CTA.
+          gridTemplateColumns: "auto 1fr auto auto",
           alignItems: "center",
           gap: isMobile ? space.md : space.lg,
           padding: isMobile ? `${space.sm}px ${space.md}px` : `${space.sm}px ${space.xl}px`,
@@ -117,14 +128,14 @@ export function NavBar({
       >
         <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: colors.ink }}>
           <Monogram size={isMobile ? 28 : 32} />
-          {!isMobile && (
+          {!isCompact && (
             <span style={{ fontFamily: fonts.display, fontWeight: 900, letterSpacing: "0.02em" }}>
               DANIEL TREMER
             </span>
           )}
         </a>
-        {!isMobile && (
-          <nav aria-label="Primary" style={{ display: "flex", justifyContent: "center", gap: space.xl, flexWrap: "wrap" }}>
+        {!isCompact && (
+          <nav aria-label="Primary" style={{ display: "flex", justifyContent: "center", gap: space.xl }}>
             {items.map((it) => {
               const isActive = it.href === `#${activeId}`;
               return (
@@ -148,12 +159,12 @@ export function NavBar({
             })}
           </nav>
         )}
-        {isMobile && (
+        {isCompact && (
           <span
             style={{
               fontFamily: fonts.display,
               fontWeight: 900,
-              fontSize: 14,
+              fontSize: isMobile ? 14 : 16,
               letterSpacing: "0.02em",
               color: colors.ink,
             }}
@@ -161,7 +172,7 @@ export function NavBar({
             DANIEL TREMER
           </span>
         )}
-        {isMobile && (
+        {isCompact && (
           <button
             type="button"
             aria-expanded={menuOpen}
@@ -190,7 +201,7 @@ export function NavBar({
             </svg>
           </button>
         )}
-        {!isMobile && (
+        {!isCompact && (
           <span
             style={{
               fontFamily: fonts.mono,
@@ -217,7 +228,7 @@ export function NavBar({
           pointerEvents: "none",
         }}
       />
-      {isMobile && menuOpen && (
+      {isCompact && menuOpen && (
         <nav
           id="dt-mobile-menu"
           aria-label="Primary"
