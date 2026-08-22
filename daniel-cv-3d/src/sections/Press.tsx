@@ -325,6 +325,16 @@ export function Press() {
             color: colors.inkMute,
             maxWidth: 420,
             textAlign: isMobile ? "left" : "right",
+            // The dek only shares a line with the title above ~1280px; below
+            // that the header wraps and this paragraph gets a flex line to
+            // itself. `space-between` then resolves a lone item to flex-start,
+            // so the block landed hard against the LEFT margin while still
+            // typeset flush right — a ragged-left mono staircase anchored to
+            // nothing. The auto margin keeps the right edge pinned to the
+            // section margin (where the rule's code sits) in both states, so
+            // wrapping only moves the dek down a line instead of restyling it.
+            // On mobile it is flush left by design, so no auto margin there.
+            marginLeft: isMobile ? 0 : "auto",
           }}
         >
           Third-party signal — talks, guest articles, panels. Every entry links

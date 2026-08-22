@@ -94,7 +94,15 @@ export function Competencies() {
             lineHeight: 1.55,
             color: colors.inkMute,
             maxWidth: 420,
-            textAlign: "right",
+            // Matches the press dek: flush left on a phone, flush right beside
+            // the title. "COMPETENCIES" is wide enough that the header wraps
+            // below ~1440px, i.e. across the whole desktop range, and a lone
+            // item on a `space-between` line resolves to flex-start — which
+            // left the paragraph pinned to the left margin while still typeset
+            // flush right. The auto margin holds its right edge on the section
+            // margin whether it shares the title's line or wraps under it.
+            textAlign: isMobile ? "left" : "right",
+            marginLeft: isMobile ? 0 : "auto",
           }}
         >
           Four vectors. Numeric confidence from self-assessment against
