@@ -337,8 +337,12 @@ export function Press() {
         code={`${ITEMS.length.toString().padStart(2, "0")} ${ITEMS.length === 1 ? "ENTRY" : "ENTRIES"}`}
       />
       {/* A curated list — real <ul>/<li> semantics so assistive tech announces
-          "list, N items" instead of a bag of anonymous links. */}
+          "list, N items" instead of a bag of anonymous links. The explicit
+          role is load-bearing, not redundant: WebKit strips list semantics
+          from any <ul> whose list-style is none, so without it VoiceOver
+          announces nothing at all here. */}
       <ul
+        role="list"
         style={{
           listStyle: "none",
           margin: 0,

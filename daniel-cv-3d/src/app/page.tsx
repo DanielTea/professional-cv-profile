@@ -49,6 +49,7 @@ export default function Home() {
           { label: "Experience", href: "#experience" },
           { label: "Build Log", href: "#github" },
           { label: "Globe", href: "#world" },
+          { label: "References", href: "#recs" },
           { label: "News", href: "#news" },
           { label: "Contact", href: "#contact" },
         ]}

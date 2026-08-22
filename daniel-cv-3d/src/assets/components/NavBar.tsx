@@ -26,15 +26,26 @@ export function NavBar({
 }: Props) {
   // Two independent breakpoints, because the bar answers two different
   // questions. `isMobile` (768) is the site-wide one and drives sizing —
-  // padding, monogram scale. `isCompact` asks whether the seven links can
-  // actually sit on one row, and they cannot until ~1150px: brand + links +
-  // code + CTA measure ~1140px with the standard φ gaps. Below that the row
-  // used to wrap to two or three lines, growing the sticky header from 58px
-  // to 137px — which then broke anchor navigation outright, since the fixed
-  // `scroll-margin-top: 76px` in globals.css budgets for a one-row bar and
-  // left every jumped-to heading sitting up to 60px behind the nav.
+  // padding, monogram scale. `isCompact` asks whether the links can actually
+  // sit on one row. They must: below the threshold the row wrapped to two or
+  // three lines, growing the sticky header from 58px to 137px — which then
+  // broke anchor navigation outright, since the fixed `scroll-margin-top:
+  // 76px` in globals.css budgets for a one-row bar and left every jumped-to
+  // heading sitting up to 60px behind the nav.
+  //
+  // Measured one-row minimums for the current eight links (brand 197 + links
+  // 496 + φ gaps + CTA 93 + 68px padding):
+  //   · with the DT // REV.01 stamp    → 1163px
+  //   · without it                     → 1044px
+  // `isRoomy` therefore holds the stamp back until 1280px, and below that the
+  // width it frees goes to the link row instead. That is the deliberate
+  // trade: the stamp is decoration, the links are navigation. It also lets
+  // `isCompact` fall from 1149 to 1063 — so the full link row now survives
+  // ~86px *further* down than it did with seven links, rather than being
+  // pushed up into the 1150–1250 laptop band by the eighth.
   const isMobile = useIsMobile();
-  const isCompact = useIsMobile(1149);
+  const isCompact = useIsMobile(1063);
+  const isRoomy = !useIsMobile(1279);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
   const progressRef = useRef<HTMLDivElement>(null);
@@ -117,8 +128,13 @@ export function NavBar({
       <div
         style={{
           display: "grid",
-          // Same four tracks either way: brand · flexible middle · meta · CTA.
-          gridTemplateColumns: "auto 1fr auto auto",
+          // brand · flexible middle · meta · CTA. The meta track is the
+          // DT // REV.01 stamp when it is shown, and the menu button in the
+          // compact bar; between 1064 and 1279 neither is present, so the
+          // track is dropped rather than left as a gap-width void on the
+          // right of the CTA.
+          gridTemplateColumns:
+            isCompact || isRoomy ? "auto 1fr auto auto" : "auto 1fr auto",
           alignItems: "center",
           gap: isMobile ? space.md : space.lg,
           padding: isMobile ? `${space.sm}px ${space.md}px` : `${space.sm}px ${space.xl}px`,
@@ -135,7 +151,13 @@ export function NavBar({
           )}
         </a>
         {!isCompact && (
-          <nav aria-label="Primary" style={{ display: "flex", justifyContent: "center", gap: space.xl }}>
+          // space.lg, not space.xl: the eighth link (References) is what pays
+          // for the tighter gap. Seven links at 34px measured 610px of row;
+          // eight at 21px measure 643px — 33px more, where keeping 34px gaps
+          // would have cost 114px and pushed the compact threshold up into
+          // the 1150–1250 laptop band. The links keep plenty of air: 0.22em
+          // of tracking already separates them optically.
+          <nav aria-label="Primary" style={{ display: "flex", justifyContent: "center", gap: space.lg }}>
             {items.map((it) => {
               const isActive = it.href === `#${activeId}`;
               return (
@@ -201,7 +223,7 @@ export function NavBar({
             </svg>
           </button>
         )}
-        {!isCompact && (
+        {isRoomy && (
           <span
             style={{
               fontFamily: fonts.mono,

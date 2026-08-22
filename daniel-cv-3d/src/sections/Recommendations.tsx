@@ -71,18 +71,33 @@ export function Recommendations() {
         <StencilTitle size={96}>RECOMMENDATIONS</StencilTitle>
       </div>
       <SectionRule label="SAMPLE" code={`${QUOTES.length.toString().padStart(2, "0")} QUOTES`} />
-      <div
+      <ul
+        role="list"
         style={{
+          listStyle: "none",
+          margin: 0,
+          padding: 0,
           marginTop: space.xl,
           display: "grid",
+          // Two tracks above the mobile breakpoint is deliberate: it holds the
+          // quote at a 52–60 character measure, squarely inside the readable
+          // 45–75 band. An intrinsic auto-fill grid would resolve to three
+          // 367px tracks at 1280px and drop that to ~32 characters.
           gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
           gap: isMobile ? space.lg : space.xl,
         }}
       >
+        {/* Real <ul>/<li> semantics, as the press wall already uses: assistive
+            tech announces "list, 7 items" instead of a run of anonymous
+            articles, and the count matches the "07 QUOTES" rule above. The
+            explicit role="list" above is what makes that true in Safari —
+            WebKit drops list semantics from a list-style: none <ul>. */}
         {QUOTES.map((q) => (
-          <QuoteCard key={q.code} {...q} />
+          <li key={q.code} style={{ display: "flex" }}>
+            <QuoteCard {...q} />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
