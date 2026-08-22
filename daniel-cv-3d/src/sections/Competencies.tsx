@@ -1,5 +1,6 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import {
   FileTag,
   Pictogram,
@@ -82,7 +83,7 @@ export function Competencies() {
     <section id="skills" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
-          <FileTag>SEC_02 / CORE CAPABILITIES</FileTag>
+          <FileTag>{sectionTag("skills")}</FileTag>
           <StencilTitle size={96}>COMPETENCIES</StencilTitle>
         </div>
         <p

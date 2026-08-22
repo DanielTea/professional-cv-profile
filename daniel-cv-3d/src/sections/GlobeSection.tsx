@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import { FileTag, MetaLine, SectionRule, StencilTitle, colors, fonts, space } from "@/assets";
 
 const WorldMap3D = dynamic(() => import("@/components/WorldMap3D"), {
@@ -32,7 +33,7 @@ export function GlobeSection() {
     <section id="world" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
-          <FileTag>SEC_07 / FIELD PRESENCE</FileTag>
+          <FileTag>{sectionTag("world")}</FileTag>
           <StencilTitle size={96} underscore>GLOBAL_MAP</StencilTitle>
         </div>
         <MetaLine

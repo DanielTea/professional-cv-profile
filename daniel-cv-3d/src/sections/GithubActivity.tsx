@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import {
   ArrowUpRight,
   Chevrons,
@@ -134,7 +135,7 @@ export function GithubActivity() {
     <section id="github" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
-          <FileTag>SEC_06 / GITHUB TELEMETRY</FileTag>
+          <FileTag>{sectionTag("github")}</FileTag>
           <StencilTitle size={96} underscore>BUILD_LOG</StencilTitle>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: space.sm }}>

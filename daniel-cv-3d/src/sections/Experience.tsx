@@ -1,5 +1,6 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import { FileTag, SectionRule, StencilTitle, TimelineRow, space } from "@/assets";
 
 type Role = {
@@ -116,7 +117,7 @@ export function Experience() {
   return (
     <section id="experience" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ marginBottom: space.lg }}>
-        <FileTag>SEC_04 / TIMELINE</FileTag>
+        <FileTag>{sectionTag("experience")}</FileTag>
         <StencilTitle size={96}>EXPERIENCE</StencilTitle>
       </div>
 

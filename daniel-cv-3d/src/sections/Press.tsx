@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
+import { sectionTag } from "@/lib/sectionIndex";
 import {
   ArrowRight,
   FileTag,
@@ -283,7 +284,7 @@ function PressCard({ item, isMobile }: { item: PressItem; isMobile: boolean }) {
   );
 }
 
-/** SEC_08 — curated third-party coverage: talks, articles, interviews. */
+/** Curated third-party coverage: talks, articles, interviews. */
 export function Press() {
   const isMobile = useIsMobile();
   if (ITEMS.length === 0) return null;
@@ -310,7 +311,7 @@ export function Press() {
         }}
       >
         <div>
-          <FileTag>SEC_08 / PRESS SIGNAL</FileTag>
+          <FileTag>{sectionTag("news")}</FileTag>
           <StencilTitle size={96} tone="gradient">
             IN THE NEWS
           </StencilTitle>
