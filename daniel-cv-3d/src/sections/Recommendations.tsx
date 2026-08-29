@@ -65,10 +65,10 @@ const QUOTES = [
 export function Recommendations() {
   const isMobile = useIsMobile();
   return (
-    <section id="recs" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+    <section id="recs" aria-labelledby="recs-title" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ marginBottom: space.lg }}>
         <FileTag>{sectionTag("recs")}</FileTag>
-        <StencilTitle size={96}>RECOMMENDATIONS</StencilTitle>
+        <StencilTitle id="recs-title" size={96}>RECOMMENDATIONS</StencilTitle>
       </div>
       <SectionRule label="SAMPLE" code={`${QUOTES.length.toString().padStart(2, "0")} QUOTES`} />
       <ul

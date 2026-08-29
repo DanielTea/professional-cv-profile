@@ -115,10 +115,10 @@ const ROLES: Role[] = [
 export function Experience() {
   const isMobile = useIsMobile();
   return (
-    <section id="experience" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+    <section id="experience" aria-labelledby="experience-title" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ marginBottom: space.lg }}>
         <FileTag>{sectionTag("experience")}</FileTag>
-        <StencilTitle size={96}>EXPERIENCE</StencilTitle>
+        <StencilTitle id="experience-title" size={96}>EXPERIENCE</StencilTitle>
       </div>
 
       <SectionRule label="LOG" code={`${ROLES.length.toString().padStart(2, "0")} ENTRIES`} />

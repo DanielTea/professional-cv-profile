@@ -80,11 +80,11 @@ const GROUPS: Group[] = [
 export function Competencies() {
   const isMobile = useIsMobile();
   return (
-    <section id="skills" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+    <section id="skills" aria-labelledby="skills-title" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>{sectionTag("skills")}</FileTag>
-          <StencilTitle size={96}>COMPETENCIES</StencilTitle>
+          <StencilTitle id="skills-title" size={96}>COMPETENCIES</StencilTitle>
         </div>
         <p
           style={{
