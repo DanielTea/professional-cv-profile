@@ -76,60 +76,68 @@ export function StatBar({ label, value, code }: Props) {
   }, [clamped]);
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "120px 1fr 60px", gap: 14, alignItems: "center" }}>
-      <span
-        style={{
-          fontFamily: fonts.mono,
-          fontSize: 11,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          color: colors.ink,
-        }}
-      >
-        {label}
-      </span>
-      <div
-        style={{
-          position: "relative",
-          height: 10,
-          background: colors.paperDim,
-          border: `1px solid ${colors.ink}`,
-        }}
-      >
-        <div
-          ref={fillRef}
+    // The three-column row and its narrow-container stack live in globals.css
+    // (`.dt-meter*`): the layout has to answer a container query, which inline
+    // styles cannot express. Everything token-driven stays inline as elsewhere.
+    <div className="dt-meter">
+      <div className="dt-meter-row">
+        <span
+          className="dt-meter-label"
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: `${clamped}%`,
-            background: gradients.meter,
+            fontFamily: fonts.mono,
+            fontSize: 11,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: colors.ink,
           }}
-        />
-        {/* notch marks every 10% */}
+        >
+          {label}
+        </span>
         <div
+          className="dt-meter-track"
           style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            backgroundImage: `repeating-linear-gradient(to right, transparent 0, transparent calc(10% - 1px), ${colors.paper} calc(10% - 1px), ${colors.paper} 10%)`,
-            mixBlendMode: "difference",
-            opacity: 0.35,
+            position: "relative",
+            height: 10,
+            background: colors.paperDim,
+            border: `1px solid ${colors.ink}`,
           }}
-        />
+        >
+          <div
+            ref={fillRef}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: `${clamped}%`,
+              background: gradients.meter,
+            }}
+          />
+          {/* notch marks every 10% */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              backgroundImage: `repeating-linear-gradient(to right, transparent 0, transparent calc(10% - 1px), ${colors.paper} calc(10% - 1px), ${colors.paper} 10%)`,
+              mixBlendMode: "difference",
+              opacity: 0.35,
+            }}
+          />
+        </div>
+        <span
+          className="dt-meter-value"
+          style={{
+            fontFamily: fonts.mono,
+            fontSize: 10,
+            letterSpacing: "0.1em",
+            color: colors.inkMute,
+            textAlign: "right",
+          }}
+        >
+          {code ?? `${clamped.toString().padStart(3, "0")}`}
+        </span>
       </div>
-      <span
-        style={{
-          fontFamily: fonts.mono,
-          fontSize: 10,
-          letterSpacing: "0.1em",
-          color: colors.inkMute,
-          textAlign: "right",
-        }}
-      >
-        {code ?? `${clamped.toString().padStart(3, "0")}`}
-      </span>
     </div>
   );
 }
