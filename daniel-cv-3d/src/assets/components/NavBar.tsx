@@ -49,6 +49,8 @@ export function NavBar({
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
   const progressRef = useRef<HTMLDivElement>(null);
+  const menuListRef = useRef<HTMLDivElement>(null);
+  const [menuMaxHeight, setMenuMaxHeight] = useState<number | null>(null);
 
   // Scroll-spy: light up the nav link for whichever section owns the viewport.
   // A thin trigger band near the top third decides the "current" section; the
@@ -113,6 +115,36 @@ export function NavBar({
   useEffect(() => {
     if (!isCompact) setMenuOpen(false);
   }, [isCompact]);
+
+  // The open menu hangs off a `position: sticky` header, and a sticky box is
+  // pinned to the top of the viewport — so anything the panel pushes below the
+  // fold can never be scrolled into view. Page scroll just moves the document
+  // under a header that stays put. At 740x360 (a phone held in landscape, or a
+  // short desktop window) the eight-link list measured 420px against a 360px
+  // viewport, leaving "News" and "Contact" permanently unreachable: no scroll,
+  // no tab-into-view, no way down at all.
+  //
+  // Cap the list at exactly the space left below the bar and let it scroll
+  // itself. The measurement is the container's own distance from the top of the
+  // viewport, which is the bar plus its progress rule whatever those are sized
+  // to today — and it does not depend on the height being capped, so there is
+  // no feedback loop. `overscrollBehavior: contain` keeps a flick inside the
+  // menu from chaining into the page behind it.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const measure = () => {
+      const el = menuListRef.current;
+      if (!el) return;
+      setMenuMaxHeight(window.innerHeight - el.getBoundingClientRect().top);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    window.addEventListener("orientationchange", measure);
+    return () => {
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("orientationchange", measure);
+    };
+  }, [menuOpen]);
 
   return (
     <header
@@ -259,39 +291,50 @@ export function NavBar({
             background: `${gradients.mesh}, ${colors.paper}`,
           }}
         >
-          {/* Gradient signature edge, matching the site's card language */}
+          {/* Gradient signature edge, matching the site's card language. It
+              sits outside the scroller so it stays the panel's top edge
+              instead of sliding away with the first link. */}
           <div aria-hidden style={{ height: 3, background: gradients.edge }} />
-          {items.map((it, i) => {
-            const isActive = it.href === `#${activeId}`;
-            return (
-              <a
-                key={it.href}
-                href={it.href}
-                aria-current={isActive ? "true" : undefined}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: space.md,
-                  minHeight: 44,
-                  padding: `${space.md}px ${space.lg}px`,
-                  borderLeft: `3px solid ${isActive ? colors.orange : "transparent"}`,
-                  borderBottom: i < items.length - 1 ? `1px solid ${colors.grid}` : "none",
-                  fontFamily: fonts.mono,
-                  fontSize: 12,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: colors.ink,
-                  textDecoration: "none",
-                }}
-              >
-                <span aria-hidden style={{ fontSize: 10, color: isActive ? colors.orange : colors.inkMute }}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {it.label}
-              </a>
-            );
-          })}
+          <div
+            ref={menuListRef}
+            style={{
+              maxHeight: menuMaxHeight ?? undefined,
+              overflowY: "auto",
+              overscrollBehavior: "contain",
+            }}
+          >
+            {items.map((it, i) => {
+              const isActive = it.href === `#${activeId}`;
+              return (
+                <a
+                  key={it.href}
+                  href={it.href}
+                  aria-current={isActive ? "true" : undefined}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: space.md,
+                    minHeight: 44,
+                    padding: `${space.md}px ${space.lg}px`,
+                    borderLeft: `3px solid ${isActive ? colors.orange : "transparent"}`,
+                    borderBottom: i < items.length - 1 ? `1px solid ${colors.grid}` : "none",
+                    fontFamily: fonts.mono,
+                    fontSize: 12,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: colors.ink,
+                    textDecoration: "none",
+                  }}
+                >
+                  <span aria-hidden style={{ fontSize: 10, color: isActive ? colors.orange : colors.inkMute }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {it.label}
+                </a>
+              );
+            })}
+          </div>
         </nav>
       )}
     </header>
