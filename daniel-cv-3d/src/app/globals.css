@@ -224,6 +224,58 @@ html, body {
   }
 }
 
+/* Segmented strips: the PROJECT_INDEX filter tabs and the LIVE_DASHBOARDS
+   link row. Both are built the same way — segments on an ink plate showing
+   through 1px gaps — and both were the only interactive controls on the page
+   that answered nothing at all under the pointer. The nav links grow an
+   underline, cards lift, pills slide their sweep, the print tag fills; these
+   two carried `cursor: pointer` over a dead surface, so a filter strip read
+   as a static legend until you clicked it.
+   They now speak the outline-pill's language, split by state:
+     · An UNSELECTED segment fills with the accent sweep and takes ink text.
+       The sweep is the pill's, held to the orange→deep half, because that is
+       the range where ink stays ≥4.6:1 on it — see .dt-pill above.
+     · The SELECTED tab already owns the ink slab, and filling it orange would
+       read as *losing* the selection. It warms its label to orange instead
+       (5.9:1 on ink), so pointing at the active tab is legible feedback
+       rather than a state change.
+   The `!important` is load-bearing rather than defensive: the segments carry
+   their base `background` / `color` as inline styles (the codebase idiom),
+   and an inline declaration outranks any stylesheet rule regardless of
+   specificity — the same reason .dt-printbtn needs it. The inline
+   `background` shorthand also resets background-image to none, so the fill
+   has to override that longhand explicitly. */
+.dt-seg {
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.dt-seg:not([aria-pressed="true"]):hover,
+.dt-seg:not([aria-pressed="true"]):focus-visible {
+  background-image: linear-gradient(100deg, #FF5A1F 0%, #F05314 45%, #E04A10 100%) !important;
+  color: var(--color-ink) !important;
+}
+.dt-seg[aria-pressed="true"]:hover,
+.dt-seg[aria-pressed="true"]:focus-visible {
+  color: var(--color-orange) !important;
+}
+/* The dashboard links' outbound arrow. Ember rather than orange so the mark
+   holds its own on paper (4.9:1 vs 2.7:1 — the accent's ink/fill split from
+   tokens.ts), then flips to ink on hover so it doesn't dissolve into the
+   orange fill that arrives underneath it. */
+.dt-seg-arrow {
+  color: var(--color-orange-ember);
+  transition: color 140ms ease;
+}
+.dt-seg:hover .dt-seg-arrow,
+.dt-seg:focus-visible .dt-seg-arrow {
+  color: var(--color-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dt-seg,
+  .dt-seg-arrow {
+    transition: none;
+  }
+}
+
 /* Skip link: hidden until keyboard focus, then a techwear tag under the nav */
 .dt-skip {
   position: fixed;
