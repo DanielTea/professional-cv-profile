@@ -4,7 +4,6 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Html, Stars, useTexture } from '@react-three/drei'
 import { useRef, useMemo, useState, useEffect } from 'react'
 import * as THREE from 'three'
-import { motion } from 'framer-motion'
 import { useIsMobile } from '@/lib/useIsMobile'
 
 type Marker = {
@@ -17,6 +16,8 @@ type Marker = {
   accent: string
   subtitle: string
   details?: string[]
+  /** Screen-space nudge (px) for the globe label, to separate close neighbours. */
+  labelDy?: number
 }
 
 const INK = '#141518'
@@ -40,6 +41,10 @@ const MARKERS: Marker[] = [
     accent: ORANGE,
     subtitle: 'control-f GmbH · CEO & Managing Partner',
     details: ['Status: Active', 'Focus: Applied AI · Product · Delivery'],
+    // Berlin and Stuttgart are ~500 km apart: at this globe scale their dots
+    // sit ~20px apart on screen and the two labels printed straight over each
+    // other. Pushing one up and the other down clears both.
+    labelDy: -13,
   },
   {
     id: 'atlanta',
@@ -62,6 +67,7 @@ const MARKERS: Marker[] = [
     accent: ORANGE,
     subtitle: 'Daimler · Porsche · MBition programs',
     details: ['Role: Tech Lead · Product Owner', 'Stack: Python · K8s · Azure'],
+    labelDy: 13, // see Berlin
   },
   {
     id: 'bangkok',
@@ -98,16 +104,39 @@ function latLonToVector3(lat: number, lon: number, radius: number) {
   return new THREE.Vector3(x, y, z)
 }
 
+// Scratch vectors for the per-frame label pass — allocating inside useFrame
+// would churn the GC 60×/second.
+const V_WORLD = new THREE.Vector3()
+const V_NORMAL = new THREE.Vector3()
+const V_TO_CAM = new THREE.Vector3()
+const V_NDC = new THREE.Vector3()
+
+/** Gap between a marker dot and its label, in screen px. */
+const LABEL_GAP = 9
+
+type LabelSlot = {
+  group: THREE.Group | null
+  el: HTMLDivElement | null
+  /** Last written state, so the frame loop only touches the DOM on a change. */
+  shown: boolean | null
+  outward: boolean | null
+}
+
 const Globe = ({
   onMarkerHover,
   onMarkerSelect,
   activeMarkerId,
+  isMobile,
 }: {
   onMarkerHover: (marker: Marker | null) => void
   onMarkerSelect: (marker: Marker) => void
   activeMarkerId: string | null
+  isMobile: boolean
 }) => {
   const globeRef = useRef<THREE.Group>(null)
+  const labelSlots = useRef<Record<string, LabelSlot>>({})
+  const slotFor = (id: string) =>
+    (labelSlots.current[id] ??= { group: null, el: null, shown: null, outward: null })
   const earthMap = useTexture(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/images/earth_tech_map.jpg`)
 
   // Radius of the globe
@@ -130,9 +159,61 @@ const Globe = ({
     }
   }, [berlinMarker])
 
-  useFrame(() => {
+  // One pass per frame places every label. Two things are decided here rather
+  // than in React, because both change continuously as the globe turns and a
+  // setState per frame would re-render the whole scene:
+  //
+  //  1. Occlusion. A <Html> label is a DOM node, so it has no depth: without
+  //     this test the markers on the FAR side of the globe kept printing their
+  //     names straight through the sphere, which is how "ATLANTA" came to sit
+  //     over Africa.
+  //  2. Which side of the dot the label hangs off. Always-right meant every
+  //     label on the globe's right limb ran past the frame — at 375px "BERLIN"
+  //     was clipped to "BERLI". Hanging each label outward (away from the
+  //     globe's centre) keeps it inside the frame AND off the busy wireframe,
+  //     out in the quiet ink field where mono type actually reads.
+  useFrame(({ camera }) => {
     if (globeRef.current) {
       globeRef.current.rotation.y += 0.0004
+    }
+    for (const marker of markerData) {
+      const slot = labelSlots.current[marker.id]
+      if (!slot?.group || !slot.el) continue
+
+      slot.group.getWorldPosition(V_WORLD)
+      V_NORMAL.copy(V_WORLD).normalize()
+      V_TO_CAM.copy(camera.position).sub(V_WORLD).normalize()
+      // > 0 is the true horizon; the bias drops the label a moment early so it
+      // doesn't linger, mirror-flipped, on the grazing limb.
+      const front = V_NORMAL.dot(V_TO_CAM) > 0.06
+      // The globe is tight to the frame on phones, so there is no quiet margin
+      // for five labels — only the selected node is annotated there, which is
+      // also the one the panel underneath is describing.
+      const shown = front && (!isMobile || marker.id === activeMarkerId)
+
+      if (shown !== slot.shown) {
+        slot.shown = shown
+        slot.el.style.opacity = shown ? '1' : '0'
+        slot.el.style.pointerEvents = shown ? 'auto' : 'none'
+      }
+      if (!shown) continue
+
+      V_NDC.copy(V_WORLD).project(camera)
+      const outward = V_NDC.x >= 0
+      if (outward !== slot.outward) {
+        slot.outward = outward
+        const dy = marker.labelDy ?? 0
+        const el = slot.el
+        el.style.transform = outward
+          ? `translate(${LABEL_GAP}px, calc(-50% + ${dy}px))`
+          : `translate(calc(-100% - ${LABEL_GAP}px), calc(-50% + ${dy}px))`
+        // The tick always points back at the dot it names.
+        el.style.borderLeftWidth = outward ? '1px' : '0'
+        el.style.borderRightWidth = outward ? '0' : '1px'
+        el.style.paddingLeft = outward ? '6px' : '5px'
+        el.style.paddingRight = outward ? '5px' : '6px'
+        el.style.textAlign = outward ? 'left' : 'right'
+      }
     }
   })
 
@@ -174,7 +255,14 @@ const Globe = ({
         const isActive = activeMarkerId === marker.id
         const dotColor = isActive ? ORANGE : PAPER
         return (
-          <group key={marker.id} position={marker.position} scale={isActive ? 1.25 : 1}>
+          <group
+            key={marker.id}
+            ref={(node) => {
+              slotFor(marker.id).group = node
+            }}
+            position={marker.position}
+            scale={isActive ? 1.25 : 1}
+          >
             {/* Pulse halo for active marker */}
             {isActive && (
               <mesh>
@@ -202,19 +290,58 @@ const Globe = ({
             </mesh>
             <pointLight color={dotColor} distance={1} intensity={isActive ? 3 : 1.2} />
 
-            <Html position={[0.1, 0, 0]} distanceFactor={18}>
+            {/* No distanceFactor: that scales the label by its distance from
+                the camera alone, ignoring how many pixels wide the canvas
+                actually is, so the same label came out roughly twice the size
+                on a 375px card as on a 1280px one. A HUD annotation wants a
+                fixed screen size — the same 10px mono the SIGNAL / AXIS tags
+                use — and the frame loop above handles placement. */}
+            <Html position={[0, 0, 0]} zIndexRange={[8, 0]}>
               <div
+                ref={(node) => {
+                  const slot = slotFor(marker.id)
+                  slot.el = node
+                  // Seed the placement properties once, on first attach. They
+                  // are deliberately absent from the `style` prop below and
+                  // owned solely by the frame loop: React only clears style
+                  // properties it set itself on a previous render, so keeping
+                  // them out of its hands is what stops a re-render (a marker
+                  // being selected, say) from resetting a label to hidden and
+                  // right-anchored behind the loop's back.
+                  if (node && slot.shown === null) {
+                    node.style.opacity = '0'
+                    node.style.pointerEvents = 'none'
+                    node.style.transform = `translate(${LABEL_GAP}px, -50%)`
+                    // Explicit, because an unset width under `border-style:
+                    // solid` resolves to `medium` — a 3px rule down both sides.
+                    node.style.borderLeftWidth = '1px'
+                    node.style.borderRightWidth = '0'
+                    node.style.paddingLeft = '6px'
+                    node.style.paddingRight = '5px'
+                  }
+                }}
                 style={{
-                  pointerEvents: 'auto',
+                  cursor: 'pointer',
                   fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-                  fontSize: 5,
-                  letterSpacing: '0.3em',
+                  fontSize: 10,
+                  lineHeight: 1.4,
+                  letterSpacing: '0.22em',
                   textTransform: 'uppercase',
-                  padding: '1px 4px 1px 5px',
-                  borderLeft: `1px solid ${isActive ? ORANGE : 'rgba(237,238,240,0.5)'}`,
-                  color: isActive ? ORANGE : 'rgba(237,238,240,0.65)',
-                  transform: isActive ? 'scale(1.15)' : 'scale(0.9)',
-                  transition: 'all 300ms ease',
+                  // A translucent ink plate. The label crosses both the lit
+                  // wireframe and the dark field as the globe turns, and plain
+                  // translucent paper type was legible over neither.
+                  background: 'rgba(20, 21, 24, 0.74)',
+                  color: isActive ? ORANGE : PAPER,
+                  borderStyle: 'solid',
+                  borderColor: isActive ? ORANGE : 'rgba(237,238,240,0.55)',
+                  borderTopWidth: 0,
+                  borderBottomWidth: 0,
+                  paddingTop: 2,
+                  paddingBottom: 2,
+                  // Transform is not transitioned: it is rewritten outright on
+                  // every side flip, and easing that would drag the label
+                  // across the dot it belongs to.
+                  transition: 'opacity 220ms ease, color 220ms ease, border-color 220ms ease',
                   userSelect: 'none',
                   whiteSpace: 'nowrap',
                 }}
@@ -428,6 +555,7 @@ export default function WorldMap3D() {
                     setHoveredMarker(null)
                   }}
                   activeMarkerId={displayMarker?.id ?? null}
+                  isMobile={isMobile}
                 />
                 <OrbitControls
                     enableZoom={false}
@@ -452,11 +580,17 @@ export default function WorldMap3D() {
                 : { position: 'absolute', top: 56, right: 32, width: 340 }
             }
           >
-            <motion.article
+            {/* The enter animation is a CSS keyframe, not a JS one. As a
+                framer-motion `initial → animate` it stalled a couple of frames
+                in and parked at opacity 0 for good — sharing a subtree with the
+                r3f canvas, its frame loop stopped being serviced — so the whole
+                node panel (city, coordinates, role, and the node selector) was
+                invisible from page load until a visitor happened to hover a
+                control and force a re-render. A keyframe cannot stall: if the
+                browser won't run it, the element simply renders finished. */}
+            <article
               key={displayMarker.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
+              className="dt-globe-card"
               style={{
                 position: 'relative',
                 background: PAPER,
@@ -682,7 +816,7 @@ export default function WorldMap3D() {
                   )
                 })}
               </div>
-            </motion.article>
+            </article>
           </div>
         )}
     </div>
