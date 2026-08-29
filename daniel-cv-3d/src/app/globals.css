@@ -164,6 +164,40 @@ html, body {
   }
 }
 
+/* Capability meters (COMPETENCIES). The row is label | track | value, and both
+   outer columns are fixed — so every pixel the row loses comes out of the
+   track, the one part that carries meaning. On a 320px-wide phone that left
+   the bar 42px: ten notches at 4.2px apiece, where 095 and 084 draw the same
+   picture. A meter whose whole job is comparison had stopped comparing.
+   Below the width where the track can still carry a reading, the row stacks
+   instead: label and value keep one line, the track spans the full width
+   underneath. At 375px that takes the bar from 97px to ~250px and stops the
+   longer labels ("Technical Hiring") wrapping, at the cost of one 5px row gap.
+   The breakpoint is that arithmetic rather than a guess — fixed chrome costs
+   120 + 60 + two 14px gaps = 208px, so 352px is the last row width that can
+   still leave the track a φ-step 144px. It is a container query, not a media
+   query, because what starves the track is the column the card sits in, not
+   the viewport: the same 375px-wide card would be fine spanning the page.
+   Engines without container queries keep today's single-row layout. */
+.dt-meter {
+  container-type: inline-size;
+}
+.dt-meter-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 60px;
+  gap: 14px;
+  align-items: center;
+}
+@container (max-width: 352px) {
+  .dt-meter-row {
+    grid-template-columns: 1fr auto;
+    row-gap: 5px;
+  }
+  .dt-meter-label { grid-area: 1 / 1; }
+  .dt-meter-value { grid-area: 1 / 2; }
+  .dt-meter-track { grid-area: 2 / 1 / 3 / 3; }
+}
+
 /* CTA pills: the accent sweep is drawn at double width so hover and keyboard
    focus slide it toward its ember end — a darker "pressed" read in the same
    hue family. Outline pills fill with the identical sweep so both variants
