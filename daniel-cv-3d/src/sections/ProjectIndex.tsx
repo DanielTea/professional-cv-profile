@@ -240,7 +240,17 @@ export function ProjectIndex() {
               onClick={() => setTab(t)}
               aria-pressed={active}
               style={{
-                padding: `${space.sm}px ${space.lg}px`,
+                // Grow to fill the row. The ink background is only meant to
+                // show through as 1px dividers, but `fit-content` resolves to
+                // the AVAILABLE width once the strip wraps — so every short
+                // row used to trail a bare black slab (122px at 375px wide).
+                // Growing the segments closes those rows exactly; above the
+                // wrap point `fit-content` is max-content, leaving no free
+                // space to distribute, so wide layouts are untouched.
+                flex: "1 0 auto",
+                padding: isMobile
+                  ? `${space.md}px ${space.lg}px`
+                  : `${space.sm}px ${space.lg}px`,
                 background: active ? colors.ink : colors.paper,
                 color: active ? colors.paper : colors.ink,
                 fontFamily: fonts.mono,
@@ -323,7 +333,14 @@ export function ProjectIndex() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                padding: `${space.sm}px ${space.lg}px`,
+                // Same wrapped-strip rule as the filter tabs above: grow into
+                // the row so the ink plate never shows as a bare slab (it ran
+                // 540px wide at tablet width, where five links wrap 4 + 1).
+                flex: "1 0 auto",
+                textAlign: "center",
+                padding: isMobile
+                  ? `${space.md}px ${space.lg}px`
+                  : `${space.sm}px ${space.lg}px`,
                 background: colors.paper,
                 color: colors.ink,
                 textDecoration: "none",
