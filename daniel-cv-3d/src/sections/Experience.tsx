@@ -1,7 +1,7 @@
 "use client";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { sectionTag } from "@/lib/sectionIndex";
-import { FileTag, SectionRule, StencilTitle, TimelineRow, space } from "@/assets";
+import { FileTag, SectionRule, StencilTitle, TimelineRow, colors, gradients, space } from "@/assets";
 
 type Role = {
   period: string;
@@ -123,7 +123,25 @@ export function Experience() {
 
       <SectionRule label="LOG" code={`${ROLES.length.toString().padStart(2, "0")} ENTRIES`} />
 
-      <div>
+      <div
+        style={{
+          border: `1px solid ${colors.ink}`,
+          padding: isMobile ? `0 ${space.md}px` : `${space.xs}px ${space.lg}px`,
+          // Same recipe as the Competencies board, the quote cards and the
+          // press plates: the mesh is translucent (every stop ≤0.12 alpha)
+          // painted over solid paper, so the log gains the site's layered
+          // gradient surface without spending the contrast budget. On the
+          // composited surface ink reads 13.7:1 and inkMute 4.9:1, both clear
+          // of the 4.5:1 AA body-text rule.
+          //
+          // Painted once here rather than per row: the mesh's stops are
+          // percentages of its own box, so a per-row field would restamp the
+          // same three pools eleven times and put a hard colour seam on every
+          // separator. One field over the whole log keeps the eleven entries
+          // reading as a single panel.
+          background: `${gradients.mesh}, ${colors.paper}`,
+        }}
+      >
         {ROLES.map((r, i) => (
           <TimelineRow
             key={`${r.org}-${r.period}`}
@@ -134,6 +152,9 @@ export function Experience() {
             location={r.location}
             stack={r.stack}
             logo={r.logo}
+            // The panel's top border already closes the block; a fuse rule on
+            // the first row would double it.
+            divider={i > 0}
           >
             {r.note}
           </TimelineRow>

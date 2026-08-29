@@ -76,10 +76,13 @@ type Props = {
   children?: ReactNode;
   index?: number;
   logo?: string;
+  /** Draw the fuse-rule separator above this row. Off for the first row of a
+   *  log, where the panel's own top border already closes the block. */
+  divider?: boolean;
 };
 
 /** Editorial experience row: period | org/role | notes. */
-export function TimelineRow({ period, org, role, location, stack, children, index, logo }: Props) {
+export function TimelineRow({ period, org, role, location, stack, children, index, logo, divider = true }: Props) {
   const isMobile = useIsMobile();
   return (
     <div
@@ -90,9 +93,13 @@ export function TimelineRow({ period, org, role, location, stack, children, inde
         padding: isMobile ? "18px 0" : "22px 0",
         // Fuse-rule separator: ember tip cooling into ink, same motif as
         // SectionRule. border-image keeps the grid row a single element.
-        borderTop: "1px solid",
-        borderImageSource: gradients.rule,
-        borderImageSlice: 1,
+        ...(divider
+          ? {
+              borderTop: "1px solid",
+              borderImageSource: gradients.rule,
+              borderImageSlice: 1,
+            }
+          : null),
         alignItems: "start",
       }}
     >
