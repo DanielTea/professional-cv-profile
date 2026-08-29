@@ -264,6 +264,21 @@ html, body {
   to   { background-position: 100% 50%; }
 }
 
+/* Globe node panel: rises in each time the selected node changes (the panel is
+   keyed on the node, so it remounts and the keyframe replays). Deliberately CSS
+   rather than a JS animation — see the note in WorldMap3D.tsx. `both` holds the
+   start frame until the animation runs, and if the visitor has asked for less
+   motion there is no animation at all and the panel is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  .dt-globe-card {
+    animation: dt-globe-card-in 350ms ease both;
+  }
+}
+@keyframes dt-globe-card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* Visually hidden, but announced by assistive tech (e.g. "opens in new tab") */
 .dt-sr-only {
   position: absolute;
