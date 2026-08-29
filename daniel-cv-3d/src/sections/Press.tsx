@@ -368,6 +368,20 @@ export function Press() {
             ? "1fr"
             : "repeat(auto-fit, minmax(340px, 460px))",
           justifyContent: "center",
+          // The same 460px cap has to apply on the single-column path too, or
+          // the card is only card-shaped on a phone. `1fr` handed it the whole
+          // content width, and the summary is 11px mono: at 375px that is a
+          // 49-character line, but the track keeps growing with the viewport,
+          // so by 768px — the last width before the desktop grid takes over —
+          // the same paragraph ran 108 characters, then snapped back to 63 one
+          // pixel later. The tablet band was the one place the card was set
+          // wider than anything else on the site, and it was the widest measure
+          // on the page. Capping the list (not the track) keeps 375px exactly
+          // as it is — the cap simply never binds below 460px — and makes the
+          // card width continuous across the breakpoint instead of a cliff:
+          // it grows to 460px and then holds, on both sides of 768px.
+          maxWidth: isMobile ? 460 : undefined,
+          marginInline: isMobile ? "auto" : undefined,
           gap: isMobile ? space.lg : space.xl,
         }}
       >
