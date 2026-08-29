@@ -239,6 +239,9 @@ export function ProjectIndex() {
               key={t}
               onClick={() => setTab(t)}
               aria-pressed={active}
+              // Hover / keyboard-focus feedback lives in globals.css (.dt-seg)
+              // so the state split can key off aria-pressed.
+              className="dt-seg"
               style={{
                 // Grow to fill the row. The ink background is only meant to
                 // show through as 1px dividers, but `fit-content` resolves to
@@ -332,6 +335,7 @@ export function ProjectIndex() {
               href={d.href}
               target="_blank"
               rel="noopener noreferrer"
+              className="dt-seg"
               style={{
                 // Same wrapped-strip rule as the filter tabs above: grow into
                 // the row so the ink plate never shows as a bare slab (it ran
@@ -350,7 +354,13 @@ export function ProjectIndex() {
                 textTransform: "uppercase",
               }}
             >
-              {d.label} <ArrowUpRight color={colors.orange} />
+              {d.label}{" "}
+              {/* Wrapped rather than colored inline: the arrow has to change
+                  with the segment's hover fill, and it inherits currentColor
+                  from this span (see .dt-seg-arrow). */}
+              <span className="dt-seg-arrow">
+                <ArrowUpRight />
+              </span>
               <span className="dt-sr-only"> (opens in new tab)</span>
             </a>
           ))}
