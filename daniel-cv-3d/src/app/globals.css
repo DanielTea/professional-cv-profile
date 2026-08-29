@@ -456,6 +456,22 @@ html, body {
   h3 { font-size: 12pt !important; }
   h1, h2, h3 { line-height: 1.06 !important; break-after: avoid; }
 
+  /* The hero wordmark is the one display title the rules above never reached.
+     Every section title IS its heading (StencilTitle renders the h2), so the
+     h2 rule overrides the component's inline clamp(). The hero instead nests
+     two StencilTitles as SPANS inside one h1 — the spans keep their own inline
+     `font-size: clamp(…, 12.5vw, 180px)`, and a heading rule cannot reach a
+     child element. On paper that vw resolves against the sheet, not the
+     screen: an A4 content box is ~704px, so the name printed at ~88pt and
+     wrapped mid-word — "DANIE / L TREM / ER" as the first thing on the CV.
+     Inheriting pins the spans to the h1's own 26pt, and the whole name fits
+     one line. (The h1 keeps `wordBreak: break-word` for genuinely narrow
+     sheets; it just no longer has a reason to fire.) */
+  h1 span {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
   /* Keep cards and quote blocks intact across a page break, and freeze out the
      interactive hover lift so nothing is captured mid-transform. */
   .dt-card { break-inside: avoid; }
@@ -465,14 +481,31 @@ html, body {
     box-shadow: none !important;
   }
 
-  /* Spell out the destination of in-body links so the paper CV keeps its
-     references. Cards and CTA pills are skipped — their visible label already
-     names the target, and a raw URL after them just adds noise. */
-  a[href^="http"]:not(.dt-card):not(.dt-pill)::after {
-    content: " <" attr(href) ">";
+  /* Spell out the destination of the links a paper CV is actually read for —
+     the project and press cards. A printed sheet has no href, so without this
+     the reader can see that control-f, RoboWork and the press pieces exist and
+     has no way to reach any of them.
+     The card is the one link shape with room for a URL: it is a flex column,
+     so the ::after becomes a full-width row under the body copy rather than
+     something wedged into a line of text.
+     This deliberately does NOT fire on every off-site link. The rule it
+     replaces excluded .dt-card and .dt-pill and so hit exactly the three
+     places a URL does not fit: the hero's five-across dashboard grid, where
+     each ~110px cell broke a 55-character URL into a column of single
+     characters roughly a third of a page tall; PROJECT_INDEX's segmented
+     LIVE_DASHBOARDS strip, whose segments then ran up to 15px past the edge
+     of the sheet; and BUILD_LOG's offline line, whose label already reads
+     "view on github.com/DanielTea". Those five dashboards are also the same
+     five links printed twice. So the references land on the cards, and the
+     compact display strips stay strips. */
+  .dt-card[href^="http"]::after {
+    content: "↳ " attr(href);
+    display: block;
+    padding: 0 12pt 10pt;
     font-family: var(--font-mono);
     font-weight: 400;
     font-size: 8pt;
+    line-height: 1.4;
     color: var(--color-ink-mute);
     word-break: break-all;
   }
