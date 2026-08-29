@@ -369,7 +369,12 @@ export default function WorldMap3D() {
   }, [canvasKey])
 
   return (
-    <section
+    // A presentational wrapper around the canvas and its HUD overlays, not a
+    // document section: it sits inside <section id="world">, carries no
+    // heading of its own, and every <section> on this page is now a *named*
+    // landmark. Leaving it as a nameless <section> put an anonymous sectioning
+    // element in the middle of that set for no semantic gain.
+    <div
       className="relative w-full overflow-hidden my-10"
       style={{ background: INK }}
     >
@@ -680,7 +685,7 @@ export default function WorldMap3D() {
             </motion.article>
           </div>
         )}
-    </section>
+    </div>
   )
 }
 

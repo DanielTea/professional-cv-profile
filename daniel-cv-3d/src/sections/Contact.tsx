@@ -17,6 +17,7 @@ export function Contact() {
   return (
     <section
       id="contact"
+      aria-labelledby="contact-title"
       style={{
         padding: isMobile ? `${space.xxl}px ${space.md}px` : `${space.xxxl}px ${space.xl}px`,
         maxWidth: 1440,
@@ -63,7 +64,7 @@ export function Contact() {
         <div style={{ marginBottom: space.md }}>
           <BracesTag tone="ink">HANDSHAKE</BracesTag>
         </div>
-        <StencilTitle size={isMobile ? 64 : 140}>LET&apos;S BUILD</StencilTitle>
+        <StencilTitle id="contact-title" size={isMobile ? 64 : 140}>LET&apos;S BUILD</StencilTitle>
         <p
           style={{
             marginTop: space.md,

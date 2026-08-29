@@ -159,11 +159,11 @@ export function GithubActivity() {
   });
 
   return (
-    <section id="github" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+    <section id="github" aria-labelledby="github-title" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>{sectionTag("github")}</FileTag>
-          <StencilTitle size={96} underscore>BUILD_LOG</StencilTitle>
+          <StencilTitle id="github-title" size={96} underscore>BUILD_LOG</StencilTitle>
         </div>
         {/* Status reads from the feed, not from hope: the header only claims
             "live" once the events API has actually answered. aria-live lets a

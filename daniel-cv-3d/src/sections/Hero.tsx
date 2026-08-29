@@ -53,6 +53,7 @@ export function Hero() {
   return (
     <section
       id="top"
+      aria-labelledby="top-title"
       style={{
         position: "relative",
         padding: isMobile ? `${space.xl}px ${space.md}px ${space.md}px` : `${space.xl}px ${space.xl}px ${space.lg}px`,
@@ -79,7 +80,7 @@ export function Hero() {
             <FileTag tone="mute">REV.2026-04</FileTag>
           </div>
           {/* One h1 for the full name; the styled lines are spans inside it */}
-          <h1 style={{ margin: 0 }}>
+          <h1 id="top-title" style={{ margin: 0 }}>
             <StencilTitle as="span" size={isMobile ? 88 : 180}>
               DANIEL
             </StencilTitle>{" "}

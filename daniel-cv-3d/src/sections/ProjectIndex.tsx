@@ -183,11 +183,11 @@ export function ProjectIndex() {
   );
 
   return (
-    <section id="work" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+    <section id="work" aria-labelledby="work-title" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>{sectionTag("work")}</FileTag>
-          <StencilTitle size={96} underscore>PROJECT_INDEX</StencilTitle>
+          <StencilTitle id="work-title" size={96} underscore>PROJECT_INDEX</StencilTitle>
         </div>
         {/* Record counter. Same rule as the press / competencies deks: a
             right-aligned rail keeps its right anchor when the header wraps,

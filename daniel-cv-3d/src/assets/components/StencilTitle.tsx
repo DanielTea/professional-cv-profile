@@ -11,10 +11,16 @@ type Props = {
    * heading rendered by the caller, or for purely decorative display type.
    */
   as?: "h1" | "h2" | "h3" | "span";
+  /**
+   * Element id. Section titles use it so their <section> can point an
+   * `aria-labelledby` at the heading, which is what turns the section into a
+   * *named* landmark region — see the section files in src/sections.
+   */
+  id?: string;
 };
 
 /** "PORT_FOLIO" style stencil display headline. Fluid-scales to mobile. */
-export function StencilTitle({ children, size = 96, underscore, tone = "ink", as: Tag = "h2" }: Props) {
+export function StencilTitle({ children, size = 96, underscore, tone = "ink", as: Tag = "h2", id }: Props) {
   const color = tone === "orange" ? colors.orange : colors.ink;
   const text = underscore ? children.replace(" ", "_") : children;
   // Fluid font: shrink to ~44% on narrow viewports, cap at the desktop `size`.
@@ -39,6 +45,7 @@ export function StencilTitle({ children, size = 96, underscore, tone = "ink", as
       : undefined;
   return (
     <Tag
+      id={id}
       // Gradient headings carry a class that (motion permitting) gently drifts
       // the clipped accent sweep — see .dt-stencil-gradient in globals.css.
       className={tone === "gradient" ? "dt-stencil-gradient" : undefined}

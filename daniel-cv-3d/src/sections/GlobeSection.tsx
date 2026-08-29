@@ -30,11 +30,11 @@ const WorldMap3D = dynamic(() => import("@/components/WorldMap3D"), {
 export function GlobeSection() {
   const isMobile = useIsMobile();
   return (
-    <section id="world" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
+    <section id="world" aria-labelledby="world-title" style={{ padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`, maxWidth: 1440, margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: space.lg, gap: space.md, flexWrap: "wrap" }}>
         <div>
           <FileTag>{sectionTag("world")}</FileTag>
-          <StencilTitle size={96} underscore>GLOBAL_MAP</StencilTitle>
+          <StencilTitle id="world-title" size={96} underscore>GLOBAL_MAP</StencilTitle>
         </div>
         <MetaLine
           align={isMobile ? "left" : "right"}

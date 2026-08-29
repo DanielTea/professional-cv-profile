@@ -291,6 +291,7 @@ export function Press() {
   return (
     <section
       id="news"
+      aria-labelledby="news-title"
       style={{
         padding: isMobile ? `${space.xl}px ${space.md}px` : `${space.xxl}px`,
         maxWidth: 1440,
@@ -312,7 +313,7 @@ export function Press() {
       >
         <div>
           <FileTag>{sectionTag("news")}</FileTag>
-          <StencilTitle size={96} tone="gradient">
+          <StencilTitle id="news-title" size={96} tone="gradient">
             IN THE NEWS
           </StencilTitle>
         </div>
