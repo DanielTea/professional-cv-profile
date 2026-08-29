@@ -79,11 +79,38 @@ export function Recommendations() {
           padding: 0,
           marginTop: space.xl,
           display: "grid",
-          // Two tracks above the mobile breakpoint is deliberate: it holds the
-          // quote at a 52–60 character measure, squarely inside the readable
-          // 45–75 band. An intrinsic auto-fill grid would resolve to three
-          // 367px tracks at 1280px and drop that to ~32 characters.
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+          // The target is the readable 45–75 character band, and a fixed
+          // two-track grid only hit it at the width it was checked at. Two
+          // `1fr` columns split whatever they are given, so the measure fell
+          // as the viewport narrowed rather than the column count doing it:
+          // 56 characters at 1280px (as intended), but 42 at 1024px and 30 at
+          // 800px — narrower than the 45 floor, a quote broken over six stubby
+          // lines. Below the breakpoint the opposite failed: `1fr` gave the
+          // card the full content width, reaching 75 characters by 768px.
+          // auto-fit with a 470px floor makes the column count the thing that
+          // responds — it drops to one track until two can each still carry a
+          // real line — and the 560px cap stops that single track from running
+          // long. The floor is derived, not picked: 470px is the narrowest
+          // card whose 16px display quote still clears 45 characters.
+          // The cap is the other half of that arithmetic. An auto-fit track
+          // takes its MAX wherever there is room, so the cap — not the floor —
+          // decides when a second column appears: two tracks need
+          // 2 × cap + the 34px gap of content width. At 560px that lands at
+          // 1154px, inside the 1170px content box of a 1280px desktop, so the
+          // canonical desktop width keeps the two-column wall it has today
+          // (now at 55 characters). A larger cap quietly loses it — 620px
+          // pushes the second column out to a 1384px viewport and leaves 1280
+          // as a single tall stack.
+          gridTemplateColumns: isMobile
+            ? "1fr"
+            : "repeat(auto-fit, minmax(470px, 560px))",
+          justifyContent: "center",
+          // Below the breakpoint the floor would overflow a 375px screen, so
+          // the same cap goes on the list instead of the track. It never binds
+          // on a phone; it catches the 560–768px band, where `1fr` alone had
+          // stretched the quote to 75 characters.
+          maxWidth: isMobile ? 560 : undefined,
+          marginInline: isMobile ? "auto" : undefined,
           gap: isMobile ? space.lg : space.xl,
         }}
       >
