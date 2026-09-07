@@ -1,6 +1,6 @@
 'use client'
 
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Html, Stars, useTexture } from '@react-three/drei'
 import { useRef, useMemo, useState, useEffect } from 'react'
 import * as THREE from 'three'
@@ -114,6 +114,54 @@ const V_NDC = new THREE.Vector3()
 /** Gap between a marker dot and its label, in screen px. */
 const LABEL_GAP = 9
 
+/** Radius of the globe, in scene units. */
+const GLOBE_R = 2
+
+/** Where the camera starts: above and in front of the globe, looking at its
+ *  centre. Its length (≈6) is the framing every widescreen viewport gets. */
+const CAMERA_POS: [number, number, number] = [0, 3, 5.2]
+const CAMERA_FOV = 45
+
+/** The most of the frame's WIDTH the globe's disc may take up. */
+const GLOBE_MAX_WIDTH = 0.72
+
+// The camera's distance is a fixed number, but what that number frames
+// depends on the frame. The fov is vertical, so the globe's on-screen height
+// is the same ~80% of the canvas at every width — and its width in pixels is
+// that same height. In the 600px-tall desktop frame that leaves the sphere
+// sitting in a wide ink field with the HUD tags in the quiet corners. The
+// mobile frame is 375×420: the disc is still ~80% of the height, which is
+// now ~90% of the width, so the globe runs edge to edge and the HUD tags —
+// "05 NODES", "// TRACKING", "AXIS · PRIME MERIDIAN", 10px mono at 55%
+// paper — print straight over the lit continents and become noise.
+// This backs the camera off just far enough that the disc stays under
+// GLOBE_MAX_WIDTH of the frame width, leaving an ink margin of ≥14% either
+// side for the tags to sit in. The direction is preserved (so the polar
+// tilt and OrbitControls' rotation are untouched — the controls re-read the
+// distance from the camera on every update), and the cap only binds below
+// an aspect of ~1.19 — the 600px-tall desktop frame clears it from ~710px
+// of canvas width upward, so at tablet and desktop widths the framing does
+// not change by a pixel. Perspective, not similar triangles: a
+// sphere at distance d subtends an angle of asin(R/d), so its projected
+// radius on the image plane is R/√(d²−R²), a few percent more than R/d.
+function FrameGlobe() {
+  const camera = useThree((s) => s.camera)
+  const size = useThree((s) => s.size)
+  useEffect(() => {
+    if (!(camera instanceof THREE.PerspectiveCamera)) return
+    const aspect = size.width / Math.max(1, size.height)
+    const halfWidth = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * aspect
+    // Distance at which the projected radius is exactly GLOBE_MAX_WIDTH of
+    // the half-width: solve GLOBE_R/√(d²−R²) = GLOBE_MAX_WIDTH·halfWidth.
+    const lateral = GLOBE_R / (GLOBE_MAX_WIDTH * halfWidth)
+    const fit = Math.sqrt(lateral * lateral + GLOBE_R * GLOBE_R)
+    const base = Math.hypot(...CAMERA_POS)
+    camera.position.setLength(Math.max(base, fit))
+    camera.updateProjectionMatrix()
+  }, [camera, size.width, size.height])
+  return null
+}
+
 type LabelSlot = {
   group: THREE.Group | null
   el: HTMLDivElement | null
@@ -139,8 +187,7 @@ const Globe = ({
     (labelSlots.current[id] ??= { group: null, el: null, shown: null, outward: null })
   const earthMap = useTexture(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/images/earth_tech_map.jpg`)
 
-  // Radius of the globe
-  const R = 2
+  const R = GLOBE_R
 
   const markerData = useMemo(
     () =>
@@ -535,7 +582,7 @@ export default function WorldMap3D() {
         >
             <Canvas
               key={canvasKey}
-              camera={{ position: [0, 3, 5.2], fov: 45 }}
+              camera={{ position: CAMERA_POS, fov: CAMERA_FOV }}
               onCreated={({ gl }) => {
                 const canvasEl = gl.domElement
                 const handleLost = (event: Event) => {
@@ -545,6 +592,7 @@ export default function WorldMap3D() {
                 canvasEl.addEventListener('webglcontextlost', handleLost, false)
               }}
             >
+                <FrameGlobe />
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} />
                 <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
