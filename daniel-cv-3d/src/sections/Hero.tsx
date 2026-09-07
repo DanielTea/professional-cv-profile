@@ -31,13 +31,14 @@ const STATS = [
   { v: "700+", k: "Network" },
 ];
 
-// Interior dividers for an N-up cell grid (gap:0, so the cell borders *are* the
-// grid lines): a right border on every cell except the last in its row, and a
-// top border on every row after the first. Derived from the live item and
-// column counts rather than a hardcoded index — a fixed `i < 3` test was
-// written when both grids were 4-up, and silently dropped the 4th|5th divider
-// (and left a stray edge on the lone mobile tile) once the dashboards row grew
-// to five boards.
+// Interior dividers for the STATS cell grid (gap:0, so the cell borders *are*
+// the grid lines): a right border on every cell except the last in its row,
+// and a top border on every row after the first. Derived from the live item
+// and column counts rather than a hardcoded index — a fixed `i < 3` test was
+// written when both hero grids were 4-up and silently dropped dividers once
+// the dashboards row grew to five boards. The dashboards strip has since moved
+// to a CSS grid whose column count follows its own width (.dt-dash in
+// globals.css), so it no longer needs a JS column count at all.
 function cellBorders(index: number, count: number, cols: number) {
   const line = `1px solid ${colors.ink}`;
   const lastInRow = index % cols === cols - 1;
@@ -193,8 +194,10 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Live trading dashboards — published by the alpaca-autotrader pipeline */}
-        <div style={{ border: `1.5px solid ${colors.ink}` }}>
+        {/* Live trading dashboards — published by the alpaca-autotrader pipeline.
+            The panel is the size container the strip below reads its column
+            count from (see .dt-dash in globals.css). */}
+        <div className="dt-dash-panel" style={{ border: `1.5px solid ${colors.ink}` }}>
           {/* Gradient signature edge — same accent sweep the site's cards carry */}
           <div aria-hidden style={{ height: 3, background: gradients.edge }} />
           <div
@@ -244,46 +247,51 @@ export function Hero() {
               </span>
             )}
           </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(5, 1fr)",
-            }}
-          >
-            {DASHBOARDS.map((d, i) => (
+          {/* Columns, dividers, cell padding, label size and the hover / focus
+              fill all live in globals.css (.dt-dash*). The strip was a fixed
+              five-across grid at every desktop width, and this column only
+              gets what the 300px portrait leaves it: from 769px up to ~1100px
+              the cells ran 73–140px wide, and 20px "Indicators" was clipped to
+              "Indic" by its neighbour's hairline. The column count now follows
+              the panel's own width, and the labels follow their cell's. */}
+          <div className="dt-dash">
+            {DASHBOARDS.map((d) => (
               <a
                 key={d.label}
                 href={d.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  display: "block",
-                  padding: isMobile ? `${space.md}px` : `${space.md}px ${space.lg}px`,
-                  background: colors.paper,
-                  color: colors.ink,
-                  textDecoration: "none",
-                  ...cellBorders(i, DASHBOARDS.length, isMobile ? 2 : 5),
-                }}
+                className="dt-dash-cell"
               >
                 <div
+                  className="dt-dash-label"
                   style={{
                     fontFamily: fonts.display,
                     fontWeight: 900,
-                    fontSize: isMobile ? 16 : 20,
                     lineHeight: 1,
+                    // The arrow belongs to the word. Left to wrap, it dropped
+                    // onto a line of its own the moment the label filled the
+                    // cell (it did at 1280px) — the size rule in CSS is what
+                    // keeps the pair inside the cell instead.
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {d.label}{" "}
-                  <ArrowUpRight color={colors.orange} />
+                  {/* Wrapped so it can follow the cell's hover fill via
+                      currentColor (see .dt-dash-arrow), as the segmented
+                      LIVE_DASHBOARDS strip in PROJECT_INDEX already does. */}
+                  <span className="dt-dash-arrow">
+                    <ArrowUpRight />
+                  </span>
                 </div>
                 <div
+                  className="dt-dash-sub"
                   style={{
                     marginTop: space.xs,
                     fontFamily: fonts.mono,
                     fontSize: 10,
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
-                    color: colors.inkMute,
                   }}
                 >
                   {d.sub}
