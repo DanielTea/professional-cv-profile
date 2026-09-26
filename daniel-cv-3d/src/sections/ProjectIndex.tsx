@@ -1,4 +1,5 @@
 "use client";
+import { PUBLIC_DASHBOARDS, WORLD_DATA_URL, PRIVATE_DASHBOARDS_URL } from "@/lib/worldData";
 import { useMemo, useState } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { sectionTag } from "@/lib/sectionIndex";
@@ -28,18 +29,18 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    id: "alpaca-autotrader",
-    category: "Product",
+    id: "world-data-analysis",
+    category: "Research",
     title: "World Data Analysis",
     description:
-      "Automated trading system on Alpaca Markets running 24/7: multi-head ETF strategy, short-straddle options sleeve, and an autonomous LLM trader. Publishes live dashboards.",
+      "A personal project driven by curiosity: exploring global patterns through public data, from economic indicators to maritime activity. Interactive dashboards make the observations open to explore.",
     stats: [
-      { k: "Books", v: "3" },
-      { k: "BT Sharpe", v: "1.65" },
+      { k: "Focus", v: "World data" },
+      { k: "Purpose", v: "Curiosity" },
       { k: "Stack", v: "Py · Actions" },
-      { k: "Mode", v: "24/7" },
+      { k: "Access", v: "Public" },
     ],
-    href: "https://danieltremer.com/alpaca-autotrader/",
+    href: WORLD_DATA_URL,
     status: "LIVE",
   },
   {
@@ -166,13 +167,7 @@ const PROJECTS: Project[] = [
 
 const TABS = ["All", "Enterprise", "Startup", "Product", "Research"] as const;
 
-const DASHBOARDS = [
-  { label: "Indicators", href: "https://danieltremer.com/alpaca-autotrader/" },
-  { label: "Signal History", href: "https://danieltremer.com/alpaca-autotrader/history.html" },
-  { label: "Account", href: "https://danieltremer.com/alpaca-autotrader/account.html" },
-  { label: "World Macro", href: "https://danieltremer.com/alpaca-autotrader/world.html" },
-  { label: "Company Filings", href: "https://danieltremer.com/alpaca-autotrader/filings.html" },
-];
+const DASHBOARDS = PUBLIC_DASHBOARDS;
 
 export function ProjectIndex() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("All");
@@ -315,9 +310,9 @@ export function ProjectIndex() {
         ))}
       </div>
 
-      {/* live trading dashboards */}
+      {/* Public world data dashboards */}
       <div style={{ marginTop: space.xl }}>
-        <SectionRule label="LIVE_DASHBOARDS" code="WORLD_DATA_ANALYSIS" />
+        <SectionRule label="PUBLIC_DASHBOARDS" code="WORLD_DATA_ANALYSIS" />
         <div
           style={{
             display: "flex",
@@ -377,11 +372,13 @@ export function ProjectIndex() {
             maxWidth: 640,
           }}
         >
-          Not financial advice. For informational purposes only — data and
-          signals are provided as-is, with no guarantee of correctness,
-          completeness, or timeliness.
+          Exploring public data out of curiosity. Sources, observation dates
+          and limitations are documented in each dashboard.
         </p>
       </div>
+      <p style={{ marginTop: space.md, fontFamily: fonts.mono, fontSize: 11 }}>
+        <a href={PRIVATE_DASHBOARDS_URL} style={{ color: colors.ink }}>Private dashboards · Sign in →</a>
+      </p>
     </section>
   );
 }
