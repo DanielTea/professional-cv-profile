@@ -310,19 +310,16 @@ html, body {
   }
 }
 
-/* Public US, US History, World and Maritime dashboards use two or four columns.
+/* Public US, World and Maritime dashboards share three equal columns.
    The 1px gap forms the divider; labels size to each cell. */
 .dt-dash-panel {
   container-type: inline-size;
 }
 .dt-dash {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--color-ink);
-}
-@container (min-width: 740px) {
-  .dt-dash { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 .dt-dash-cell {
   container-type: inline-size;
