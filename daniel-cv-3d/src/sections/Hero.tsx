@@ -242,7 +242,7 @@ export function Hero() {
               </span>
             )}
           </div>
-          {/* Public dashboards share a responsive two-column strip. */}
+          {/* Public dashboards share a responsive strip. */}
           <div className="dt-dash">
             {DASHBOARDS.map((d) => (
               <a
