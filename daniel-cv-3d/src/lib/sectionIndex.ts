@@ -16,6 +16,7 @@
  */
 export const SECTION_INDEX = [
   { id: "work", label: "PORTFOLIO" },
+  { id: "blog", label: "CURIOSITY PROJECTS" },
   { id: "skills", label: "CORE CAPABILITIES" },
   { id: "experience", label: "TIMELINE" },
   { id: "github", label: "GITHUB TELEMETRY" },

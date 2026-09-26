@@ -44,7 +44,8 @@ export function NavBar({
   // ~86px *further* down than it did with seven links, rather than being
   // pushed up into the 1150–1250 laptop band by the eighth.
   const isMobile = useIsMobile();
-  const isCompact = useIsMobile(1063);
+  // The blog adds a ninth link; reserve its label and gap before collapsing.
+  const isCompact = useIsMobile(items.length > 8 ? 1159 : 1063);
   const isRoomy = !useIsMobile(1279);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("");

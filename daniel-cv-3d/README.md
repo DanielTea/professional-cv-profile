@@ -90,3 +90,20 @@ daniel-cv-3d/
 
 ---
 *System Status: ONLINE // End of File*
+
+## Curiosity project blog
+
+`/blog/` lists nine personal projects, with topic filters and statically exported
+articles at `/blog/[slug]/`. The profile includes a three-project introduction
+and a link to the full collection.
+
+Edit `src/data/projects.ts` to maintain descriptions, source links, technology
+labels and article sections. Reading times and category counts are derived from
+that data. Images live in `public/images/projects/`; `SOURCES.md` records their
+provenance. Give every new image accurate alt text, a caption, a source link and
+the appropriate kind (screenshot, documentation, render or research figure).
+The article gallery opens images in a native dialog (Escape to close).
+
+The blog shares `src/components/blog/Blog.module.css`, follows the existing
+profile palette, and supports `NEXT_PUBLIC_BASE_PATH` for subpath deployments.
+Run `pnpm exec tsc --noEmit` and `pnpm build` to validate the static routes.

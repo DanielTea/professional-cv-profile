@@ -4,6 +4,7 @@ import { NavBar, HazardTape, colors, gradients } from "@/assets";
 import { Hero } from "@/sections/Hero";
 import { Competencies } from "@/sections/Competencies";
 import { ProjectIndex } from "@/sections/ProjectIndex";
+import { ProjectBlog } from "@/sections/ProjectBlog";
 import { Experience } from "@/sections/Experience";
 import { GithubActivity } from "@/sections/GithubActivity";
 import { GlobeSection } from "@/sections/GlobeSection";
@@ -45,6 +46,7 @@ export default function Home() {
       <NavBar
         items={[
           { label: "Work", href: "#work" },
+          { label: "Blog", href: "#blog" },
           { label: "Skills", href: "#skills" },
           { label: "Experience", href: "#experience" },
           { label: "Build Log", href: "#github" },
@@ -57,6 +59,7 @@ export default function Home() {
       <Hero />
       <HazardTape />
       <ProjectIndex />
+      <ProjectBlog />
       <HazardTape tone="orange" />
       <Competencies />
       <HazardTape />
