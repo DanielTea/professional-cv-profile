@@ -243,7 +243,7 @@ export function Hero() {
                   opacity: 0.6,
                 }}
               >
-                ALPACA_AUTOTRADER
+                WORLD_DATA_ANALYSIS
               </span>
             )}
           </div>

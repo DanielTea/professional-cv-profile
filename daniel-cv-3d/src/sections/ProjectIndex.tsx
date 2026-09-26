@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
   {
     id: "alpaca-autotrader",
     category: "Product",
-    title: "Alpaca Autotrader",
+    title: "World Data Analysis",
     description:
       "Automated trading system on Alpaca Markets running 24/7: multi-head ETF strategy, short-straddle options sleeve, and an autonomous LLM trader. Publishes live dashboards.",
     stats: [
@@ -317,7 +317,7 @@ export function ProjectIndex() {
 
       {/* live trading dashboards */}
       <div style={{ marginTop: space.xl }}>
-        <SectionRule label="LIVE_DASHBOARDS" code="ALPACA_AUTOTRADER" />
+        <SectionRule label="LIVE_DASHBOARDS" code="WORLD_DATA_ANALYSIS" />
         <div
           style={{
             display: "flex",
