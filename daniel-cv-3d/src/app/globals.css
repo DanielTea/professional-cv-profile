@@ -310,25 +310,8 @@ html, body {
   }
 }
 
-/* Hero LIVE_TRADING_DASHBOARDS strip. Five outbound cells in the hero's right
-   column — the column that only gets what the 300px portrait and its gap leave
-   over. It was a fixed five-across grid at every width above the phone
-   breakpoint, so the cells were 73px wide at 769px and 139px at 1100px while
-   the 20px labels needed ~113px: "Indicators" was clipped to "Indic" by the
-   next cell's hairline, and every sub-label wrapped. At 1280px the cells were
-   finally wide enough for the word but not the word plus its arrow, which
-   dropped onto a line of its own.
-   Two rules replace the fixed count, both sized from the panel rather than
-   the viewport (a container query, like .dt-meter): the column count steps
-   2 → 3 → 5 as the panel can afford 155px cells — the narrowest cell whose
-   inner width still carries "Indicators ↗" at the 17px floor below — and the
-   label size follows its own cell, so it never has to be clipped or wrapped.
-   Five cells never divide evenly into 2 or 3 columns, so the last row would
-   have left dead paper tracks; the spans below close them: the lone last
-   cell takes the full row at 2-up, and at 3-up the grid is really six tracks
-   (3 cells × 2, then 2 cells × 3) so both rows run edge to edge.
-   Dividers are the ink plate showing through 1px gaps — the segmented-strip
-   idiom — which is what makes them independent of the column count. */
+/* Public World and Maritime dashboards share two equal columns.
+   The 1px gap forms the divider; labels size to each cell. */
 .dt-dash-panel {
   container-type: inline-size;
 }
@@ -348,35 +331,10 @@ html, body {
   /* Mobile cap; lifted to 20px with the wider cell padding below. */
   --dash-label-max: 16px;
 }
-.dt-dash-cell:last-child {
-  grid-column: span 2;
-}
 @media (min-width: 769px) {
   .dt-dash-cell {
     padding: 13px 21px;
     --dash-label-max: 20px;
-  }
-}
-@container (min-width: 467px) {
-  .dt-dash {
-    grid-template-columns: repeat(6, 1fr);
-  }
-  .dt-dash-cell,
-  .dt-dash-cell:last-child {
-    grid-column: span 2;
-  }
-  .dt-dash-cell:nth-child(n + 4) {
-    grid-column: span 3;
-  }
-}
-@container (min-width: 779px) {
-  .dt-dash {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .dt-dash-cell,
-  .dt-dash-cell:last-child,
-  .dt-dash-cell:nth-child(n + 4) {
-    grid-column: span 1;
   }
 }
 /* "Indicators ↗" measures ~6.65em in the display face (5.65em of word, then

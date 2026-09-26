@@ -1,4 +1,5 @@
 "use client";
+import { PUBLIC_DASHBOARDS } from "@/lib/worldData";
 import { useIsMobile } from "@/lib/useIsMobile";
 import {
   ArrowUpRight,
@@ -16,13 +17,7 @@ import {
   displayType,
 } from "@/assets";
 
-const DASHBOARDS = [
-  { label: "Indicators", sub: "Market signals", href: "https://danieltremer.com/alpaca-autotrader/" },
-  { label: "History", sub: "Signal timeline", href: "https://danieltremer.com/alpaca-autotrader/history.html" },
-  { label: "Account", sub: "P&L · positions", href: "https://danieltremer.com/alpaca-autotrader/account.html" },
-  { label: "World", sub: "Global macro", href: "https://danieltremer.com/alpaca-autotrader/world.html" },
-  { label: "Filings", sub: "SEC EDGAR", href: "https://danieltremer.com/alpaca-autotrader/filings.html" },
-];
+const DASHBOARDS = PUBLIC_DASHBOARDS;
 
 const STATS = [
   { v: "10+", k: "Years AI/ML" },
@@ -194,7 +189,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Live trading dashboards — published by the alpaca-autotrader pipeline.
+        {/* Public dashboards from the World Data Analysis project.
             The panel is the size container the strip below reads its column
             count from (see .dt-dash in globals.css). */}
         <div className="dt-dash-panel" style={{ border: `1.5px solid ${colors.ink}` }}>
@@ -231,7 +226,7 @@ export function Hero() {
                   background: colors.orange,
                 }}
               />
-              Live trading dashboards
+              World data dashboards
             </span>
             {!isMobile && (
               <span
@@ -247,13 +242,7 @@ export function Hero() {
               </span>
             )}
           </div>
-          {/* Columns, dividers, cell padding, label size and the hover / focus
-              fill all live in globals.css (.dt-dash*). The strip was a fixed
-              five-across grid at every desktop width, and this column only
-              gets what the 300px portrait leaves it: from 769px up to ~1100px
-              the cells ran 73–140px wide, and 20px "Indicators" was clipped to
-              "Indic" by its neighbour's hairline. The column count now follows
-              the panel's own width, and the labels follow their cell's. */}
+          {/* Public dashboards share a responsive two-column strip. */}
           <div className="dt-dash">
             {DASHBOARDS.map((d) => (
               <a
@@ -312,9 +301,8 @@ export function Hero() {
               textTransform: "uppercase",
             }}
           >
-            Not financial advice. For informational purposes only — data and
-            signals are provided as-is, with no guarantee of correctness,
-            completeness, or timeliness.
+            Exploring public data out of curiosity. Sources, observation dates
+            and limitations are documented in each dashboard.
           </div>
         </div>
         </div>
