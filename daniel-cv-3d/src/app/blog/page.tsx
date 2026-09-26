@@ -5,12 +5,12 @@ import { curiosityProjects } from "@/data/projects";
 import { ProjectCollection } from "@/components/blog/ProjectCollection";
 import styles from "@/components/blog/Blog.module.css";
 
-const description = "Curiosity projects by Daniel Tremer: local AI agents, rocket simulations, language-model experiments, Berlin data and tools built to explore an idea.";
+const description = "Curiosity projects by Daniel Tremer: local AI agents, rocket simulations, language-model experiments, public World, Maritime and US dashboards, Berlin data and developer tools.";
 export const metadata: Metadata = {
   title: "Curiosity Projects — Daniel Tremer",
   description,
   alternates: { canonical: asset("/blog/") },
-  openGraph: { title: "Curiosity Projects — Daniel Tremer", description, url: asset("/blog/"), images: [{ url: asset(curiosityProjects[0].images[0].src), alt: "ScreenQuest gameplay experiment" }] },
+  openGraph: { title: "Curiosity Projects — Daniel Tremer", description, url: asset("/blog/"), images: [{ url: asset(curiosityProjects[0].images[0].src), alt: curiosityProjects[0].images[0].alt }] },
   twitter: { card: "summary_large_image", title: "Curiosity Projects — Daniel Tremer", description, images: [asset(curiosityProjects[0].images[0].src)] },
 };
 
@@ -22,6 +22,6 @@ export default function BlogIndex() {
       <div className={styles.heroBottom}><p className={styles.intro}>Sometimes the best reason to build something is to see what happens. A collection of side projects, open questions, and notes from following an idea.</p><div className={styles.countLabel}><span className={styles.counter}>{String(curiosityProjects.length).padStart(2, "0")}</span><span className={styles.eyebrow}>Open explorations</span></div></div>
     </div>
     <ProjectCollection />
-    <footer className={styles.footer}><span>Independent projects. Code and sources linked in every story.</span><Link href="/">← Back to profile</Link></footer>
+    <footer className={styles.footer}><span>Independent projects. Explore the live dashboards and public project sources.</span><Link href="/">← Back to profile</Link></footer>
   </main>;
 }

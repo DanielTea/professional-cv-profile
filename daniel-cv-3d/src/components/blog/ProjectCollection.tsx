@@ -4,7 +4,7 @@ import { curiosityProjects } from "@/data/projects";
 import { BlogProjectCard } from "./ProjectCard";
 import styles from "./Blog.module.css";
 
-const categories = ["All projects", "AI & ML", "Engineering", "Data & place", "Developer tools"] as const;
+const categories = ["All projects", "Public dashboards", "AI & ML", "Engineering", "Data & place", "Developer tools"] as const;
 export function ProjectCollection() {
   const [selected, setSelected] = useState<(typeof categories)[number]>("All projects");
   const visible = curiosityProjects.filter(p => selected === "All projects" || p.category === selected);

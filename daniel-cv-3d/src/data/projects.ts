@@ -1,3 +1,5 @@
+import { PUBLIC_DASHBOARD_URLS } from "@/lib/worldData";
+
 export type ProjectImage = {
   src: string;
   alt: string;
@@ -8,9 +10,11 @@ export type ProjectImage = {
 
 export type CuriosityProject = {
   slug: string;
-  repo: string;
+  // Public dashboards expose only their live URL; private repository details
+  // must never be stored here because this data is shipped to the browser.
+  destination: { kind: "repository"; repo: string } | { kind: "dashboard"; url: string };
   title: string;
-  category: "AI & ML" | "Engineering" | "Data & place" | "Developer tools";
+  category: "AI & ML" | "Engineering" | "Data & place" | "Developer tools" | "Public dashboards";
   subtitle: string;
   summary: string;
   question: string;
@@ -27,7 +31,69 @@ const image = (slug: string, file: string, alt: string, caption: string, source:
 
 export const curiosityProjects: CuriosityProject[] = [
   {
-    slug: "screenquest", repo: "screenquest", title: "ScreenQuest", category: "AI & ML",
+    slug: "world-dashboard", destination: { kind: "dashboard", url: PUBLIC_DASHBOARD_URLS.world }, title: "World Dashboard", category: "Public dashboards",
+    subtitle: "The same world. Different local stories.",
+    summary: "An interactive view of global economic and market conditions, with country comparisons, historical context and visible source dates.",
+    question: "How do local conditions and shared global pressures show up side by side?",
+    stack: ["Country comparisons", "Public data", "Time series", "Interactive charts"],
+    images: [
+      image("world-dashboard", "overview", "World Dashboard showing global stress summaries, country selectors and country rankings", "The public World Dashboard, captured on 26 September 2026. Scores and source dates are a snapshot; open the dashboard for its latest published data.", PUBLIC_DASHBOARD_URLS.world, "Screenshot"),
+      image("world-dashboard", "country", "World Dashboard country detail with national observations and economic indicators for Germany", "Country detail brings national observations and individual indicators into view. Each observation retains its own reference date.", `${PUBLIC_DASHBOARD_URLS.world}#DE`, "Screenshot"),
+    ],
+    sections: [
+      { title: "Start with the world, then choose a country", paragraphs: ["The World Dashboard brings country-level economic and market observations into one public interface. The overview summarises global stress, domestic conditions, shared pressures and the breadth of elevated scores. A searchable country ranking makes it easy to move from the broad picture to an individual place.", "The curiosity behind it is comparative: a movement that looks significant on its own may read differently alongside other countries, or against that country’s own history."] },
+      { title: "Keep the context close", paragraphs: ["Selecting a country reveals national observations, the indicators used in its score, and a historical view of scores and share-price drawdowns. Other observations appear separately as context, so being visible on the page does not automatically mean contributing to the score.", "Source labels, reference dates and freshness notes help explain what the display is actually comparing. An hourly page refresh does not make a monthly economic release a new observation."] },
+      { title: "Explore a pattern, then inspect it", paragraphs: ["Use the country selector or ranking to explore a place, then follow the individual indicators and history. The dashboard describes observed conditions and reconstructed historical context; its scores are not a forecast of the next market move. The public interface is available directly through the link on this page."] },
+    ],
+    takeaway: "A global overview becomes more useful when you can trace it back to a local observation.",
+  },
+  {
+    slug: "maritime-dashboard", destination: { kind: "dashboard", url: PUBLIC_DASHBOARD_URLS.maritime }, title: "Maritime Dashboard", category: "Public dashboards",
+    subtitle: "Following the movement behind the economy.",
+    summary: "Explore port activity, vessel calls and strategic passages through public maritime data, interactive maps and historical charts.",
+    question: "What can the movement through ports and passages tell us about the physical economy?",
+    stack: ["Port activity", "Interactive maps", "Trade flows", "CSV exports"],
+    images: [
+      image("maritime-dashboard", "overview", "Maritime Dashboard showing global port activity, import estimates and sector exposure composites", "A public dashboard capture from 26 September 2026. The activity chart shows provider estimates with their source and retrieval dates.", PUBLIC_DASHBOARD_URLS.maritime, "Screenshot"),
+      image("maritime-dashboard", "map", "Maritime Dashboard ports and passages map with selected Suez Canal activity and historical context", "The ports and passages view connects geographic locations to activity summaries and history. Map imagery is geographic context, not live vessel imagery. EOxCloudless / EOX IT Services GmbH, modified Copernicus Sentinel data (2016), CC BY 4.0; NASA GIBS overview/fallback.", PUBLIC_DASHBOARD_URLS.maritime, "Screenshot"),
+    ],
+    sections: [
+      { title: "From an abstract total to a physical place", paragraphs: ["The Maritime Dashboard looks at the physical movement behind global trade. Its public views bring together estimated imports and exports, vessel calls, port locations and strategic passages. The aim is to make changes in activity explorable, from a global total down to a particular location.", "The main chart switches between measures and time windows. Separating cargo estimates from vessel calls matters: more ships and more delivered cargo are different observations."] },
+      { title: "Follow a route through the data", paragraphs: ["The ports and passages view pairs a navigable map with location details, comparison windows and historical charts. Selecting a passage such as the Suez Canal connects a place on the map to its reported activity.", "A separate set of monitoring composites explores themes such as energy gateways, container trade and rerouting pressure. Source-health information and CSV exports make it possible to inspect the observations behind the visual summaries."] },
+      { title: "Make the limits visible", paragraphs: ["These are provider estimates derived from maritime activity, not verified customs totals. Source dates can lag retrieval dates, and a reconstructed history differs from the record of what was collected at the time. The dashboard treats its composites as context indicators, rather than stock-return predictions."] },
+    ],
+    takeaway: "Trade becomes easier to explore when the chart, the place and the source date stay connected.",
+  },
+  {
+    slug: "us-indicators-dashboard", destination: { kind: "dashboard", url: PUBLIC_DASHBOARD_URLS.us }, title: "US Indicators Dashboard", category: "Public dashboards",
+    subtitle: "A broader view than a single headline.",
+    summary: "A public overview of US economic and market indicators, organised into cycle, stress and valuation views with explanations behind the summaries.",
+    question: "How can many different indicators become a readable picture without losing their differences?",
+    stack: ["Economic indicators", "Market context", "Source dates", "Interactive filters"],
+    images: [image("us-indicators-dashboard", "overview", "US Indicators Dashboard showing its stress composite, cycle risk, market stress and valuation summaries", "The public US Indicators view, captured on 26 September 2026. This image records one published snapshot, not current market readings.", PUBLIC_DASHBOARD_URLS.us, "Screenshot")],
+    sections: [
+      { title: "Put the signals in the same room", paragraphs: ["The US Indicators Dashboard gathers a broad collection of economic and market observations in one public view. Its summaries separate cycle conditions, near-term stress and longer-horizon valuation, while the indicator sections expose the detail beneath those summaries.", "That separation is the central idea: a valuation measure and a short-term stress indicator answer different questions. Placing them together should make those differences easier to see."] },
+      { title: "Read below the headline number", paragraphs: ["The interface includes explanatory controls, composite coverage and breakdowns, and counts of green, yellow and red indicators that can be used as filters. Detailed sections cover areas such as credit, rates, volatility, commodities and market breadth.", "The dashboard also shows a calculation timestamp and links into historical views. These help distinguish the date the page was assembled from the reference dates of the observations it contains."] },
+      { title: "Compare views, not just colours", paragraphs: ["Start with the overview, inspect a summary’s components, and open History to see how the readings evolved. Colours and composite scores organise the available evidence; they are not precise forecasts or instructions to trade. The linked public dashboard provides the interactive version behind this screenshot."] },
+    ],
+    takeaway: "A summary earns its place when you can inspect what went into it.",
+  },
+  {
+    slug: "us-history-dashboard", destination: { kind: "dashboard", url: PUBLIC_DASHBOARD_URLS.usHistory }, title: "US History Dashboard", category: "Public dashboards",
+    subtitle: "Give a snapshot a memory.",
+    summary: "Explore recorded US indicators over time, compare time windows and inspect the history behind the current dashboard.",
+    question: "How does today’s reading change meaning when you can see the path that led to it?",
+    stack: ["Signal history", "Time windows", "Data tables", "CSV exports"],
+    images: [image("us-history-dashboard", "overview", "US History Dashboard showing selectable time windows and historical cycle, stress and valuation charts", "The History tab of the public US dashboard, captured on 26 September 2026. The chart compares aggregate scores across the selected window.", PUBLIC_DASHBOARD_URLS.usHistory, "Screenshot")],
+    sections: [
+      { title: "From a reading to a sequence", paragraphs: ["The US History Dashboard adds a time dimension to the current-indicator view. It opens directly in the US dashboard’s History tab, where recorded readings can be explored across different windows instead of being reduced to the latest number.", "The overview compares the US stress composite with its cycle, stress and valuation components. Seeing those lines together helps reveal whether a change is broad or concentrated in one part of the picture."] },
+      { title: "Choose the scale of the question", paragraphs: ["Time-window controls let you switch between shorter and longer views, while a signal filter narrows the display. Charts are accompanied by data tables, and selected history can be exported for further inspection.", "Background bands provide market-drawdown context. They help place indicator movements alongside market conditions without treating a visual relationship as proof that one predicted the other."] },
+      { title: "A history has its own provenance", paragraphs: ["The page distinguishes days with fresh readings, carried-forward observations and gaps. That matters when interpreting a flat line: an unchanged value can mean that no new source observation arrived. This is a way to inspect the recorded series and its coverage, rather than assume every plotted day is an independent measurement."] },
+    ],
+    takeaway: "A historical chart should explain both how a signal changed and when it was actually observed.",
+  },
+  {
+    slug: "screenquest", destination: { kind: "repository", repo: "screenquest" }, title: "ScreenQuest", category: "AI & ML",
     subtitle: "An agent that plays by looking.",
     summary: "Local vision models, a game screen, and a simple rule: an action only counts when its result can be seen.",
     question: "How far can a local AI agent get using only what is visible on screen?",
@@ -44,7 +110,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "A good agent needs a way to notice whether its action actually worked.",
   },
   {
-    slug: "aerospike-ce", repo: "aerospike-ce", title: "Aerospike CE", category: "Engineering",
+    slug: "aerospike-ce", destination: { kind: "repository", repo: "aerospike-ce" }, title: "Aerospike CE", category: "Engineering",
     subtitle: "From a specification to a shape.",
     summary: "An exploration of computational engineering: describe an aerospike engine in JSON, then generate and inspect its geometry.",
     question: "What changes when engineering rules generate the geometry?",
@@ -61,7 +127,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "Generating a plausible shape is only half the problem. Knowing when a specification fails is just as interesting.",
   },
   {
-    slug: "ibnn-forget-lm", repo: "ibnn-forget-lm", title: "Learning to forget", category: "AI & ML",
+    slug: "ibnn-forget-lm", destination: { kind: "repository", repo: "ibnn-forget-lm" }, title: "Learning to forget", category: "AI & ML",
     subtitle: "Two ideas. One controlled experiment.",
     summary: "A small language-model study testing whether lateral neuron coupling adds anything to forgetting attention.",
     question: "Do two promising mechanisms help each other, or is one doing all the work?",
@@ -78,7 +144,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "An experiment that tells you what not to add can be as useful as one that improves a benchmark.",
   },
   {
-    slug: "rpi-datalogger", repo: "rpi-datalogger", title: "RPi Datalogger", category: "Engineering",
+    slug: "rpi-datalogger", destination: { kind: "repository", repo: "rpi-datalogger" }, title: "RPi Datalogger", category: "Engineering",
     subtitle: "Vehicle telemetry, beyond the driveway.",
     summary: "A Raspberry Pi collects CAN/OBD-II and GPS data, buffers it offline, and uploads over a mobile connection.",
     question: "How do you keep collecting useful data when the connection disappears?",
@@ -92,7 +158,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "For a field device, recovery behaviour is a core feature.",
   },
   {
-    slug: "3d-rocket-engine-simulator", repo: "3DRocketEngine_Simulator", title: "3D Rocket Engine Simulator", category: "Engineering",
+    slug: "3d-rocket-engine-simulator", destination: { kind: "repository", repo: "3DRocketEngine_Simulator" }, title: "3D Rocket Engine Simulator", category: "Engineering",
     subtitle: "Make a parameter. See a consequence.",
     summary: "An interactive browser workbench for exploring nozzle geometry, flow, regenerative cooling and design trade-offs.",
     question: "Can an interactive model make coupled engineering trade-offs easier to see?",
@@ -106,7 +172,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "The most useful interactive view reveals how changing one thing changes several others.",
   },
   {
-    slug: "berlin-real-estate-analyser", repo: "berlin-real-estate-analyser", title: "Berlin Real Estate Analyser", category: "Data & place",
+    slug: "berlin-real-estate-analyser", destination: { kind: "repository", repo: "berlin-real-estate-analyser" }, title: "Berlin Real Estate Analyser", category: "Data & place",
     subtitle: "Looking past the listing price.",
     summary: "A Berlin property data pipeline that brings asking prices, rental assumptions and neighbourhood context into one analysis.",
     question: "What becomes visible when property listings are compared on consistent assumptions?",
@@ -120,7 +186,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "A ranking is only as useful as your understanding of the assumptions behind it.",
   },
   {
-    slug: "berlin-winery-analysis", repo: "Berlin_Winery_Analysis", title: "Berlin Winery Analysis", category: "Data & place",
+    slug: "berlin-winery-analysis", destination: { kind: "repository", repo: "Berlin_Winery_Analysis" }, title: "Berlin Winery Analysis", category: "Data & place",
     subtitle: "A city, viewed through its wine spots.",
     summary: "Maps and neighbourhood comparisons exploring the distribution of Berlin’s wine establishments.",
     question: "What can a very specific kind of place reveal about a city?",
@@ -137,7 +203,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "A map is a way to ask a more precise question about a place.",
   },
   {
-    slug: "ui-test-generator", repo: "ui-test-generator", title: "UI Test Generator", category: "Developer tools",
+    slug: "ui-test-generator", destination: { kind: "repository", repo: "ui-test-generator" }, title: "UI Test Generator", category: "Developer tools",
     subtitle: "From a recorded workflow to a test draft.",
     summary: "Screen recording and vision-model analysis explore how demonstrated interactions can become structured testing notes.",
     question: "Can showing a workflow reduce the work of describing how to test it?",
@@ -151,7 +217,7 @@ export const curiosityProjects: CuriosityProject[] = [
     takeaway: "A demonstration can be a useful first draft of a specification.",
   },
   {
-    slug: "llm-classifier", repo: "llm-classifier", title: "LLM Classifier", category: "AI & ML",
+    slug: "llm-classifier", destination: { kind: "repository", repo: "llm-classifier" }, title: "LLM Classifier", category: "AI & ML",
     subtitle: "Let the categories take shape.",
     summary: "A text classification experiment that creates and merges labels while protecting categories that should stay distinct.",
     question: "What if you do not know the right taxonomy before reading the data?",
@@ -167,7 +233,9 @@ export const curiosityProjects: CuriosityProject[] = [
 ];
 
 export function projectUrl(project: CuriosityProject) {
-  return github(project.repo);
+  return project.destination.kind === "dashboard"
+    ? project.destination.url
+    : github(project.destination.repo);
 }
 
 export function readingMinutes(project: CuriosityProject) {

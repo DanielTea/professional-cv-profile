@@ -18,3 +18,21 @@ its original rights holders; the ScreenQuest code licence does not relicense it.
 | `ui-test-generator-interface.webp` | Local running web app from https://github.com/DanielTea/ui-test-generator, before recording; no model request made |
 
 Captured / retrieved 2026-09-26. Each figure also links to its source in the article.
+
+## Public dashboards
+
+Captured from anonymous browser sessions on the publicly accessible dashboards
+on 2026-09-26. These are dated screenshots, not live values. No private repository
+or private dashboard was used as an image or content source.
+
+| Files | Public source |
+| --- | --- |
+| `world-dashboard-overview.webp`, `world-dashboard-country.webp` | https://danieltremer.com/alpaca-autotrader/world.html (overview and Germany detail) |
+| `maritime-dashboard-overview.webp`, `maritime-dashboard-map.webp` | https://danieltremer.com/alpaca-autotrader/maritime.html (flows and ports/passage tabs) |
+| `us-indicators-dashboard-overview.webp` | https://danieltremer.com/alpaca-autotrader/market.html |
+| `us-history-dashboard-overview.webp` | https://danieltremer.com/alpaca-autotrader/market.html#history |
+
+Maritime map imagery: EOxCloudless by EOX IT Services GmbH, containing modified
+Copernicus Sentinel data (2016), CC BY 4.0. The dashboard provides NASA GIBS Blue
+Marble as an overview/fallback. Attribution remains visible in the map screenshot
+and is repeated in the article caption.
