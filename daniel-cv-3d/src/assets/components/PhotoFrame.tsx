@@ -8,10 +8,12 @@ type Props = {
   caption?: string;
   width?: number;
   height?: number;
+  /** Grayscale + duotone wash. Set false to show the photo as-is. */
+  filtered?: boolean;
 };
 
 /** Portrait frame with corner brackets and mono caption. */
-export function PhotoFrame({ src, alt = "", code, caption, width = 320, height = 420 }: Props) {
+export function PhotoFrame({ src, alt = "", code, caption, width = 320, height = 420, filtered = true }: Props) {
   return (
     <figure
       style={{
@@ -53,11 +55,11 @@ export function PhotoFrame({ src, alt = "", code, caption, width = 320, height =
             width: "100%",
             height,
             objectFit: "cover",
-            filter: "grayscale(1) contrast(1.08)",
+            filter: filtered ? "grayscale(1) contrast(1.08)" : undefined,
           }}
         />
         {/* Gradient wash keys the grayscale portrait into the site's palette */}
-        <div
+        {filtered && <div
           aria-hidden
           style={{
             position: "absolute",
@@ -65,7 +67,7 @@ export function PhotoFrame({ src, alt = "", code, caption, width = 320, height =
             background: gradients.wash,
             pointerEvents: "none",
           }}
-        />
+        />}
       </div>
 
       <figcaption

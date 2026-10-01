@@ -135,8 +135,9 @@ export function Hero() {
         }}
       >
         <PhotoFrame
-          src="/images/profile-optimized.jpg"
+          src="/images/profile-2026.jpg"
           alt="Daniel Tremer"
+          filtered={false}
           caption="SUBJECT · 01"
           code="DT-001"
           width={isMobile ? 220 : 300}
