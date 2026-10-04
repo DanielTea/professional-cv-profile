@@ -69,7 +69,7 @@ export const curiosityProjects: CuriosityProject[] = [
       "title": "Intelligence, viewed through play",
       "paragraphs": [
         "A game gives an agent something concrete to do. It has to understand a scene, choose an action and deal with the consequences. The feedback can be immediate: a coin collected, an obstacle avoided, a target missed. That makes games an interesting place to investigate perception, control and planning together.",
-        "The project motto is: Other benchmarks test productivity/usefulness, we test intelligence. That is the ambition. The current benchmark measures bounded visual gameplay; it does not turn a game score into a complete measure of intelligence."
+        "The project motto is: “Intelligence is the ability to adapt to new environments.” — We test this. The current benchmark measures bounded visual gameplay; it does not turn a game score into a complete measure of intelligence."
       ]
     },
     {
