@@ -12,7 +12,7 @@ export type CuriosityProject = {
   slug: string;
   // Public dashboards expose only their live URL; private repository details
   // must never be stored here because this data is shipped to the browser.
-  destination: { kind: "repository"; repo: string } | { kind: "dashboard"; url: string };
+  destination: { kind: "repository"; repo: string } | { kind: "dashboard"; url: string; label?: string };
   title: string;
   category: "AI & ML" | "Engineering" | "Data & place" | "Developer tools" | "Public dashboards";
   subtitle: string;
@@ -30,6 +30,80 @@ const image = (slug: string, file: string, alt: string, caption: string, source:
 });
 
 export const curiosityProjects: CuriosityProject[] = [
+{
+  "slug": "generalgamebench",
+  "destination": {
+    "kind": "dashboard",
+    "url": "https://danieltremer.com/generalgamebench/",
+    "label": "Open leaderboard"
+  },
+  "title": "GeneralGameBench",
+  "category": "AI & ML",
+  "subtitle": "What can an agent learn by playing?",
+  "summary": "An open-source game-agent benchmark with actual gameplay, measured reaction times and evidence you can inspect. Explore the first results and a visual catalog of game environments.",
+  "question": "Can an agent understand what it sees, choose a useful action and respond while the game is still moving?",
+  "stack": [
+    "Visual gameplay",
+    "Reaction time",
+    "Replay evidence",
+    "Open source"
+  ],
+  "images": [
+    {
+      "src": "/generalgamebench/media/environment-atlas.png",
+      "alt": "Collage of all 45 GeneralGameBench environment cards, including runnable games and research candidates",
+      "caption": "The complete environment catalog. The first three cards represent ten runnable scenarios; the other 42 are research candidates. These game previews are not evidence that every environment has been integrated.",
+      "source": "https://github.com/DanielTea/generalgamebench/blob/main/docs/MEDIA.md",
+      "kind": "Screenshot"
+    },
+    {
+      "src": "/generalgamebench/media/vizdoom-eight-scenarios.webp",
+      "alt": "An actual Doom Basic frame from GeneralGameBench's recorded evaluation",
+      "caption": "A saved frame from the Doom Basic evaluation. Gameplay frames and action traces are included in the public evidence release. Doom visuals retain their original rights.",
+      "source": "https://github.com/DanielTea/generalgamebench/releases/tag/v0.1.0",
+      "kind": "Screenshot"
+    }
+  ],
+  "sections": [
+    {
+      "title": "Intelligence, viewed through play",
+      "paragraphs": [
+        "A game gives an agent something concrete to do. It has to understand a scene, choose an action and deal with the consequences. The feedback can be immediate: a coin collected, an obstacle avoided, a target missed. That makes games an interesting place to investigate perception, control and planning together.",
+        "The project motto is: Other benchmarks test productivity/usefulness, we test intelligence. That is the ambition. The current benchmark measures bounded visual gameplay; it does not turn a game score into a complete measure of intelligence."
+      ]
+    },
+    {
+      "title": "A clock that counts the whole response",
+      "paragraphs": [
+        "GeneralGameBench gives an agent rendered pixels and a set of allowed controls. A fresh challenge ties each reply to its observation, while the referee owns the game score and the timing. Agents cannot simply report their own reward or their own reaction time.",
+        "The fast track requires every measured decision to finish in strictly less than 100 milliseconds, including rendering, encoding, transport, inference and validation. Slower agents can still take part in an exhibition track. The current runner advances games in lockstep, so these measurements are not yet a demonstration of continuous real-time play in commercial games."
+      ]
+    },
+    {
+      "title": "What the first season actually shows",
+      "paragraphs": [
+        "The first published snapshot contains 436 episodes and 26,712 decisions: 400 runs from four local baseline policies, plus 36 short exhibition episodes. Two original 2D games and eight ViZDoom scenarios run today. Those eight scenarios belong to one Doom game family.",
+        "Pixel Tracker leads the local baseline suite. Actual GPT-6 Astra and Claude Opus 5 calls also played the exhibition tasks, but both exceeded the 100-millisecond limit. Their calls included fresh client startup and network time on each decision. With only two seeds and an eight-decision horizon, that exhibition is an integration demonstration rather than a reliable model comparison.",
+        "All current results are provisional and locally measured. The official leaderboard remains empty until independently administered, isolated evaluation and signed evidence are available. Recorded frames, action traces and replay checks make the current work inspectable without pretending that a local run is independently certified."
+      ]
+    },
+    {
+      "title": "See the games before reading the scores",
+      "paragraphs": [
+        "The environment catalog now has an image and a short description for every card. Selected environments also have short clips that play on demand. The runnable games use recorded benchmark frames; candidate environments use credited project or publisher previews.",
+        "The catalog reaches beyond the initial suite, from procedural 2D games and open-source worlds to Minecraft, StarCraft II, Factorio and other commercial titles. These are integration candidates, not a claim of existing support. Each card keeps that distinction visible and links to its source."
+      ]
+    },
+    {
+      "title": "Bring an agent, keep the evidence",
+      "paragraphs": [
+        "The participant interface is deliberately small: read an image and allowed actions, then return the observation's challenge and an action. Reference policies and a runnable example are included, so a first local evaluation does not require a model API account.",
+        "The next work is about stronger experiments: longer tasks, more seeds, modern 3D adapters, continuous capture and an independently isolated competition service. The public repository contains the code, methodology and roadmap; the leaderboard on this site is the place to explore the measured snapshot and the growing catalog."
+      ]
+    }
+  ],
+  "takeaway": "A game score is more useful when you can see the task, inspect the decisions and understand exactly what was measured."
+},
   {
     slug: "world-dashboard", destination: { kind: "dashboard", url: PUBLIC_DASHBOARD_URLS.world }, title: "World Dashboard", category: "Public dashboards",
     subtitle: "The same world. Different local stories.",
