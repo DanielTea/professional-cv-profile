@@ -52,7 +52,7 @@ export const curiosityProjects: CuriosityProject[] = [
     {
       "src": "/generalgamebench/media/environment-atlas.png",
       "alt": "Collage of all 45 GeneralGameBench environment cards, including runnable games and research candidates",
-      "caption": "The complete environment catalog. 26 cards now contain validated tasks covering 33 runnable scenarios; 19 cards remain unadmitted. These game previews are not evidence that every environment has been integrated.",
+      "caption": "The complete environment catalog. 36 cards now contain validated tasks covering 43 runnable scenarios; nine cards remain unadmitted. These game previews are not evidence that every environment has been integrated.",
       "source": "https://github.com/DanielTea/generalgamebench/blob/main/docs/MEDIA.md",
       "kind": "Screenshot"
     },
@@ -92,7 +92,8 @@ export const curiosityProjects: CuriosityProject[] = [
       "paragraphs": [
         "The expanded implementation adds 23 research tasks: all sixteen Procgen games, Crafter, MiniWorld, Pistonball, Breakout, Airstriker, NetHack and MiniHack. That brings the tested suite to 33 scenarios across 26 catalog cards. Each new task must repeat the same rendered frames and score under the same seed and actions before it is admitted.",
         "The expanded snapshot records 1,089 episodes and 14,394 decisions. Seventeen configured models played: seven OpenAI, three Anthropic and seven local vision models, alongside four built-in reference policies. The shared task set, prompt, seed and eight-decision horizon make the setup inspectable. Invalid actions remain visible as errors and zero-score episodes. This short demonstration cannot establish a robust intelligence ranking, and hosted versus persistent local transports carry different latency overheads.",
-        "Nineteen catalog cards still await admission. SuperTuxKart launches, but its screenshot replay is not yet stable; commercial titles also need their own installations and game-specific referees. A catalog entry is not a claim that a game is implemented."
+        "Version 0.3 adds ten validated tasks: Unity VisualFoodCollector, Google Research Football Academy, SuperTuxKart Lighthouse, Luanti ChopTree, SuperTux, Dungeon Crawl Stone Soup, OpenTTD, Mindustry, Cataclysm: DDA and Warzone 2100. Their controls, native scores and exact camera replays were tested on this Mac. Nine run in local Linux ARM64 containers; Unity uses the pinned Mac example. Published engine patches synchronize native ticks, input and rendering. The catalog now has 43 runnable scenarios across 36 validated cards. The published model standings retain the same 33-scenario comparison; new tasks have separate control-policy evidence until a complete model rerun is available.",
+        "Nine catalog cards remain unfinished. Native 0 A.D., StarCraft II and Veloren prototypes run here but still fail exact visual replay or task admission. Six other game families need usable local installations as well as adapter work. The StarCraft II beacon route repeats its native score, but animation pixels differ; that is why it is not counted as a verified task. A preview image is not evidence that an integration is complete."
       ]
     },
     {
