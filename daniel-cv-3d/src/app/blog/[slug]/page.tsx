@@ -34,7 +34,7 @@ export default async function ProjectArticle({ params }: Props) {
     <article>
       <div className={styles.articleHead}>
         <div><span className={styles.eyebrow}>EXP_{String(index + 1).padStart(2, "0")} / {project.category}</span><h1 className={styles.articleTitle}>{project.title}</h1><p className={styles.subtitle}>{project.subtitle}</p><p className={styles.articleSummary}>{project.summary}</p></div>
-        <aside className={styles.facts} aria-label="Project details"><dl><dt>Field notes by</dt><dd>Daniel Tremer · {readingMinutes(project)} min read</dd><dt>{isDashboard ? "Explore" : "Built with"}</dt><dd><ul className={styles.tags}>{project.stack.map(tech => <li key={tech}>{tech}</li>)}</ul></dd></dl><a className={styles.button} href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{isDashboard ? "Open dashboard" : "View on GitHub"} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></aside>
+        <aside className={styles.facts} aria-label="Project details"><dl><dt>Field notes by</dt><dd>Daniel Tremer · {readingMinutes(project)} min read</dd><dt>{isDashboard ? "Explore" : "Built with"}</dt><dd><ul className={styles.tags}>{project.stack.map(tech => <li key={tech}>{tech}</li>)}</ul></dd></dl><a className={styles.button} href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{isDashboard ? (project.destination.kind === "dashboard" && project.destination.label) || "Open dashboard" : "View on GitHub"} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></aside>
       </div>
       <ProjectImage image={project.images[0]} priority />
       <div className={styles.articleBody}>
