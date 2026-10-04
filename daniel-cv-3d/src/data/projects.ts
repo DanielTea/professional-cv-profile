@@ -52,7 +52,7 @@ export const curiosityProjects: CuriosityProject[] = [
     {
       "src": "/generalgamebench/media/environment-atlas.png",
       "alt": "Collage of all 45 GeneralGameBench environment cards, including runnable games and research candidates",
-      "caption": "The complete environment catalog. The first three cards represent ten runnable scenarios; the other 42 are research candidates. These game previews are not evidence that every environment has been integrated.",
+      "caption": "The complete environment catalog. 26 cards now contain validated tasks covering 33 runnable scenarios; 19 cards remain unadmitted. These game previews are not evidence that every environment has been integrated.",
       "source": "https://github.com/DanielTea/generalgamebench/blob/main/docs/MEDIA.md",
       "kind": "Screenshot"
     },
@@ -76,21 +76,36 @@ export const curiosityProjects: CuriosityProject[] = [
       "title": "A clock that counts the whole response",
       "paragraphs": [
         "GeneralGameBench gives an agent rendered pixels and a set of allowed controls. A fresh challenge ties each reply to its observation, while the referee owns the game score and the timing. Agents cannot simply report their own reward or their own reaction time.",
-        "The fast track requires every measured decision to finish in strictly less than 100 milliseconds, including rendering, encoding, transport, inference and validation. Slower agents can still take part in an exhibition track. The current runner advances games in lockstep, so these measurements are not yet a demonstration of continuous real-time play in commercial games."
+        "The fast track requires every measured decision to finish in strictly less than 100 milliseconds, including snapshot retrieval, encoding, transport, inference and validation. Engine advancement and eager rendering between decisions are outside the response clock. Slower agents can still take part in an exhibition track. The current runner advances games in lockstep, so these measurements are not yet a demonstration of continuous real-time play in commercial games."
       ]
     },
     {
       "title": "What the first season actually shows",
       "paragraphs": [
-        "The first published snapshot contains 436 episodes and 26,712 decisions: 400 runs from four local baseline policies, plus 36 short exhibition episodes. Two original 2D games and eight ViZDoom scenarios run today. Those eight scenarios belong to one Doom game family.",
-        "Pixel Tracker leads the local baseline suite. Actual GPT-6 Astra and Claude Opus 5 calls also played the exhibition tasks, but both exceeded the 100-millisecond limit. Their calls included fresh client startup and network time on each decision. With only two seeds and an eight-decision horizon, that exhibition is an integration demonstration rather than a reliable model comparison.",
+        "The first published snapshot contains 436 episodes and 26,712 decisions: 400 runs from four local baseline policies, plus 36 short exhibition episodes. That initial suite used two original 2D games and eight ViZDoom scenarios. Those eight scenarios belong to one Doom game family.",
+        "In that first snapshot, Pixel Tracker led the local baseline suite. Actual GPT-6 Astra and Claude Opus 5 calls also played the exhibition tasks, but both exceeded the 100-millisecond limit. Their calls included fresh client startup and network time on each decision. With only two seeds and an eight-decision horizon, that exhibition is an integration demonstration rather than a reliable model comparison.",
         "All current results are provisional and locally measured. The official leaderboard remains empty until independently administered, isolated evaluation and signed evidence are available. Recorded frames, action traces and replay checks make the current work inspectable without pretending that a local run is independently certified."
+      ]
+    },
+    {
+      "title": "Expanding the suite on one Mac",
+      "paragraphs": [
+        "The expanded implementation adds 23 research tasks: all sixteen Procgen games, Crafter, MiniWorld, Pistonball, Breakout, Airstriker, NetHack and MiniHack. That brings the tested suite to 33 scenarios across 26 catalog cards. Each new task must repeat the same rendered frames and score under the same seed and actions before it is admitted.",
+        "The expanded snapshot records 1,089 episodes and 14,394 decisions. Seventeen configured models played: seven OpenAI, three Anthropic and seven local vision models, alongside four built-in reference policies. The shared task set, prompt, seed and eight-decision horizon make the setup inspectable. Invalid actions remain visible as errors and zero-score episodes. This short demonstration cannot establish a robust intelligence ranking, and hosted versus persistent local transports carry different latency overheads.",
+        "Nineteen catalog cards still await admission. SuperTuxKart launches, but its screenshot replay is not yet stable; commercial titles also need their own installations and game-specific referees. A catalog entry is not a claim that a game is implemented."
+      ]
+    },
+    {
+      "title": "Built to travel to Hugging Face",
+      "paragraphs": [
+        "The public leaderboard uses a portable static snapshot. A local export prepares a Hugging Face Space and a separate Dataset with exact seeds, task and model revisions, scores, latency and trust labels. This keeps a future Hugging Face version comparable with the website.",
+        "Evaluation runs stay on separate workers. The Space will display versioned results rather than hold game installations, execute submitted code or store model-provider credentials. Hugging Face publication is planned; the export is prepared without creating a Space or uploading results yet."
       ]
     },
     {
       "title": "See the games before reading the scores",
       "paragraphs": [
-        "The environment catalog now has an image and a short description for every card. Selected environments also have short clips that play on demand. The runnable games use recorded benchmark frames; candidate environments use credited project or publisher previews.",
+        "The environment catalog now has an image and a short description for every card. Selected environments also have short clips that play on demand. Cards identify recorded benchmark frames and credited project or publisher previews separately; a preview is not itself evaluation evidence.",
         "The catalog reaches beyond the initial suite, from procedural 2D games and open-source worlds to Minecraft, StarCraft II, Factorio and other commercial titles. These are integration candidates, not a claim of existing support. Each card keeps that distinction visible and links to its source."
       ]
     },
