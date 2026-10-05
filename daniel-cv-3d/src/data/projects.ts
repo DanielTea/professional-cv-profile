@@ -100,7 +100,7 @@ export const curiosityProjects: CuriosityProject[] = [
       "title": "Rerunning the local references headlessly",
       "paragraphs": [
         "The 5 October baseline refresh runs Idle, Random, Pixel React and Pixel Tracker across all 43 admitted scenarios. Three fixed seeds and a 24-decision horizon give 516 episodes. All game rendering stays off screen, and scored episodes run one at a time before the replay audit begins. No OpenAI or Anthropic calls are needed for these coded reference policies.",
-        "Every episode is checked against its original screenshots, accepted actions and score before publication. Timeouts remain as failed, zero-score episodes. The previous 33-scenario baselines stay in a separate archive, and the model exhibition scores remain unchanged. These are provisional measurements on a shared Mac; passing the timing gate would not make them independently certified."
+        "All 516 episodes passed checks against their recorded screenshots, accepted actions and scores. The 21 timeouts remain as zero-score episodes. The result archive and website data download contain the fresh baselines. The public page keeps Model exhibition and Official ranked, as requested later. These measurements come from a shared Mac without independent certification."
       ]
     },
     {
@@ -115,7 +115,7 @@ export const curiosityProjects: CuriosityProject[] = [
       "title": "Published on Hugging Face",
       "paragraphs": [
         "The public leaderboard also has a Hugging Face Space and a separate results Dataset. Each publication retains exact seeds, task and model revisions, scores, latency and trust labels. The Space links to the matching Dataset revision.",
-        "Separate computers run the games. The Space displays versioned results. It does not execute submitted code or store model-provider credentials. Current and archived baseline results stay separate from the model exhibitions."
+        "Separate computers run the games. The Space displays the current model results and an empty official track. It does not execute submitted code or store model-provider credentials. Baseline results and earlier tests remain in the GitHub archive."
       ]
     },
     {
