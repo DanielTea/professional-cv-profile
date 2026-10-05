@@ -97,6 +97,13 @@ export const curiosityProjects: CuriosityProject[] = [
       ]
     },
     {
+      "title": "Rerunning the local references headlessly",
+      "paragraphs": [
+        "The 5 October baseline refresh runs Idle, Random, Pixel React and Pixel Tracker across all 43 admitted scenarios. Three fixed seeds and a 24-decision horizon give 516 episodes. All game rendering stays off screen, and scored episodes run one at a time before the replay audit begins. No OpenAI or Anthropic calls are needed for these coded reference policies.",
+        "Every episode is checked against its original screenshots, accepted actions and score before publication. Timeouts remain as failed, zero-score episodes. The previous 33-scenario baselines stay in a separate archive, and the model exhibition scores remain unchanged. These are provisional measurements on a shared Mac; passing the timing gate would not make them independently certified."
+      ]
+    },
+    {
       "title": "What the leaderboard score means",
       "paragraphs": [
         "Each task maps its native reward into a fixed range from zero to one. We average the declared seeds within each scenario, average all scenarios equally, then multiply by 100. Scenario scores of 80, 40 and 0 therefore give a suite score of 40/100. Aborted episodes count as zero; incomplete suites receive no aggregate score.",
