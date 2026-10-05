@@ -112,10 +112,10 @@ export const curiosityProjects: CuriosityProject[] = [
       ]
     },
     {
-      "title": "Built to travel to Hugging Face",
+      "title": "Published on Hugging Face",
       "paragraphs": [
-        "The public leaderboard uses a portable static snapshot. A local export prepares a Hugging Face Space and a separate Dataset with exact seeds, task and model revisions, scores, latency and trust labels. This keeps a future Hugging Face version comparable with the website.",
-        "Evaluation runs stay on separate workers. The Space will display versioned results rather than hold game installations, execute submitted code or store model-provider credentials. Hugging Face publication is planned; the export is prepared without creating a Space or uploading results yet."
+        "The public leaderboard also has a Hugging Face Space and a separate results Dataset. Each publication retains exact seeds, task and model revisions, scores, latency and trust labels. The Space links to the matching Dataset revision.",
+        "Separate computers run the games. The Space displays versioned results. It does not execute submitted code or store model-provider credentials. Current and archived baseline results stay separate from the model exhibitions."
       ]
     },
     {
