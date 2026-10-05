@@ -76,14 +76,14 @@ export const curiosityProjects: CuriosityProject[] = [
       "title": "A clock that counts the whole response",
       "paragraphs": [
         "GeneralGameBench gives an agent rendered pixels and a set of allowed controls. A fresh challenge ties each reply to its observation, while the referee owns the game score and the timing. Agents cannot simply report their own reward or their own reaction time.",
-        "The fast track requires every measured decision to finish in strictly less than 100 milliseconds, including snapshot retrieval, encoding, transport, inference and validation. Engine advancement and eager rendering between decisions are outside the response clock. Slower agents can still take part in an exhibition track. The current runner advances games in lockstep, so these measurements are not yet a demonstration of continuous real-time play in commercial games."
+        "The leaderboard limit is suite p95 below 200 milliseconds. Exactly 200 milliseconds fails. We pool all recorded response times and use linear interpolation to calculate p95. The timer includes image retrieval, encoding, transport, inference and validation. Game updates between decisions stay outside the timer. Slower agents can appear in the model exhibition. The game waits between actions. These tests do not establish continuous real-time control."
       ]
     },
     {
       "title": "What the first season actually shows",
       "paragraphs": [
         "The first published snapshot contains 436 episodes and 26,712 decisions: 400 runs from four local baseline policies, plus 36 short exhibition episodes. That initial suite used two original 2D games and eight ViZDoom scenarios. Those eight scenarios belong to one Doom game family.",
-        "In that first snapshot, Pixel Tracker led the local baseline suite. Actual GPT-6 Astra and Claude Opus 5 calls also played the exhibition tasks, but both exceeded the 100-millisecond limit. Their calls included fresh client startup and network time on each decision. With only two seeds and an eight-decision horizon, that exhibition is an integration demonstration rather than a reliable model comparison.",
+        "In that first snapshot, Pixel Tracker led the local baseline suite. Actual GPT-6 Astra and Claude Opus 5 calls also played the exhibition tasks, but both exceeded the original 100-millisecond limit. That historical rule required every response to pass. Their calls included fresh client startup and network time on each decision. With only two seeds and an eight-decision horizon, that exhibition is an integration demonstration rather than a reliable model comparison.",
         "All current results are provisional and locally measured. The official leaderboard remains empty until independently administered, isolated evaluation and signed evidence are available. Recorded frames, action traces and replay checks make the current work inspectable without pretending that a local run is independently certified."
       ]
     },
@@ -100,14 +100,14 @@ export const curiosityProjects: CuriosityProject[] = [
       "title": "Rerunning the local references headlessly",
       "paragraphs": [
         "The 5 October baseline refresh runs Idle, Random, Pixel React and Pixel Tracker across all 43 admitted scenarios. Three fixed seeds and a 24-decision horizon give 516 episodes. All game rendering stays off screen, and scored episodes run one at a time before the replay audit begins. No OpenAI or Anthropic calls are needed for these coded reference policies.",
-        "All 516 episodes passed checks against their recorded screenshots, accepted actions and scores. The 21 timeouts remain as zero-score episodes. The result archive and website data download contain the fresh baselines. The public page keeps Model exhibition and Official ranked, as requested later. These measurements come from a shared Mac without independent certification."
+        "All 516 episodes passed checks against their recorded screenshots, accepted actions and scores. The 21 timeouts remain as zero-score episodes. The result archive and website data download contain the fresh baselines. The public page keeps Model exhibition and Official ranked, as requested later. These measurements come from a shared Mac without independent certification. All four baseline policies pass the new suite p95 limit below 200 milliseconds. Their scores and original recordings stay unchanged."
       ]
     },
     {
       "title": "What the leaderboard score means",
       "paragraphs": [
         "Each task maps its native reward into a fixed range from zero to one. We average the declared seeds within each scenario, average all scenarios equally, then multiply by 100. Scenario scores of 80, 40 and 0 therefore give a suite score of 40/100. Aborted episodes count as zero; incomplete suites receive no aggregate score.",
-        "The anchors are task-specific, not human performance or an IQ scale. A game family with several scenarios contributes more weight than a family with one. Speed is a separate gate: every recorded response must be below 100 milliseconds with no errors. A slow model can still earn an exhibition score.",
+        "The anchors are task-specific, not human performance or an IQ scale. A game family with several scenarios contributes more weight than a family with one. The latency limit is separate from the score. The complete suite p95 must be below 200 milliseconds. Slow responses, errors and aborted episodes stay in the evidence. A latency pass does not grant an official rank.",
         "The hosted-model refresh keeps the short one-seed, eight-decision settings and adds the new environments. This is a reproducible integration demonstration. Many tasks barely start in that time, so it does not establish which model is generally more intelligent. Longer runs and more held-out seeds are needed for a stronger comparison."
       ]
     },

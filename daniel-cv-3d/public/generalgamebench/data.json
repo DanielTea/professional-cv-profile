@@ -709,8 +709,8 @@
       "p50_ms": 1.727125,
       "p95_ms": 39.9264211,
       "max_ms": 182.96675,
-      "misses": 7,
-      "latency_eligible": false,
+      "misses": 0,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -761,7 +761,15 @@
       "errors": 7,
       "aborted_episodes": 7,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "react",
@@ -1469,8 +1477,8 @@
       "p50_ms": 1.488333,
       "p95_ms": 40.12306679999995,
       "max_ms": 169.88725,
-      "misses": 6,
-      "latency_eligible": false,
+      "misses": 0,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -1521,7 +1529,15 @@
       "errors": 6,
       "aborted_episodes": 6,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "random",
@@ -2229,8 +2245,8 @@
       "p50_ms": 1.308167,
       "p95_ms": 37.57304999999999,
       "max_ms": 137.253041,
-      "misses": 4,
-      "latency_eligible": false,
+      "misses": 0,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -2281,7 +2297,15 @@
       "errors": 4,
       "aborted_episodes": 4,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "idle",
@@ -2989,8 +3013,8 @@
       "p50_ms": 1.3995,
       "p95_ms": 39.65054639999999,
       "max_ms": 243.13825,
-      "misses": 4,
-      "latency_eligible": false,
+      "misses": 1,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -3041,7 +3065,15 @@
       "errors": 4,
       "aborted_episodes": 4,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     }
   ],
   "exhibition": [
@@ -3808,6 +3840,14 @@
         "resolved_models": [
           "claude-opus-5[1m]"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -4570,6 +4610,14 @@
         "observation": "png-only",
         "calls": 8,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -5335,6 +5383,14 @@
         "resolved_models": [
           "claude-sonnet-5"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -6097,6 +6153,14 @@
         "observation": "png-only",
         "calls": 340,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -6859,6 +6923,14 @@
         "observation": "png-only",
         "calls": 26,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -7621,6 +7693,14 @@
         "observation": "png-only",
         "calls": 192,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -8324,8 +8404,8 @@
       "p50_ms": 2.457146,
       "p95_ms": 89.679817,
       "max_ms": 640.985334,
-      "misses": 17,
-      "latency_eligible": false,
+      "misses": 6,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -8376,7 +8456,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "react",
@@ -9079,8 +9167,8 @@
       "p50_ms": 3.4419585,
       "p95_ms": 99.77728124999996,
       "max_ms": 258.693,
-      "misses": 18,
-      "latency_eligible": false,
+      "misses": 3,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -9131,7 +9219,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "openai-gpt-6-luna",
@@ -9893,6 +9989,14 @@
         "observation": "png-only",
         "calls": 336,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -10596,8 +10700,8 @@
       "p50_ms": 1.652667,
       "p95_ms": 111.96403304999995,
       "max_ms": 558.457084,
-      "misses": 25,
-      "latency_eligible": false,
+      "misses": 10,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -10648,7 +10752,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "claude-claude-haiku-4-5-20251001",
@@ -11413,6 +11525,14 @@
         "resolved_models": [
           "claude-haiku-4-5-20251001"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -12116,8 +12236,8 @@
       "p50_ms": 1.459875,
       "p95_ms": 74.34278925,
       "max_ms": 205.0425,
-      "misses": 11,
-      "latency_eligible": false,
+      "misses": 1,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -12168,7 +12288,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "claude-claude-sonnet-5-5",
@@ -12933,6 +13061,14 @@
         "resolved_models": [
           "claude-sonnet-5-5"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -13695,6 +13831,14 @@
         "observation": "png-only",
         "calls": 224,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -14457,6 +14601,14 @@
         "observation": "png-only",
         "calls": 16,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     }
   ],
@@ -16045,6 +16197,14 @@
         "observation": "png-only",
         "calls": 262,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -16505,6 +16665,14 @@
         "observation": "png-only",
         "calls": 260,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -16968,6 +17136,14 @@
         "resolved_models": [
           "claude-opus-5[1m]"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -17431,6 +17607,14 @@
         "resolved_models": [
           "claude-sonnet-5"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -17891,6 +18075,14 @@
         "observation": "png-only",
         "calls": 260,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -18351,6 +18543,14 @@
         "observation": "png-only",
         "calls": 259,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -18811,6 +19011,14 @@
         "observation": "png-only",
         "calls": 259,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -19271,6 +19479,14 @@
         "observation": "png-only",
         "calls": 264,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -19682,8 +19898,8 @@
       "p50_ms": 2.404479,
       "p95_ms": 16.94086609999999,
       "max_ms": 140.890459,
-      "misses": 1,
-      "latency_eligible": false,
+      "misses": 0,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -19724,7 +19940,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "react",
@@ -20177,7 +20401,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "openai-gpt-6-luna",
@@ -20637,6 +20869,14 @@
         "observation": "png-only",
         "calls": 264,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -21100,6 +21340,14 @@
         "resolved_models": [
           "claude-haiku-4-5-20251001"
         ]
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -21562,6 +21810,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -21973,7 +22229,7 @@
       "p50_ms": 228.117479,
       "p95_ms": 490.50756605,
       "max_ms": 1309.617125,
-      "misses": 264,
+      "misses": 153,
       "latency_eligible": false,
       "trust": "local-unattested",
       "official_rank": null,
@@ -22024,6 +22280,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -22486,6 +22750,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -22948,6 +23220,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -23359,8 +23639,8 @@
       "p50_ms": 1.794146,
       "p95_ms": 13.746260799999996,
       "max_ms": 119.691417,
-      "misses": 1,
-      "latency_eligible": false,
+      "misses": 0,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -23401,7 +23681,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "idle",
@@ -23854,7 +24142,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "mlx-mlx-community-UI-Venus-1-5-2B-6bit",
@@ -24316,6 +24612,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -24778,6 +25082,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     },
     {
@@ -25240,6 +25552,14 @@
         "thinking": false,
         "tool_events": 0,
         "prompt_version": "pixels-json-action/2"
+      },
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
       }
     }
   ],
@@ -25719,7 +26039,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "tracker",
@@ -26136,7 +26464,7 @@
       "p95_ms": 9.115541499999999,
       "max_ms": 295.351417,
       "misses": 1,
-      "latency_eligible": false,
+      "latency_eligible": true,
       "trust": "local-unattested",
       "official_rank": null,
       "per_game": {
@@ -26177,7 +26505,15 @@
       "errors": 1,
       "aborted_episodes": 1,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "random",
@@ -26635,7 +26971,15 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     },
     {
       "agent": "idle",
@@ -27093,8 +27437,24 @@
       "errors": 0,
       "aborted_episodes": 0,
       "model": null,
-      "provider_metadata": {}
+      "provider_metadata": {},
+      "latency_policy": {
+        "id": "suite-p95-200-v1",
+        "metric": "suite_p95_ms",
+        "limit_ms": 200.0,
+        "comparison": "strictly_less_than",
+        "quantile_method": "linear",
+        "sample_scope": "all_recorded_decisions_in_complete_suite"
+      }
     }
   ],
-  "baseline_campaign": "results/baselines-2026-10-05/campaign.json"
+  "baseline_campaign": "results/baselines-2026-10-05/campaign.json",
+  "latency_policy": {
+    "id": "suite-p95-200-v1",
+    "metric": "suite_p95_ms",
+    "limit_ms": 200.0,
+    "comparison": "strictly_less_than",
+    "quantile_method": "linear",
+    "sample_scope": "all_recorded_decisions_in_complete_suite"
+  }
 }
