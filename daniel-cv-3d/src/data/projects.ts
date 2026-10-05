@@ -97,6 +97,13 @@ export const curiosityProjects: CuriosityProject[] = [
       ]
     },
     {
+      "title": "Rerunning the local references headlessly",
+      "paragraphs": [
+        "The 5 October baseline refresh runs Idle, Random, Pixel React and Pixel Tracker across all 43 admitted scenarios. Three fixed seeds and a 24-decision horizon give 516 episodes. All game rendering stays off screen, and scored episodes run one at a time before the replay audit begins. No OpenAI or Anthropic calls are needed for these coded reference policies.",
+        "All 516 episodes passed checks against their recorded screenshots, accepted actions and scores. The 21 timeouts remain as zero-score episodes. The result archive and website data download contain the fresh baselines. The public page keeps Model exhibition and Official ranked, as requested later. These measurements come from a shared Mac without independent certification."
+      ]
+    },
+    {
       "title": "What the leaderboard score means",
       "paragraphs": [
         "Each task maps its native reward into a fixed range from zero to one. We average the declared seeds within each scenario, average all scenarios equally, then multiply by 100. Scenario scores of 80, 40 and 0 therefore give a suite score of 40/100. Aborted episodes count as zero; incomplete suites receive no aggregate score.",
@@ -105,10 +112,10 @@ export const curiosityProjects: CuriosityProject[] = [
       ]
     },
     {
-      "title": "Built to travel to Hugging Face",
+      "title": "Published on Hugging Face",
       "paragraphs": [
-        "The public leaderboard uses a portable static snapshot. A local export prepares a Hugging Face Space and a separate Dataset with exact seeds, task and model revisions, scores, latency and trust labels. This keeps a future Hugging Face version comparable with the website.",
-        "Evaluation runs stay on separate workers. The Space will display versioned results rather than hold game installations, execute submitted code or store model-provider credentials. Hugging Face publication is planned; the export is prepared without creating a Space or uploading results yet."
+        "The public leaderboard also has a Hugging Face Space and a separate results Dataset. Each publication retains exact seeds, task and model revisions, scores, latency and trust labels. The Space links to the matching Dataset revision.",
+        "Separate computers run the games. The Space displays the current model results and an empty official track. It does not execute submitted code or store model-provider credentials. Baseline results and earlier tests remain in the GitHub archive."
       ]
     },
     {

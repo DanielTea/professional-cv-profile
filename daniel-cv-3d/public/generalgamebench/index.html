@@ -15,7 +15,7 @@
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23141518'/%3E%3Cpath d='M6 24L16 6l10 18h-6l-4-8-4 8z' fill='%23ff5a1f'/%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="style.css?v=refresh-2026-10-05" />
-    <script src="app.js?v=refresh-2026-10-05" defer></script>
+    <script src="app.js?v=baselines-current-2026-10-05" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#leaderboard">Skip to leaderboard</a>
@@ -69,12 +69,8 @@
           <a class="small-link" href="data.json" download>Download results</a>
         </div>
         <div class="tabs" role="group" aria-label="Leaderboard track">
-          <button data-track="local" aria-pressed="false">
-            Local baselines</button
-          ><button data-track="exhibition" class="active" aria-pressed="true">
+          <button data-track="exhibition" class="active" aria-pressed="true">
             Model exhibition</button
-          ><button data-track="exhibition_previous" aria-pressed="false">
-            Previous exhibition</button
           ><button data-track="official" aria-pressed="false">
             Official ranked
           </button>
@@ -107,6 +103,7 @@
           </table>
         </div>
         <p id="suite" class="footnote"></p>
+        <!-- HUB_PUBLICATION -->
         <details class="availability">
           <summary>How is the score calculated?</summary>
           <p>Each scenario converts its native reward to a score between 0 and 1 using fixed task rules.
@@ -124,8 +121,10 @@
         <p class="footnote">
           <a
             href="https://github.com/DanielTea/generalgamebench/releases/tag/refresh-2026-10-05"
-            >Download full replay evidence</a
+            >Model replay evidence</a
           >
+          ·
+          <a href="https://github.com/DanielTea/generalgamebench/releases/tag/baselines-2026-10-05">Baseline replay evidence</a>
           ·
           <a
             href="https://github.com/DanielTea/generalgamebench/blob/main/results/PROVENANCE.md"
@@ -171,7 +170,7 @@
           Three experimental cards show unranked native diagnostic captures; other candidates use credited project previews.
           These previews are not benchmark results. Clips play only when selected.
           Ten new tasks now cover Unity, Football, SuperTuxKart, Luanti, SuperTux, Dungeon Crawl Stone Soup, OpenTTD, Mindustry, Cataclysm: DDA and Warzone 2100;
-          the current model exhibition evaluates all 43 scenarios, while the previous 33-scenario cohort remains separate.
+          the current model exhibition evaluates all 43 scenarios.
           Their separate validation includes 21 control runs and 4,303 decisions, all replay-verified.
           <a href="https://github.com/DanielTea/generalgamebench/releases/tag/v0.3.0">Download the new integration evidence.</a>
         </p>
@@ -249,7 +248,8 @@ cd generalgamebench
       <a href="https://danieltremer.com/blog/generalgamebench/"
         >The project story</a
       >
-      <a href="https://github.com/DanielTea/generalgamebench/blob/main/docs/HUGGING_FACE.md">Hugging Face export plan</a>
+      <a href="https://huggingface.co/spaces/danieltee/generalgamebench">Hugging Face leaderboard</a>
+      <a href="https://huggingface.co/datasets/danieltee/generalgamebench-results">Results Dataset</a>
     </footer>
   </body>
 </html>
