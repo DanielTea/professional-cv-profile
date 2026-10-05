@@ -92,8 +92,16 @@ export const curiosityProjects: CuriosityProject[] = [
       "paragraphs": [
         "The expanded implementation adds 23 research tasks: all sixteen Procgen games, Crafter, MiniWorld, Pistonball, Breakout, Airstriker, NetHack and MiniHack. That brings the tested suite to 33 scenarios across 26 catalog cards. Each new task must repeat the same rendered frames and score under the same seed and actions before it is admitted.",
         "The expanded snapshot records 1,089 episodes and 14,394 decisions. Seventeen configured models played: seven OpenAI, three Anthropic and seven local vision models, alongside four built-in reference policies. The shared task set, prompt, seed and eight-decision horizon make the setup inspectable. Invalid actions remain visible as errors and zero-score episodes. This short demonstration cannot establish a robust intelligence ranking, and hosted versus persistent local transports carry different latency overheads.",
-        "Version 0.3 adds ten validated tasks: Unity VisualFoodCollector, Google Research Football Academy, SuperTuxKart Lighthouse, Luanti ChopTree, SuperTux, Dungeon Crawl Stone Soup, OpenTTD, Mindustry, Cataclysm: DDA and Warzone 2100. Their controls, native scores and exact camera replays were tested on this Mac. Nine run in local Linux ARM64 containers; Unity uses the pinned Mac example. Published engine patches synchronize native ticks, input and rendering. The catalog now has 43 runnable scenarios across 36 validated cards. The published model standings retain the same 33-scenario comparison; new tasks have separate control-policy evidence until a complete model rerun is available.",
+        "Version 0.3 adds ten validated tasks: Unity VisualFoodCollector, Google Research Football Academy, SuperTuxKart Lighthouse, Luanti ChopTree, SuperTux, Dungeon Crawl Stone Soup, OpenTTD, Mindustry, Cataclysm: DDA and Warzone 2100. Their controls, native scores and exact camera replays were tested on this Mac. Nine run in local Linux ARM64 containers; Unity uses the pinned Mac example. Published engine patches synchronize native ticks, input and rendering. The catalog now has 43 runnable scenarios across 36 validated cards. The 5 October model refresh evaluates all 43 scenarios in a separate cohort. The previous 33-scenario results remain available, including the local vision models, and are not mixed into the new aggregate.",
         "Nine catalog cards remain unfinished. Native 0 A.D., StarCraft II and Veloren prototypes run here but still fail exact visual replay or task admission. Six other game families need usable local installations as well as adapter work. The StarCraft II beacon route repeats its native score, but animation pixels differ; that is why it is not counted as a verified task. A preview image is not evidence that an integration is complete."
+      ]
+    },
+    {
+      "title": "What the leaderboard score means",
+      "paragraphs": [
+        "Each task maps its native reward into a fixed range from zero to one. We average the declared seeds within each scenario, average all scenarios equally, then multiply by 100. Scenario scores of 80, 40 and 0 therefore give a suite score of 40/100. Aborted episodes count as zero; incomplete suites receive no aggregate score.",
+        "The anchors are task-specific, not human performance or an IQ scale. A game family with several scenarios contributes more weight than a family with one. Speed is a separate gate: every recorded response must be below 100 milliseconds with no errors. A slow model can still earn an exhibition score.",
+        "The hosted-model refresh keeps the short one-seed, eight-decision settings and adds the new environments. This is a reproducible integration demonstration. Many tasks barely start in that time, so it does not establish which model is generally more intelligent. Longer runs and more held-out seeds are needed for a stronger comparison."
       ]
     },
     {
@@ -113,7 +121,7 @@ export const curiosityProjects: CuriosityProject[] = [
     {
       "title": "Bring an agent, keep the evidence",
       "paragraphs": [
-        "The participant interface is deliberately small: read an image and allowed actions, then return the observation's challenge and an action. Reference policies and a runnable example are included, so a first local evaluation does not require a model API account.",
+        "The participant interface is deliberately small: read an image and allowed actions, then return the observation's challenge and an action. Reference policies and a runnable example are included, so a first local evaluation does not require a model API account. Supported benchmark runs render games off-screen and save their images and actions for replay without opening game windows on the desktop.",
         "The next work is about stronger experiments: longer tasks, more seeds, modern 3D adapters, continuous capture and an independently isolated competition service. The public repository contains the code, methodology and roadmap; the leaderboard on this site is the place to explore the measured snapshot and the growing catalog."
       ]
     }
