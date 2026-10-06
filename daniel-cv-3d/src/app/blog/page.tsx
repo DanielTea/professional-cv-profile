@@ -5,7 +5,7 @@ import { curiosityProjects } from "@/data/projects";
 import { ProjectCollection } from "@/components/blog/ProjectCollection";
 import styles from "@/components/blog/Blog.module.css";
 
-const description = "Curiosity projects by Daniel Tremer: local AI agents, rocket simulations, language-model experiments, public World, Maritime and US dashboards, Berlin data and developer tools.";
+const description = "Curiosity projects by Daniel Tremer: an AI-agent check of a war reportage with satellite data, local AI agents, rocket simulations, language-model experiments, public World, Maritime and US dashboards, Berlin data and developer tools.";
 export const metadata: Metadata = {
   title: "Curiosity Projects — Daniel Tremer",
   description,

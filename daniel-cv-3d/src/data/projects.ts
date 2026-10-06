@@ -12,7 +12,7 @@ export type CuriosityProject = {
   slug: string;
   // Public dashboards expose only their live URL; private repository details
   // must never be stored here because this data is shipped to the browser.
-  destination: { kind: "repository"; repo: string } | { kind: "dashboard"; url: string; label?: string };
+  destination: { kind: "repository"; repo: string } | { kind: "dashboard"; url: string; label?: string } | { kind: "report"; url: string; label?: string };
   title: string;
   category: "AI & ML" | "Engineering" | "Data & place" | "Developer tools" | "Public dashboards";
   subtitle: string;
@@ -25,11 +25,37 @@ export type CuriosityProject = {
 };
 
 const github = (repo: string) => `https://github.com/DanielTea/${repo}`;
+const HORMUZ_REPORT = "https://danieltremer.com/reports/hormuz-reportage-check.pdf";
 const image = (slug: string, file: string, alt: string, caption: string, source: string, kind: ProjectImage["kind"]): ProjectImage => ({
   src: `/images/projects/${slug}-${file}.webp`, alt, caption, source, kind,
 });
 
 export const curiosityProjects: CuriosityProject[] = [
+  {
+    slug: "hormuz-reportage-check", destination: { kind: "report", url: HORMUZ_REPORT, label: "Read the full report (PDF)" }, title: "Hormuz Reportage Check", category: "AI & ML",
+    subtitle: "Can public data check a war reportage?",
+    summary: "An AI agent compared a DIE ZEIT reportage from the Strait of Hormuz with radar satellites, optical satellite images and ship data. Of 13 statements, 8 are correct, 5 are partly correct and none is false.",
+    question: "Can satellite images and other public data confirm the facts in a reportage from a war zone?",
+    stack: ["Claude Code", "Sentinel-1 radar", "Sentinel-2 images", "IMF PortWatch"],
+    images: [
+      image("hormuz-reportage-check", "radar", "Two Sentinel-1 radar images of the Strait of Hormuz shipping lanes: 27 large ships on 22 February 2026 and 6 on 13 September 2026", "Sentinel-1 radar of the shipping lanes, 22 February and 13 September 2026. Orange circles show large ships: 27 before the war, 6 in September. Contains modified Copernicus Sentinel data (2026).", HORMUZ_REPORT, "Research figure"),
+      image("hormuz-reportage-check", "transits", "Line chart of daily ship transits through the Strait of Hormuz from January 2025 to September 2026, with a sharp decrease on 1 March 2026", "Daily transits of cargo ships and tankers, 7-day average. Source: IMF PortWatch, Daily Chokepoint Transit Calls (AIS).", "https://portwatch.imf.org/", "Research figure"),
+      image("hormuz-reportage-check", "lanes", "Four Sentinel-1 radar images of the strait from February to September 2026 with a bar chart of large ships: 27, 3, 4 and 6", "One radar pass per image. Large ships in the shipping lanes: 27 on 22 February, 3 on 6 March, 4 on 29 June and 6 on 13 September 2026. Contains modified Copernicus Sentinel data (2026).", HORMUZ_REPORT, "Research figure"),
+      image("hormuz-reportage-check", "fujairah", "Two Sentinel-1 radar images of the Fujairah anchorage with 133 large ships on 17 February and 256 on 16 September 2026", "Fujairah anchorage, outside the strait. The number of waiting large ships increased from 133 to 256. Contains modified Copernicus Sentinel data (2026).", HORMUZ_REPORT, "Research figure"),
+      image("hormuz-reportage-check", "ramchah", "Four Sentinel-2 images of the beach near Ramchah on Qeshm Island: empty on 18 March, a bulk carrier aground from 28 March to 24 September 2026", "Sentinel-2 images of the beach near Ramchah, Qeshm Island. The beach is empty on 18 March. From 28 March, a bulk carrier is aground in every clear image. Contains modified Copernicus Sentinel data (2026).", HORMUZ_REPORT, "Research figure"),
+      image("hormuz-reportage-check", "oil", "Three Sentinel-2 images of the channel between Qeshm and Hengam island: clean water on 26 July, an oil slick on 10 August, no slick on 25 August 2026", "Sentinel-2 images near Naghasheh beach, 9 × 9 km. Clean water on 26 July, an oil slick on 10 August and no slick on 25 August. Contains modified Copernicus Sentinel data (2026).", HORMUZ_REPORT, "Research figure"),
+      image("hormuz-reportage-check", "map", "Sentinel-2 satellite map of the Strait of Hormuz with the checked places and the four radar areas", "Sentinel-2 mosaic, August and September 2026. Numbers show the checked places. Blue boxes show the four radar areas. Contains modified Copernicus Sentinel data (2026). Place names: OpenStreetMap.", HORMUZ_REPORT, "Research figure"),
+    ],
+    sections: [
+      { title: "A reportage and one question", paragraphs: ["On 27 September 2026, DIE ZEIT published a reportage by Mahsa Azad, with photos by Hashem Shakeri. It describes the Iranian coast of the Strait of Hormuz during the war. It tells of fishermen who could not work for months, smugglers, a Thai ship on the beach, oil on the sand and parents in Minab who lost their children.", "On the day of publication, I gave the article to an AI agent (Claude Code) with one question: can you prove this with satellite images or other public data? The agent found the data sources, wrote the analysis code, read the news reports and made a 16-page report. This took approximately 80 minutes."] },
+      { title: "The strait is almost empty", paragraphs: ["IMF PortWatch counts cargo ships and tankers from their AIS signals. In 2025, approximately 85 ships went through the strait each day. On 1 March 2026, the number decreased to 20. On 2 March, it was 4. Since 1 August, the average is 4.4 ships per day.", "A ship can stop its AIS transmission. For this reason, the agent also counted ships in 237 Sentinel-1 radar passes. Radar shows a ship with or without an AIS signal. In the shipping lanes, the median number of large ships per pass decreased from 19 before the war to between 2.5 and 4."] },
+      { title: "The ships wait on the two sides", paragraphs: ["At the Fujairah anchorage, outside the strait, the median before the war was 131 large ships. On 16 September 2026, radar showed 256. Off Dubai and Sharjah, inside the Gulf, the number of large ships was two times higher in May and June than before the war.", "In the article, a woman on the Qeshm ferry says: “The whole world is waiting.” The radar images show this queue."] },
+      { title: "The Thai ship and the oil", paragraphs: ["The article describes a Thai ship that went aground near Ramchah on Qeshm Island. On 18 March, the beach is empty. From 28 March to 24 September, Sentinel-2 shows a bulk carrier on this beach in every clear image. News reports identify the ship as the Mayuree Naree.", "The article also describes black oil on Naghasheh beach. On 10 August, Sentinel-2 shows an oil slick 4 to 6 km from this beach. On 26 July and on 25 August, the water is clean."] },
+      { title: "What is not correct", paragraphs: ["Three details are not correct or have no source. The article says that the oil came from a ship of the UAE. News reports connect the oil to the Minoan Pioneer, a ship with a Liberian flag. Official sources do not confirm the origin of the oil.", "The article says that the Revolutionary Guards took control of the Thai ship. No report says this. The article calls the school in Minab a school for girls. Girls and boys died in the strike.", "Two more statements are only partly correct: the “ceasefire of July” and the closed ports and factories. In total, the agent checked 13 statements. 8 are correct, 5 are partly correct and none is false."] },
+      { title: "What satellites cannot show", paragraphs: ["Satellites cannot show the people. They cannot show fear or grief. The conversations in the reportage are outside this check. The parts that I could check hold up. For me, this gives the rest of the story more weight.", "The full report lists all sources and the method. The radar counts are for comparison over time. They are not a complete list of ships."] },
+    ],
+    takeaway: "Public data cannot replace a reporter. But it can show quickly which facts hold up. Here, an AI agent did this check in 80 minutes.",
+  },
 {
   "slug": "generalgamebench",
   "destination": {
@@ -338,9 +364,9 @@ export const curiosityProjects: CuriosityProject[] = [
 ];
 
 export function projectUrl(project: CuriosityProject) {
-  return project.destination.kind === "dashboard"
-    ? project.destination.url
-    : github(project.destination.repo);
+  return project.destination.kind === "repository"
+    ? github(project.destination.repo)
+    : project.destination.url;
 }
 
 export function readingMinutes(project: CuriosityProject) {
