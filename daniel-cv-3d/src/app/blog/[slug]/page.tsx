@@ -26,7 +26,15 @@ export default async function ProjectArticle({ params }: Props) {
   const { slug } = await params;
   const project = curiosityProjects.find(p => p.slug === slug);
   if (!project) notFound();
-  const isDashboard = project.destination.kind === "dashboard";
+  const { destination } = project;
+  const isDashboard = destination.kind === "dashboard";
+  const isReport = destination.kind === "report";
+  const linkLabel = destination.kind === "repository" ? "View on GitHub" : destination.label || (isDashboard ? "Open dashboard" : "Read the report");
+  const [sourceText, sourceLink] = isDashboard
+    ? ["Based on the public dashboard. Screenshots show a captured snapshot; the live view contains the latest published observations. ", "Explore the public dashboard"]
+    : isReport
+      ? ["Based on public satellite data, ship-tracking data and news reports. The full report lists every source and the method. ", "Read the full report"]
+      : ["Based on the project’s public documentation and published outputs. ", "Read the README and explore the code"];
   const index = curiosityProjects.indexOf(project);
   const related = [...curiosityProjects.filter(p => p.slug !== slug && p.category === project.category), ...curiosityProjects.filter(p => p.slug !== slug && p.category !== project.category)].slice(0, 3);
   return <main id="blog-content" className={styles.container}>
@@ -34,7 +42,7 @@ export default async function ProjectArticle({ params }: Props) {
     <article>
       <div className={styles.articleHead}>
         <div><span className={styles.eyebrow}>EXP_{String(index + 1).padStart(2, "0")} / {project.category}</span><h1 className={styles.articleTitle}>{project.title.split(/(?<=[a-z])(?=[A-Z])/).map((part, i) => <span key={i}>{i > 0 && <wbr />}{part}</span>)}</h1><p className={styles.subtitle}>{project.subtitle}</p><p className={styles.articleSummary}>{project.summary}</p></div>
-        <aside className={styles.facts} aria-label="Project details"><dl><dt>Field notes by</dt><dd>Daniel Tremer · {readingMinutes(project)} min read</dd><dt>{isDashboard ? "Explore" : "Built with"}</dt><dd><ul className={styles.tags}>{project.stack.map(tech => <li key={tech}>{tech}</li>)}</ul></dd></dl><a className={styles.button} href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{isDashboard ? (project.destination.kind === "dashboard" && project.destination.label) || "Open dashboard" : "View on GitHub"} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></aside>
+        <aside className={styles.facts} aria-label="Project details"><dl><dt>Field notes by</dt><dd>Daniel Tremer · {readingMinutes(project)} min read</dd><dt>{isDashboard ? "Explore" : isReport ? "Data and tools" : "Built with"}</dt><dd><ul className={styles.tags}>{project.stack.map(tech => <li key={tech}>{tech}</li>)}</ul></dd></dl><a className={styles.button} href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{linkLabel} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></aside>
       </div>
       <ProjectImage image={project.images[0]} priority />
       <div className={styles.articleBody}>
@@ -43,7 +51,7 @@ export default async function ProjectArticle({ params }: Props) {
           <div className={styles.question}><span className={styles.eyebrow}>The question</span><p>{project.question}</p></div>
           {project.sections.map((section, i) => <section id={`part-${i + 1}`} key={section.title}><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</section>)}
           <aside id="takeaway" className={styles.takeaway}><span className={styles.eyebrow}>The takeaway</span><p>{project.takeaway}</p></aside>
-          <div className={styles.sourceNote}>{isDashboard ? "Based on the public dashboard. Screenshots show a captured snapshot; the live view contains the latest published observations. " : "Based on the project’s public documentation and published outputs. "}<a href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{isDashboard ? "Explore the public dashboard" : "Read the README and explore the code"} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></div>
+          <div className={styles.sourceNote}>{sourceText}<a href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{sourceLink} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></div>
         </div>
       </div>
       {project.images.length > 1 && <div className={styles.gallery}>{project.images.slice(1).map(image => <ProjectImage key={image.src} image={image} />)}</div>}

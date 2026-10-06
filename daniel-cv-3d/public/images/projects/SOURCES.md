@@ -36,3 +36,15 @@ Maritime map imagery: EOxCloudless by EOX IT Services GmbH, containing modified
 Copernicus Sentinel data (2016), CC BY 4.0. The dashboard provides NASA GIBS Blue
 Marble as an overview/fallback. Attribution remains visible in the map screenshot
 and is repeated in the article caption.
+
+## Hormuz reportage check
+
+The figures come from the report in `/reports/hormuz-reportage-check.pdf`.
+An AI agent (Claude Code) made them on 2026-09-27 from public data. The orange
+marks are annotations. They are not part of the satellite data.
+
+| Files | Source |
+| --- | --- |
+| `hormuz-reportage-check-{radar,lanes,fujairah}.webp` | Sentinel-1 RTC backscatter from Microsoft Planetary Computer. Ship detection and counts: own analysis. Contains modified Copernicus Sentinel data (2025–2026). |
+| `hormuz-reportage-check-{ramchah,oil,map}.webp` | Sentinel-2 L2A from Element 84 Earth Search. Place names: OpenStreetMap contributors. Contains modified Copernicus Sentinel data (2026). |
+| `hormuz-reportage-check-transits.webp` | IMF PortWatch, Daily Chokepoint Transit Calls, Strait of Hormuz, retrieved 2026-09-27 |
