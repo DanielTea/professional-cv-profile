@@ -1,4 +1,5 @@
 import { PUBLIC_DASHBOARD_URLS } from "@/lib/worldData";
+import { weightSpaceProject } from "./weightSpaceProject";
 
 export type ProjectImage = {
   src: string;
@@ -20,7 +21,7 @@ export type CuriosityProject = {
   question: string;
   stack: string[];
   images: ProjectImage[];
-  sections: { title: string; paragraphs: string[] }[];
+  sections: { title: string; paragraphs: string[]; lab?: "planet" | "text"; parameterTable?: boolean; links?: { label: string; url: string }[] }[];
   takeaway: string;
 };
 
@@ -31,6 +32,7 @@ const image = (slug: string, file: string, alt: string, caption: string, source:
 });
 
 export const curiosityProjects: CuriosityProject[] = [
+  weightSpaceProject,
   {
     slug: "hormuz-reportage-check", destination: { kind: "report", url: HORMUZ_REPORT, label: "Read the full report (PDF)" }, title: "Hormuz Reportage Check", category: "AI & ML",
     subtitle: "Can public data check a war reportage?",

@@ -1,0 +1,44 @@
+{
+  "test": "JavaScript sparse renderer versus saved NumPy checkpoints",
+  "resolution": 64,
+  "max_allowed_8bit_channel_difference": 2,
+  "models": {
+    "planet": {
+      "cases": [
+        "PELAGIC",
+        "EMBER",
+        "FROST",
+        "AURELIA",
+        "AZURE",
+        "DUSK"
+      ],
+      "max_8bit_channel_difference": 1,
+      "sparse_json_matches_checkpoint_exactly": true,
+      "patch_replay_exact": true,
+      "checkpoint_sha256": "257db9d0a7bf4e6cbf92876980e43212a0d02f2abebf0d723a3f0eeea9b8bc7e"
+    },
+    "text": {
+      "cases": [
+        "red rocket",
+        "cyan sailboat",
+        "green tree",
+        "orange house",
+        "pink mushroom",
+        "purple cat",
+        "small blue rocket",
+        "large yellow sailboat",
+        "small pink tree",
+        "blue house",
+        "red mushroom",
+        "orange cat"
+      ],
+      "max_8bit_channel_difference": 1,
+      "sparse_json_matches_checkpoint_exactly": true,
+      "patch_replay_exact": true,
+      "checkpoint_sha256": "4a7ce474fc77829e043f5d8c4e085bf72550947075b72c90c9da9068ba9a180c",
+      "parser_checks_passed": true,
+      "distinct_combinations_at_48px": 162
+    }
+  },
+  "notes": "Numerical agreement and parser checks. No image-quality or generalization claim."
+}

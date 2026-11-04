@@ -5,6 +5,7 @@ import { asset } from "@/assets/asset";
 import { curiosityProjects, projectUrl, readingMinutes } from "@/data/projects";
 import { BlogProjectCard } from "@/components/blog/ProjectCard";
 import { ProjectImage } from "@/components/blog/ProjectImage";
+import { WeightSpaceLab, WeightSpaceTable } from "@/components/blog/WeightSpaceLab";
 import styles from "@/components/blog/Blog.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -49,7 +50,7 @@ export default async function ProjectArticle({ params }: Props) {
         <nav className={styles.contents} aria-label="In this story"><span className={styles.eyebrow}>In this story</span><ol>{project.sections.map((section, i) => <li key={section.title}><a href={`#part-${i + 1}`}>{section.title}</a></li>)}<li><a href="#takeaway">The takeaway</a></li></ol></nav>
         <div className={styles.prose}>
           <div className={styles.question}><span className={styles.eyebrow}>The question</span><p>{project.question}</p></div>
-          {project.sections.map((section, i) => <section id={`part-${i + 1}`} key={section.title}><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</section>)}
+          {project.sections.map((section, i) => <section id={`part-${i + 1}`} key={section.title}><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}{section.lab && <WeightSpaceLab kind={section.lab} />}{section.parameterTable && <WeightSpaceTable />}{section.links && <ul className={styles.referenceLinks}>{section.links.map(link => <li key={link.url}><a href={asset(link.url)}>{link.label}</a></li>)}</ul>}</section>)}
           <aside id="takeaway" className={styles.takeaway}><span className={styles.eyebrow}>The takeaway</span><p>{project.takeaway}</p></aside>
           <div className={styles.sourceNote}>{sourceText}<a href={projectUrl(project)} target="_blank" rel="noopener noreferrer">{sourceLink} ↗<span className="dt-sr-only"> (opens in a new tab)</span></a></div>
         </div>

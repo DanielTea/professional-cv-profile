@@ -1,0 +1,33 @@
+{
+  "architecture": [
+    5,
+    193,
+    185,
+    185,
+    151,
+    3
+  ],
+  "parameter_entries_per_model": 100000,
+  "float32_bytes_per_dense_checkpoint": 400000,
+  "target_training_steps": 0,
+  "models": {
+    "planet": {
+      "nonzero_entries": 5429,
+      "checkpoint_sha256": "257db9d0a7bf4e6cbf92876980e43212a0d02f2abebf0d723a3f0eeea9b8bc7e",
+      "sparse_json_sha256": "8cd4ac318795e65db79ba74156abd8f94d79f57f3ef45348857fd28ba953d9cd",
+      "sparse_json_bytes": 103816,
+      "archive": "adapted_planet_100k_v2.zip",
+      "archive_sha256": "1fce6f82863a171540605a5bdce4fb8bfa1a43af008a9ad02178808161707622",
+      "verification": "source/planet/verification.json"
+    },
+    "text": {
+      "nonzero_entries": 5228,
+      "checkpoint_sha256": "4a7ce474fc77829e043f5d8c4e085bf72550947075b72c90c9da9068ba9a180c",
+      "sparse_json_sha256": "53f14b3601f39f6da2063cc71dd8a7ce0e5c7d46edc1eaef31b4e35e91af911c",
+      "sparse_json_bytes": 97185,
+      "archive": "text_to_image_100k.zip",
+      "archive_sha256": "c1a958659875e36e5eedbff49cda917c7443d18d93bdb8c28d81820b9abb20bb",
+      "verification": "source/text/verification.json"
+    }
+  }
+}
