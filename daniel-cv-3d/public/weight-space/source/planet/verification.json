@@ -1,0 +1,48 @@
+{
+  "architecture": [
+    5,
+    193,
+    185,
+    185,
+    151,
+    3
+  ],
+  "parameter_entries": 100000,
+  "nonzero_entries": 5429,
+  "changed_entries": 7846,
+  "changes_by_tensor": {
+    "W0": 662,
+    "b0": 148,
+    "W1": 5361,
+    "b1": 184,
+    "W2": 50,
+    "b2": 9,
+    "W3": 905,
+    "b3": 71,
+    "W4": 453,
+    "b4": 3
+  },
+  "training_steps": 0,
+  "same_checkpoint_for_all_images": true,
+  "patch_replay_exact": true,
+  "checkpoint_reload_exact": true,
+  "dense_sparse_max_difference": 1.0132789611816406e-06,
+  "inactive_neurons_in_probe_suite": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "all_neurons_have_output_path": true,
+  "before_diversity": {
+    "mean_pairwise_rgb_mae": 0.013083517369621461,
+    "min_pairwise_rgb_mae": 0.006775779973447713
+  },
+  "after_diversity": {
+    "mean_pairwise_rgb_mae": 0.06588503901994824,
+    "min_pairwise_rgb_mae": 0.039149704478145426
+  },
+  "diversity_ratio": 5.0357283258496155,
+  "checkpoint_sha256": "257db9d0a7bf4e6cbf92876980e43212a0d02f2abebf0d723a3f0eeea9b8bc7e",
+  "metric_note": "Pixel differences are a simple regression check, not a general generative-quality benchmark."
+}

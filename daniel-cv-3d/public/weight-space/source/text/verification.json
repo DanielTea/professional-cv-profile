@@ -1,0 +1,66 @@
+{
+  "architecture": [
+    5,
+    193,
+    185,
+    185,
+    151,
+    3
+  ],
+  "parameter_entries": 100000,
+  "nonzero_entries": 5228,
+  "changed_entries": 8481,
+  "changes_by_tensor": {
+    "W0": 865,
+    "b0": 188,
+    "W1": 3849,
+    "b1": 185,
+    "W2": 41,
+    "b2": 6,
+    "W3": 2747,
+    "b3": 144,
+    "W4": 453,
+    "b4": 3
+  },
+  "training_steps": 0,
+  "one_checkpoint_for_all_prompts": true,
+  "exact_patch_replay": true,
+  "exact_checkpoint_reload": true,
+  "dense_sparse_error": 7.152557373046875e-07,
+  "inactive_neurons_in_probes": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "all_neurons_have_output_path": true,
+  "text_encoder": "Explicit keyword grammar; no learned language understanding",
+  "supported_objects": [
+    "rocket",
+    "sailboat",
+    "tree",
+    "house",
+    "mushroom",
+    "cat"
+  ],
+  "colors": [
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "cyan",
+    "blue",
+    "purple",
+    "pink",
+    "white"
+  ],
+  "sizes": [
+    "small",
+    "medium",
+    "large"
+  ],
+  "distinct_tested_combinations": 162,
+  "checkpoint_sha256": "4a7ce474fc77829e043f5d8c4e085bf72550947075b72c90c9da9068ba9a180c",
+  "browser_numpy_max_8bit_difference": 1,
+  "text_interface_event_tests_passed": true
+}
